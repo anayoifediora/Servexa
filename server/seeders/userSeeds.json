@@ -1,0 +1,17 @@
+[
+    {
+        "username": "jdoe",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "jdoe@mail.com",
+        "password": "Password12345",
+        "phone": "0412345678",
+        "address": {
+            "street": "123 Main St",
+            "suburb": "Sydney",
+            "state": "NSW",
+            "postCode": "2000"
+        },
+        "orders":[]
+    }
+]
