@@ -2,6 +2,14 @@
 
 //Sets up GraphQL Server
 const { ApolloServer } = require('@apollo/server');
+//rate limiting package
+const { createRateLimitDirective } = require('graphql-rate-limit');
+
+const rateLimitDirective = createRateLimitDirective({
+  identifyContext: (ctx) => ctx.ip,
+});
+//Authentication
+const { authMiddleware } = require('./utils/auth');
 
 //Integrates Apollo with Express
 const { expressMiddleware } = require('@as-integrations/express5');
@@ -13,9 +21,9 @@ const path = require('path');
 const cors = require('cors');
 
 //GraphQL schema and resolvers
-const { typeDefs, resolvers } = require("./schemas");
+const { typeDefs, resolvers } = require('./schemas');
 
-const db = require('./config/connection')
+const db = require('./config/connection');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -26,7 +34,9 @@ app.use(cors());
 const server = new ApolloServer({
   typeDefs, //GraphQL schema definition
   resolvers, //Functions to fetch data based on schema
-  //   context: authMiddleware, //Adds authentication data to each request
+  schemaDirectives: {
+    rateLimit: rateLimitDirective,
+  },
 });
 
 app.use(express.urlencoded({ extended: false }));
@@ -36,7 +46,14 @@ const startApolloServer = async () => {
   //Start Apollo Server
   await server.start();
   //Attach GraphQL to Express at '/graphql'
-  app.use('/graphql', expressMiddleware(server));
+  app.use(
+    '/graphql',
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        return authMiddleware({ req });
+      },
+    })
+  );
 
   //Upon deployment, serve the built React frontend
   if (process.env.NODE_ENV === 'production') {

@@ -28,6 +28,7 @@ const userSchema = new Schema(
       required: true,
       trim: true,
       unique: true,
+      lowercase: true,
       match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/],
     },
     password: {
@@ -92,7 +93,6 @@ const userSchema = new Schema(
         ref: 'Order',
       },
     ],
-    
   },
   {
     timestamps: true,
@@ -103,18 +103,18 @@ const userSchema = new Schema(
   }
 );
 userSchema
-    .virtual('fullName')
-    .get(function () {
-        return `${this.firstName} ${this.lastName}`
-    })
-    .set(function (names) {
-        const first = names.split(' ')[0];
-        const last = names.split(' ')[1];
-        this.set({ first, last })
-    })
+  .virtual('fullName')
+  .get(function () {
+    return `${this.firstName} ${this.lastName}`;
+  })
+  .set(function (names) {
+    const first = names.split(' ')[0];
+    const last = names.split(' ')[1];
+    this.set({ first, last });
+  });
 
 //Set up pre-save middleware to hash the password before it's created
-userSchema.pre('save', async function() {
+userSchema.pre('save', async function () {
   if (this.isNew || this.isModified('password')) {
     try {
       this.password = await bcrypt.hash(this.password, 10);
@@ -125,16 +125,15 @@ userSchema.pre('save', async function() {
 });
 
 //Compare incoming password with the hashed password
-userSchema.methods.isCorrectPassword = async function(password) {
-    return bcrypt.compare(password, this.password);
-}
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
 // Remove password from responses
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
   return obj;
 };
-
 
 const User = model('User', userSchema);
 

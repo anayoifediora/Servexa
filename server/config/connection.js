@@ -12,6 +12,7 @@ mongoose.connection.once('open', () => {
 mongoose.connection.on('error', (err) => {
   console.error('❌ MongoDB connection error:', err);
 });
+mongoose.connection.on('disconnected', () => console.log('Disconnected from MongoDB'));
 console.log('🔎 MONGODB_URI =', process.env.MONGODB_URI);
 
 module.exports = mongoose.connection;

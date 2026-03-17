@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Laptop Repair",
+    "description": "Diagnosis and repair of hardware/software issues in laptops including screen replacement, battery replacement, and virus removal.",
+    "defaultPrice": 100,
+    "category": "Maintenance",
+    "status": "Active"
+  },
+
+  {
+    "title": "Smartphone Repair",
+    "description": "Repair services for smartphones including screen replacement, battery replacement, and software troubleshooting.",
+    "defaultPrice": 80,
+    "category": "Maintenance",
+    "status": "Active"
+  }
+]
