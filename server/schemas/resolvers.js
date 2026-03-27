@@ -95,7 +95,7 @@ const resolvers = {
             const updatedUser = await User.findOneAndUpdate(
                 { _id: clientId },
                 { status },
-                { new: true, runValidators: true }
+                { returnDocument: 'after', runValidators: true }
 
             )
             return updatedUser;
@@ -160,7 +160,7 @@ const resolvers = {
         const updatedService = await Service.findOneAndUpdate(
           { _id: serviceId },
           { title, description, defaultPrice, category, status },
-          { new: true, runValidators: true }
+          { returnDocument: 'after', runValidators: true }
         );
         return updatedService;
       } catch (error) {
@@ -191,7 +191,7 @@ const resolvers = {
           await User.findOneAndUpdate(
             { _id: client },
             { $addToSet: { orders: order._id } },
-            { new: true }
+            { returnDocument: 'after' }
           );
           return order;
         
@@ -199,6 +199,31 @@ const resolvers = {
         throw new GraphQLError(error.message);
       }
     },
+    //Mutation to update the status of an order
+    updateOrderStatus: async (parent, args, context) => {
+        checkAuthorization(context, ["admin"]);
+        try {
+            const { orderId, status, price, adminNotes } = args;
+            const updatedOrder = await Order.findOneAndUpdate(
+                { _id: orderId },
+                { status, price, adminNotes },
+                { returnDocument: 'after', runValidators: true }
+            )
+            if (!updatedOrder) {
+                throw new GraphQLError(`Order with ID ${orderId} not found`, {
+                    extensions: { code: 'NOT_FOUND' }
+                })
+            }
+            return updatedOrder;
+        } catch (error) {
+            throw new GraphQLError(error.message, {
+                extensions: {
+                    code: error.name === 'CastError' ? 'BAD_USER_INPUT' : 'INTERNAL_SERVER_ERROR',
+                    argumentName: 'orderId'
+                }
+            })
+        }
+    }
   },
   //Field resolver to format date
   User: timestampFields,

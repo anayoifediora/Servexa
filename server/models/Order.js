@@ -27,7 +27,7 @@ const orderSchema = new Schema(
       type: String,
       enum: [
         'Pending Review',
-        'Approved, payment pending.',
+        'Payment Pending',
         'Rejected',
         'In Progress',
         'Completed',
