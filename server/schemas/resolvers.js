@@ -15,8 +15,7 @@ const resolvers = {
   Query: {
     //List all users
     users: async (parent, args, context) => {
-      console.log(context.user);
-    //   checkAuthorization(context, ["admin"])
+      checkAuthorization(context, ["admin"])
       return User.find().populate("orders").populate({
         path: "orders",
         populate: ["service", "client"]
@@ -27,7 +26,7 @@ const resolvers = {
       return await Service.find();
     },
     user: async (parent, { _id }, context) => {
-    //   checkAuthorization(context, ["admin"])
+      checkAuthorization(context, ["admin"])
       const user = await User.findOne({ _id }).populate("orders").populate({
         path: "orders",
         populate: ["service", "client"]
@@ -213,6 +212,11 @@ const resolvers = {
                 throw new GraphQLError(`Order with ID ${orderId} not found`, {
                     extensions: { code: 'NOT_FOUND' }
                 })
+            }
+            if (updatedOrder.status === 'Closed') {
+              throw new GraphQLError("This order has been closed and cannot be updated!", {
+                extensions: { code: 'BAD_REQUEST' }
+              })
             }
             return updatedOrder;
         } catch (error) {
