@@ -3,8 +3,10 @@ const { ApolloServer } = require('@apollo/server');
 const typeDefs = `
     directive @rateLimit (
         max: Int,
-        window: String
+        window: String,
+        message: String
     ) on FIELD_DEFINITION
+    
     input AddressInput {
         street: String!
         suburb: String!
@@ -28,7 +30,11 @@ const typeDefs = `
         status: String,
         phone: String,
         address: Address,
-        orders: [Order]
+        orders: [Order],
+        createdAt: String,
+        updatedAt: String,
+        fullName: String,
+        noOfOrders: Float
     }
     type Auth {
         token: ID!
@@ -40,7 +46,9 @@ const typeDefs = `
         description: String,
         defaultPrice: Float,
         category: String,
-        status: String
+        status: String,
+        createdAt: String,
+        updatedAt: String
 
     }
     type Order {
@@ -50,12 +58,16 @@ const typeDefs = `
         description: String,
         price: Float,
         status: String,
-        adminNotes: String
+        adminNotes: String,
+        createdAt: String,
+        updatedAt: String,
     }
 
     type Query {
         users: [User]
         services: [Service]
+        user(_id: ID!): User
+        orders: [Order]
     }
     
     type Mutation {
@@ -70,9 +82,14 @@ const typeDefs = `
         ) : Auth
         
         login(email: String!, password: String!): Auth
-            @rateLimit(max: 5, window: "10m")
         
         updatePassword(email: String!, oldPassword: String!, newPassword: String!): User
+        createService(title: String!, description: String!, defaultPrice: Float!, category: String!): Service
+        updateService(serviceId: ID!, title: String!, description: String!, defaultPrice: Float!, category: String!, status: String! ): Service
+        createOrder(client: ID!, service: ID!, description: String!): Order
+        updateUserStatus(clientId: ID!, status: String!): User
+        updateOrderStatus(orderId: ID!, status: String!, price: Float!, adminNotes: String!): Order
+
     }
 `;
 

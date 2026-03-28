@@ -6,7 +6,7 @@ const { ApolloServer } = require('@apollo/server');
 const { createRateLimitDirective } = require('graphql-rate-limit');
 
 const rateLimitDirective = createRateLimitDirective({
-  identifyContext: (ctx) => ctx.ip,
+  identifyContext: (ctx) => ctx.id,
 });
 //Authentication
 const { authMiddleware } = require('./utils/auth');
