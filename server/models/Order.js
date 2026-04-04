@@ -25,14 +25,7 @@ const orderSchema = new Schema(
     },
     status: {
       type: String,
-      enum: [
-        'Pending Review',
-        'Payment Pending',
-        'Rejected',
-        'In Progress',
-        'Completed',
-        'Closed',
-      ],
+      enum: ['Pending Review', 'Payment Pending', 'Rejected', 'In Progress', 'Completed', 'Closed'],
       default: 'Pending Review',
     },
     adminNotes: {
@@ -51,17 +44,13 @@ const orderSchema = new Schema(
 //Set up a pre-save middleware to ensure a user is approved before creating orders
 
 orderSchema.pre('save', async function () {
-  
-    const user = await User.findById(this.client).select('status');
-    if (!user) {
-      throw new Error(`User with ID ${this.client} not found`);
-    }
-    if (user.status !== 'Approved') {
-      throw new Error(`User account is not approved. Current status: ${user.status}`);
-    }
-
-    
-  
+  const user = await User.findById(this.client).select('status');
+  if (!user) {
+    throw new Error(`User with ID ${this.client} not found`);
+  }
+  if (user.status !== 'Approved') {
+    throw new Error(`User account is not approved. Current status: ${user.status}`);
+  }
 });
 const Order = model('Order', orderSchema);
 
