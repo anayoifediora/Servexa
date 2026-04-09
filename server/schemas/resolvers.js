@@ -15,8 +15,8 @@ const resolvers = {
   Query: {
     //List all users
     users: async (parent, args, context) => {
-      checkAuthorization(context, ['admin']);
-      return User.find()
+      // checkAuthorization(context, ['admin']);
+      return User.find({ role: { $ne: 'client' } })
         .populate('orders')
         .populate({
           path: 'orders',

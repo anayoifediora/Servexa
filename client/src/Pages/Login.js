@@ -3,7 +3,6 @@ import React from 'react';
 const Login = () => {
   return (
     <div className="custom-login-page d-flex flex-column justify-content-center align-items-center">
-      <h1>Servexa</h1>
       <form className="custom-login-form">
         <h4 className="fw-bold">Welcome to Servexa</h4>
         <p>Login with your email address & password</p>

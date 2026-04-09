@@ -8,6 +8,7 @@ import { SetContextLink } from '@apollo/client/link/context';
 import './App.css';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
+import Home from './Pages/Home';
 
 // Create an HTTP link that tells Apollo where the GraphQL server is
 const httpLink = new HttpLink({
@@ -46,6 +47,7 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

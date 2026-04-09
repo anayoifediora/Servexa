@@ -1,6 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const SignUp = () => {
+  const [formState, setFormState] = useState({
+    username: '',
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    address: {
+      street: '',
+      suburb: '',
+      state: '',
+      postCode: '',
+    },
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    let addressKeys = ['street', 'suburb', 'state', 'postCode'];
+    if (addressKeys.includes(name)) {
+      setFormState({
+        ...formState,
+        address: {
+          ...formState.address,
+          [name]: value,
+        },
+      });
+    } else {
+      setFormState({
+        ...formState,
+        [name]: value,
+      });
+    }
+  };
   return (
     <div className="custom-signup-page d-flex flex-column justify-content-center align-items-center">
       <form className="custom-signup-form ">
@@ -16,6 +49,8 @@ const SignUp = () => {
             id="username"
             placeholder="username"
             name="username"
+            value={formState.username}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-3">
@@ -28,6 +63,8 @@ const SignUp = () => {
             id="email"
             placeholder="email"
             name="email"
+            value={formState.email}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-3">
@@ -40,6 +77,8 @@ const SignUp = () => {
             id="password"
             placeholder="*************"
             name="password"
+            value={formState.password}
+            onChange={handleInputChange}
           />
           <div id="emailHelp" className="form-text">
             Password must contain at least one uppercase letter and one number.
@@ -54,7 +93,7 @@ const SignUp = () => {
           Register
         </button>
       </form>
-
+      {/*Sign up Modal */}
       <div
         className="modal fade modal-lg"
         id="signUpModal"
@@ -75,8 +114,8 @@ const SignUp = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">
-              <div className="row g-3">
+            <div className="modal-body ">
+              <div className="row g-3 p-2">
                 <div className="col-md-6">
                   <label htmlFor="username" className="form-label">
                     Username
@@ -85,13 +124,23 @@ const SignUp = () => {
                     type="username"
                     className="custom-form-input form-control "
                     id="username"
+                    name="username"
+                    value={formState.username}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="email" className="form-label">
                     Email
                   </label>
-                  <input type="email" className="custom-form-input form-control " id="email" />
+                  <input
+                    type="email"
+                    className="custom-form-input form-control "
+                    id="email"
+                    name="email"
+                    value={formState.email}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div className="col-12">
                   <label htmlFor="password" className="form-label">
@@ -101,6 +150,9 @@ const SignUp = () => {
                     type="password"
                     className="custom-form-input form-control "
                     id="password"
+                    name="password"
+                    value={formState.password}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="col-md-6">
@@ -129,7 +181,7 @@ const SignUp = () => {
                   </label>
                   <input type="phone" className="custom-form-input form-control " id="phone" />
                 </div>
-                <div className="row g-3">
+                <div className="row g-3 p-2">
                   <p className="fs-5">
                     <u>Address</u>
                   </p>
@@ -137,19 +189,40 @@ const SignUp = () => {
                     <label htmlFor="street" className="form-label">
                       Street
                     </label>
-                    <input type="street" className="custom-form-input form-control " id="street" />
+                    <input
+                      type="street"
+                      className="custom-form-input form-control "
+                      id="street"
+                      name="street"
+                      value={formState.address.street}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="suburb" className="form-label">
                       Suburb
                     </label>
-                    <input type="suburb" className="custom-form-input form-control " id="suburb" />
+                    <input
+                      type="suburb"
+                      className="custom-form-input form-control "
+                      id="suburb"
+                      name="suburb"
+                      value={formState.address.suburb}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="col-md-4">
                     <label htmlFor="state" className="form-label">
                       State
                     </label>
-                    <input type="state" className="custom-form-input form-control " id="state" />
+                    <input
+                      type="state"
+                      className="custom-form-input form-control "
+                      id="state"
+                      name="state"
+                      value={formState.address.state}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="col-md-2">
                     <label htmlFor="postCode" className="form-label">
@@ -159,6 +232,9 @@ const SignUp = () => {
                       type="postCode"
                       className="custom-form-input form-control "
                       id="postCode"
+                      name="postCode"
+                      value={formState.address.postCode}
+                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
