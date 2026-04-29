@@ -68,6 +68,8 @@ const typeDefs = `
         services: [Service]
         user(_id: ID!): User
         orders: [Order]
+        recentOrders: [Order]
+        order(orderId: ID!): Order
     }
     
     type Mutation {

@@ -15,7 +15,7 @@ const resolvers = {
   Query: {
     //List all users
     users: async (parent, args, context) => {
-      // checkAuthorization(context, ['admin']);
+      checkAuthorization(context, ['admin']);
       return User.find({ role: { $ne: 'client' } })
         .populate('orders')
         .populate({
@@ -37,8 +37,19 @@ const resolvers = {
         });
       return user;
     },
+    //List all orders
     orders: async (parent, args, context) => {
       return Order.find().populate(['client', 'service']);
+    },
+    recentOrders: async () => {
+      return Order.find({
+        createdAt: { $gte: new Date('2026-03-26'), $lt: new Date() },
+      }).populate(['client', 'service']);
+    },
+    order: async (parent, { orderId }, context) => {
+      // checkAuthorization(context, ['client', 'admin']);
+      const order = await Order.findOne({ _id: orderId }).populate(['client', 'service']);
+      return order;
     },
   },
 
