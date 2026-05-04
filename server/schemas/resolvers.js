@@ -46,6 +46,7 @@ const resolvers = {
         createdAt: { $gte: new Date('2026-03-26'), $lt: new Date() },
       }).populate(['client', 'service']);
     },
+    //GET a single order with orderId
     order: async (parent, { orderId }, context) => {
       // checkAuthorization(context, ['client', 'admin']);
       const order = await Order.findOne({ _id: orderId }).populate(['client', 'service']);

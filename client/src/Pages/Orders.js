@@ -41,7 +41,7 @@ const Orders = () => {
             <h5>Actions</h5>
           </div>
           {loading ? (
-            <h3>Loading...</h3>
+            <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
           ) : (
             orders.map((order, index) => (
               <div className="orders-table-data" key={index}>
@@ -54,7 +54,7 @@ const Orders = () => {
                   style={{
                     color: statusStyles[order.status].text,
                     backgroundColor: statusStyles[order.status].bg,
-                    padding: '5px 10px',
+                    padding: '5px 15px',
                     borderRadius: '20px',
                   }}
                 >
@@ -62,7 +62,9 @@ const Orders = () => {
                 </p>
                 <p>{order.createdAt.split(',').shift()}</p>
                 <p>{order.updatedAt.split(',').shift()}</p>
-                <Link className="mb-3 bg-secondary text-light p-2" to={`/orders/${order._id}`}>View Order</Link>
+                <Link className="mb-3 text-primary p-2" to={`/orders/${order._id}`}>
+                  View Order
+                </Link>
               </div>
             ))
           )}

@@ -87,7 +87,7 @@ const AdminDash = () => {
               <h5>Date Created</h5>
             </div>
             {loading ? (
-              <h3>Loading...</h3>
+              <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
             ) : (
               recentOrders.map((order, index) => (
                 <div className="custom-table-data" key={index}>
@@ -100,7 +100,7 @@ const AdminDash = () => {
                     style={{
                       color: statusStyles[order.status].text,
                       backgroundColor: statusStyles[order.status].bg,
-                      padding: '5px 10px',
+                      padding: '5px 15px',
                       borderRadius: '20px',
                     }}
                   >

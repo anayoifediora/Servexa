@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 
 const ProfileNavbar = () => {
@@ -8,10 +8,10 @@ const ProfileNavbar = () => {
 
   return (
     <div className="profile-navbar">
-      <div className="d-flex align-items-center">
+      <Link to="/" className="d-flex align-items-center text-decoration-none">
         <img src="/images/Servexalogo.png" style={{ maxWidth: '150px' }} />
         <h1 className="custom-title d-none d-lg-block">Servexa</h1>
-      </div>
+      </Link>
 
       <div className="custom-search-bar col-lg-3">
         <form className="d-flex" role="search">

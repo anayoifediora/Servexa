@@ -70,3 +70,38 @@ export const QUERY_ORDERS = gql`
     }
   }
 `;
+
+//Query to get a single order
+export const QUERY_SINGLE_ORDER = gql`
+  query Query($orderId: ID!) {
+    order(orderId: $orderId) {
+      _id
+      adminNotes
+      client {
+        address {
+          postCode
+          state
+          street
+          suburb
+        }
+        createdAt
+        email
+        fullName
+        noOfOrders
+        phone
+        status
+        updatedAt
+      }
+      createdAt
+      description
+      price
+      status
+      updatedAt
+      service {
+        title
+        description
+        category
+      }
+    }
+  }
+`;
