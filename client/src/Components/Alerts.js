@@ -16,11 +16,11 @@ const Alerts = (props) => {
           <i
             className={`bi bi-exclamation-circle-fill fs-1 ${message.includes('Success') ? 'text-success' : 'text-danger '}`}
           ></i>
-          <p className="fs-5">{message}</p>
+          <p className="">{message}</p>
           <button
             onClick={() => setVisible(false)}
             type="button"
-            className="w-25 mt-5"
+            className={`w-25 mt-4 bg-light ${message.includes('Success') ? 'text-success' : 'text-danger'} border border-dark`}
             aria-label="Close"
           >
             Ok

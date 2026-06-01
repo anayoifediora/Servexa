@@ -7,6 +7,7 @@ import { priceFormatter } from '../utils/helpers';
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
+import Alerts from '../Components/Alerts';
 
 const Orders = () => {
   const { loading, error, data } = useQuery(QUERY_ORDERS);
@@ -26,49 +27,55 @@ const Orders = () => {
       <ProfileNavbar />
       <SidebarMenu />
       <div className="custom-info-area">
-        <div className="custom-orders-table">
-          <div className="d-flex justify-content-between">
-            <h4 className="m-3">All Orders</h4>
-          </div>
-          <div className="orders-table-header">
-            <h5>Order ID</h5>
-            <h5>Client</h5>
-            <h5>Service</h5>
-            <h5>Amount</h5>
-            <h5>Status</h5>
-            <h5>Date Created</h5>
-            <h5>Date Updated</h5>
-            <h5>Actions</h5>
-          </div>
-          {loading ? (
-            <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
-          ) : (
-            orders.map((order, index) => (
-              <div className="orders-table-data" key={index}>
-                <p>#{order._id.toString().slice(-6).toUpperCase()}</p>
-                <p>{order.client.fullName}</p>
-                <p>{order.service.title}</p>
-                <p>${priceFormatter(order.price)}</p>
-                <p
-                  className="order-status"
-                  style={{
-                    color: statusStyles[order.status].text,
-                    backgroundColor: statusStyles[order.status].bg,
-                    padding: '5px 15px',
-                    borderRadius: '20px',
-                  }}
-                >
-                  {order.status}
-                </p>
-                <p>{order.createdAt.split(',').shift()}</p>
-                <p>{order.updatedAt.split(',').shift()}</p>
-                <Link className="mb-3 text-primary p-2" to={`/orders/${order._id}`}>
-                  View Order
-                </Link>
-              </div>
-            ))
-          )}
-        </div>
+        <h1
+          className="m-3 fw-bold"
+          style={{ position: 'relative', left: '80px', color: 'var(--primary-color)' }}
+        >
+          Orders
+        </h1>
+        <table className="custom-orders-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Client</th>
+              <th>Service</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date Created</th>
+              <th>Date Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+            ) : (
+              orders.map((order, index) => (
+                <tr className="" key={index}>
+                  <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
+                  <td>{order.client.fullName}</td>
+                  <td>{order.service.title}</td>
+                  <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                  <p
+                    className="status"
+                    style={{
+                      color: statusStyles[order.status].text,
+                      backgroundColor: statusStyles[order.status].bg,
+                    }}
+                  >
+                    {order.status}
+                  </p>
+                  <td>{order.createdAt.split(',').shift()}</td>
+                  <td>{order.updatedAt.split(',').shift()}</td>
+                  <Link className="btn btn-outline-success" to={`/orders/${order._id}`}>
+                    View Order
+                  </Link>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+        {error && <Alerts message={error.message} />}
       </div>
     </div>
   );

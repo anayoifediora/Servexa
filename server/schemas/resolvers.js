@@ -16,15 +16,17 @@ const resolvers = {
     //List all users
     users: async (parent, args, context) => {
       checkAuthorization(context, ['admin']);
-      return User.find({ role: { $ne: 'client' } })
+      const users = await User.find({ role: { $ne: 'admin' } })
         .populate('orders')
         .populate({
           path: 'orders',
           populate: ['service', 'client'],
         });
+      return users;
     },
     //List all Services
-    services: async () => {
+    services: async (parent, args, context) => {
+      checkAuthorization(context, ['admin']);
       return await Service.find();
     },
     user: async (parent, { _id }, context) => {
@@ -39,18 +41,28 @@ const resolvers = {
     },
     //List all orders
     orders: async (parent, args, context) => {
-      return Order.find().populate(['client', 'service']);
+      checkAuthorization(context, ['admin']);
+      return Order.find().sort({ createdAt: -1 }).populate(['client', 'service']);
     },
-    recentOrders: async () => {
+    recentOrders: async (parent, args, context) => {
+      checkAuthorization(context, ['admin']);
       return Order.find({
-        createdAt: { $gte: new Date('2026-03-26'), $lt: new Date() },
-      }).populate(['client', 'service']);
+        createdAt: { $gte: new Date('2026-03-25'), $lt: new Date() },
+      })
+        .sort({ createdAt: -1 })
+        .populate(['client', 'service']);
     },
     //GET a single order with orderId
     order: async (parent, { orderId }, context) => {
-      // checkAuthorization(context, ['client', 'admin']);
+      checkAuthorization(context, ['client', 'admin']);
       const order = await Order.findOne({ _id: orderId }).populate(['client', 'service']);
       return order;
+    },
+    //GET a single service with serviceId
+    service: async (parent, { serviceId }, context) => {
+      checkAuthorization(context, ['admin']);
+      const service = await Service.findOne({ _id: serviceId });
+      return service;
     },
   },
 
@@ -130,12 +142,12 @@ const resolvers = {
       const isCorrectOldPassword = await bcrypt.compare(oldPassword, user.password);
 
       if (!isCorrectOldPassword) {
-        throw new Error('Old password is incorrect!');
+        throw new GraphQLError('Old password is incorrect!');
       }
       //Ensure new password is not same as old one
       const isPasswordSame = await bcrypt.compare(newPassword, user.password);
       if (isPasswordSame) {
-        throw new Error('Please use a different password!');
+        throw new GraphQLError('Please use a different password!');
       }
       user.password = newPassword;
       await user.save();
@@ -183,7 +195,7 @@ const resolvers = {
     },
     //Mutation to create an order
     createOrder: async (parent, args, context) => {
-      checkAuthorization(context, ['client']);
+      // checkAuthorization(context, ['client']);
       try {
         const { client, service, description } = args;
         const requestedService = await Service.findById({ _id: service });

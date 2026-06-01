@@ -7,7 +7,7 @@
   --background: white;
   --background-color: #f9fafb;
   --sidebar: #111827;
-  --font-color: rgb(105, 98, 98);
+  --font-color: rgb(92, 86, 86);
 }
 body {
   background-image: linear-gradient(to right, var(--background), var(--secondary-color));
@@ -16,7 +16,10 @@ body {
   padding: 0;
 }
 * {
-  font-family: 'Figtree', sans-serif;
+  font-family: 'Google Sans Flex', sans-serif;
+  /* font-family: 'Figtree', sans-serif; */
+  /* font-family: 'Outfit', sans-serif; */
+  /* font-family: 'Quicksand', sans-serif;  */
 }
 .loading {
   display: flex;
@@ -47,18 +50,23 @@ body {
   border-radius: 5px;
 }
 button {
-  background-color: var(--primary-color);
-  color: white;
+  /* background-color: var(--primary-color);
+  color: white; */
+  background-color: transparent;
+  color: var(--primary-color);
   border-radius: 7px;
-  border: none;
+  border: 1px solid var(--primary-color);
   cursor: pointer;
-  padding: 13px;
-  font-weight: bold;
+  padding: 10px;
+  font-weight: 500;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 button:hover {
-  background-color: white;
+  /* background-color: white;
   color: var(--primary-color);
+  border: 1px solid var(--primary-color); */
+  background-color: var(--primary-color);
+  color: white;
   border: 1px solid var(--primary-color);
 }
 .custom-login-btn,
@@ -67,7 +75,12 @@ button:hover {
   background-color: var(--primary-color);
   color: white;
 }
-
+.custom-login-btn:hover,
+.custom-signup-btn:hover {
+  background-color: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
 .custom-smp {
   color: var(--primary-color);
   background-color: rgb(107, 81, 233, 0.1);
@@ -157,7 +170,7 @@ button:hover {
   border: black 1px solid;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  width: 20%;
+  width: 25%;
   height: 250px;
   margin: 20px auto;
   text-align: center;
@@ -165,8 +178,11 @@ button:hover {
   top: 250px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
+  z-index: 1500;
   /* background-color: var(--background); */
+}
+.custom-alert p {
+  font-size: clamp(0.5rem, 2.3vw, 1.1rem);
 }
 /* Dashboard page */
 .dashboard-page {
@@ -185,6 +201,7 @@ button:hover {
   font-weight: bold;
   position: relative;
   right: 30px;
+  color: var(--primary-color);
 }
 .profile-navbar {
   display: flex;
@@ -207,7 +224,6 @@ button:hover {
   grid-area: custom-info-area;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
 }
 .sidebar-menu li {
   list-style: none;
@@ -260,37 +276,26 @@ button:hover {
   margin: 10px;
 }
 
-.custom-table-header,
-.custom-table-data {
-  display: grid;
-  grid-template-columns: 1.5fr 2fr 2fr 1.5fr 2fr 1.5fr;
+.custom-table-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   background-color: var(--background-color);
-  padding: 15px;
-  /* margin: 7px 0; */
-  justify-items: start;
-  align-items: center;
 }
-.custom-table-header > h5 {
-  margin: 0;
+
+th {
   font-size: clamp(0.7rem, 2.5vw, 1.2rem);
   font-weight: bold;
+  background-color: var(--background-color);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
-.custom-table-data {
-  background-color: var(--background);
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.1);
-  border-width: 1px 0px 0px 0px;
-}
-.recent-orders,
-.activity-feed,
-.custom-orders-table {
+
+.activity-feed {
   display: flex;
   flex-direction: column;
   background-color: var(--background);
   padding: 0;
   margin: 1rem 0 0 1rem;
-  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); */
-  border-radius: 12px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  /* border-radius: 12px; */
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -323,46 +328,101 @@ button:hover {
 }
 
 /* Orders Page */
-.custom-orders-table {
-  width: 90%;
-  align-self: center;
-  margin-top: 100px;
-}
-.orders-table-header,
-.orders-table-data {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr 1.5fr 1fr 1.5fr 1fr 1fr 1fr;
-  background-color: var(--background-color);
-  padding: 15px;
-  /* margin: 7px 0; */
-  justify-items: start;
-  align-items: center;
-}
-.orders-table-header > h5 {
-  margin: 0;
-  font-size: clamp(0.7rem, 2.5vw, 1.2rem);
-  font-weight: bold;
-}
-.orders-table-data {
-  background-color: var(--background);
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.1);
-  border-width: 1px 0px 0pt 0px;
-  font-weight: 500;
-  font-size: clamp(0.6rem, 2.4vw, 1.1rem);
-  color: var(--font-color);
-}
 
 /* View Order Page */
-.custom-order-info {
-  width: 65%;
+.custom-order-info,
+.custom-service-info,
+.custom-profile-info {
+  width: 70%;
   margin: 20px auto;
   background-color: var(--background);
   padding: 20px;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
-.custom-order-info p {
-  font-size: clamp(0.5rem, 2.4vw, 1.2rem);
+.custom-order-info p,
+.custom-service-info p,
+.custom-profile-info p {
+  font-size: clamp(0.4rem, 2.4vw, 1.1rem);
   color: var(--font-color);
+}
+.custom-profile-info .row {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  width: 95%;
+  justify-self: center;
+  padding: 1.2rem;
+  margin-top: 1.2rem;
+  display: flex;
+}
+/* All users page */
+
+/* Single User page */
+.update-user-status-btn {
+  width: fit-content;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+/* Services */
+
+.custom-services-table,
+.custom-recent-orders,
+.custom-orders-table,
+.custom-users-table {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--background);
+  align-self: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.custom-services-table,
+.custom-orders-table,
+.custom-users-table {
+  width: 90%;
+  margin-top: 100px;
+}
+thead {
+  background-color: var(--background-color);
+}
+thead th {
+  font-size: clamp(0.7rem, 2.5vw, 1.2rem);
+  font-weight: bold;
+}
+th,
+td {
+  padding: 15px;
+}
+td {
+  font-size: clamp(0.6rem, 2.4vw, 1.1rem);
+  color: var(--font-color);
+}
+.status {
+  font-weight: 600;
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin-top: 15px;
+  width: fit-content;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: clamp(0.5rem, 2.4vw, 1rem);
+}
+tr {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+tbody :hover {
+  background: var(--background-color);
+}
+textarea {
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+.edit-btn {
+  position: absolute;
+  right: 400px;
+  margin-top: 10px;
+  width: 6%;
 }

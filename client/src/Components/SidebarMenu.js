@@ -21,20 +21,26 @@ const SidebarMenu = () => {
             <i className="bi bi-clipboard-check me-3 fs-2"></i>Orders
           </li>
         </Link>
-        <li>
-          <i className="bi bi-boxes me-3 fs-2"></i>Services
-        </li>
+        <Link className="custom-nav-link" to="/services">
+          <li>
+            <i className="bi bi-boxes me-3 fs-2"></i>Services
+          </li>
+        </Link>
         <li>
           <i className="bi bi-people me-3 fs-2"></i>Clients
         </li>
-        <li>
-          <i className="bi bi-people me-3 fs-2"></i>Users
-        </li>
+        <Link className="custom-nav-link" to="/users">
+          <li>
+            <i className="bi bi-people me-3 fs-2"></i>Users
+          </li>
+        </Link>
       </ul>
       <ul>
-        <li>
-          <i className="bi bi-gear me-3 fs-2"></i>Settings
-        </li>
+        <Link className="custom-nav-link" to="/settings">
+          <li>
+            <i className="bi bi-gear me-3 fs-2"></i>Settings
+          </li>
+        </Link>
         <li onClick={logout}>
           <i className="bi bi-box-arrow-left me-3 fs-2"></i>Logout
         </li>

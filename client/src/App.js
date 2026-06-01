@@ -12,6 +12,11 @@ import Home from './Pages/Home';
 import AdminDash from './Pages/AdminDash';
 import Orders from './Pages/Orders';
 import ViewOrderPage from './Pages/ViewOrderPage';
+import Users from './Pages/Users';
+import SingleUserPage from './Pages/SingleUserPage';
+import Services from './Pages/Services';
+import ViewServicePage from './Pages/ViewServicePage';
+import Settings from './Pages/Settings';
 
 // Create an HTTP link that tells Apollo where the GraphQL server is
 const httpLink = new HttpLink({
@@ -56,6 +61,11 @@ function App() {
           <Route path="/admin" element={<AdminDash />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:orderId" element={<ViewOrderPage />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:_id" element={<SingleUserPage />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/services/:serviceId" element={<ViewServicePage />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Router>
     </ApolloProvider>

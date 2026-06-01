@@ -10,7 +10,14 @@ const Navbar = () => {
   };
   return (
     <div className="row align-items-center m-3 p-3">
-      <h2 className="col-md-2 fw-bold">Servexa</h2>
+      <Link
+        to="/"
+        className="d-flex align-items-center text-decoration-none"
+        style={{ width: 'fit-content' }}
+      >
+        <img src="/images/Servexalogo.png" style={{ maxWidth: '150px' }} />
+        <h1 className="fw-bold">Servexa</h1>
+      </Link>
       <ul className="nav justify-content-center col-md-7">
         <li className="nav-item">
           <a className="nav-link fs-5 fw-bold active" aria-current="page" href="#">

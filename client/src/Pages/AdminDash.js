@@ -9,6 +9,7 @@ import { priceFormatter } from '../utils/helpers';
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
+import Alerts from '../Components/Alerts';
 
 const AdminDash = () => {
   const { loading, error, data } = useQuery(QUERY_RECENT_ORDERS);
@@ -30,7 +31,10 @@ const AdminDash = () => {
       <SidebarMenu />
       <div className="custom-info-area ">
         <div className="d-flex justify-content-between p-2 mb-3">
-          <h1 className="m-2" style={{ position: 'relative', left: '80px' }}>
+          <h1
+            className="m-2 fw-bold"
+            style={{ position: 'relative', left: '80px', color: 'var(--primary-color)' }}
+          >
             Dashboard
           </h1>
           <p className="m-2 fs-5 p-2" style={{ position: 'relative', right: '80px' }}>
@@ -72,62 +76,48 @@ const AdminDash = () => {
           </div>
         </div>
         <section className="row justify-content-around">
-          <div className="recent-orders col-md-7">
-            <div className="d-flex justify-content-between">
+          <table className="custom-recent-orders col-md-7 mt-3">
+            {/* <div className="d-flex justify-content-between">
               <h4 className="m-3">Recent Orders</h4>
               <Link className="m-3">View all</Link>
-            </div>
+            </div> */}
 
-            <div className="custom-table-header">
-              <h5>Order ID</h5>
-              <h5>Client</h5>
-              <h5>Service</h5>
-              <h5>Amount</h5>
-              <h5>Status</h5>
-              <h5>Date Created</h5>
-            </div>
-            {loading ? (
-              <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
-            ) : (
-              recentOrders.map((order, index) => (
-                <div className="custom-table-data" key={index}>
-                  <p>#{order._id.toString().slice(-6).toUpperCase()}</p>
-                  <p>{order.client.fullName}</p>
-                  <p>{order.service.title}</p>
-                  <p>${priceFormatter(order.price)}</p>
-                  <p
-                    className="order-status"
-                    style={{
-                      color: statusStyles[order.status].text,
-                      backgroundColor: statusStyles[order.status].bg,
-                      padding: '5px 15px',
-                      borderRadius: '20px',
-                    }}
-                  >
-                    {order.status}
-                  </p>
-                  <p>{order.createdAt.split(',').shift()}</p>
-                </div>
-              ))
-            )}
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Client</th>
+                <th>Service</th>
+                <th>Amount (AUD)</th>
+                <th>Status</th>
+                <th>Date Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+              ) : (
+                recentOrders.map((order, index) => (
+                  <tr key={index}>
+                    <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
+                    <td>{order.client.fullName}</td>
+                    <td>{order.service.title}</td>
+                    <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                    <p
+                      className="status"
+                      style={{
+                        color: statusStyles[order.status].text,
+                        backgroundColor: statusStyles[order.status].bg,
+                      }}
+                    >
+                      {order.status}
+                    </p>
+                    <td>{order.createdAt.split(',').shift()}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
 
-            <div className="custom-table-data">
-              <p>#1258</p>
-              <p>Acme Corp</p>
-              <p>Web Design</p>
-              <p>$1,250</p>
-              <p>Pending</p>
-              <p>May 31</p>
-            </div>
-            <div className="custom-table-data">
-              <p>#1258</p>
-              <p>Acme Corp</p>
-              <p>Web Design</p>
-              <p>$1,250</p>
-              <p>Pending</p>
-              <p>May 31</p>
-            </div>
-          </div>
           <div className="activity-feed col-md-3">
             <div>
               <h5 className="p-2">Activity feed</h5>
@@ -146,6 +136,7 @@ const AdminDash = () => {
             </div>
           </div>
         </section>
+        {error && <Alerts message={error.message} />}
       </div>
     </div>
   );

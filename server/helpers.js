@@ -2,7 +2,7 @@ const { GraphQLError } = require('graphql');
 
 const checkAuthorization = (context, allowedRoles = []) => {
   if (!context.user) {
-    throw new GraphQLError('Authentication required', {
+    throw new GraphQLError('Authentication required, kindly login.', {
       extensions: { code: 'UNAUTHENTICATED' },
     });
   }

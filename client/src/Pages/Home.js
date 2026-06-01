@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 //Components
 import Navbar from '../Components/Navbar';
@@ -23,7 +24,9 @@ const Home = () => {
             Servexa helps businesses manage service requests, approve orders, and deliver
             exceptional results - all in one powerful dashboard.
           </p>
-          <button>Get Started</button>
+          <Link to="/signup">
+            <button>Get Started</button>
+          </Link>
         </section>
 
         <img className="col-xl-6 col-md-10" src="/images/saas.png" alt="Dashboard preview" />
