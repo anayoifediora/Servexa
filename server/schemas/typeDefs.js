@@ -71,6 +71,7 @@ const typeDefs = `
         recentOrders: [Order]
         order(orderId: ID!): Order
         service(serviceId: ID!): Service
+        orderResults(keyWord: String): [Order]
     }
     
     type Mutation {

@@ -175,3 +175,25 @@ export const QUERY_SINGLE_SERVICE = gql`
     }
   }
 `;
+//Query to search for an order
+export const QUERY_SEARCH_RESULTS = gql`
+  query Query($keyWord: String) {
+    orderResults(keyWord: $keyWord) {
+      status
+      price
+      client {
+        fullName
+        firstName
+        noOfOrders
+        lastName
+        email
+      }
+      _id
+      updatedAt
+      createdAt
+      service {
+        title
+      }
+    }
+  }
+`;

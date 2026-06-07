@@ -4,15 +4,19 @@ import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import { useQuery } from '@apollo/client/react';
 import { QUERY_RECENT_ORDERS } from '../utils/queries';
+import { useSelector } from 'react-redux';
 
 import { priceFormatter } from '../utils/helpers';
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
+import SearchResults from '../Components/SearchResults';
 
 const AdminDash = () => {
   const { loading, error, data } = useQuery(QUERY_RECENT_ORDERS);
+  const searchTerm = useSelector((state) => state.searchTerm);
+
   const recentOrders = data?.recentOrders || [];
 
   const statusStyles = {
@@ -137,6 +141,7 @@ const AdminDash = () => {
           </div>
         </section>
         {error && <Alerts message={error.message} />}
+        {searchTerm && <SearchResults />}
       </div>
     </div>
   );

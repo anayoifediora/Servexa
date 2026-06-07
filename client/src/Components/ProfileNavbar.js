@@ -1,11 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSearchTerm } from '../State/searchTermSlice';
 
 const ProfileNavbar = () => {
-  const profile = Auth.getProfile();
-  console.log(profile);
+  const dispatch = useDispatch();
+  const searchTerm = useSelector((state) => state.searchTerm);
 
+  const profile = Auth.getProfile();
+
+  const handleSearchInputChange = (e) => {
+    dispatch(addSearchTerm(e.target.value));
+  };
   return (
     <div className="profile-navbar">
       <Link to="/" className="d-flex align-items-center text-decoration-none">
@@ -18,8 +25,10 @@ const ProfileNavbar = () => {
           <input
             className="form-control me-2"
             type="search"
-            placeholder="Search"
+            placeholder="Search by client email, service type or order status.."
             aria-label="Search"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
           />
           <button className="" type="submit">
             Search

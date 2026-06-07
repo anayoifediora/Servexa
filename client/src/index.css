@@ -16,11 +16,11 @@ body {
   padding: 0;
 }
 * {
-  /* font-family: 'Google Sans Flex', sans-serif; */
-  /* font-family: 'Figtree', sans-serif; */
+  font-family: 'Google Sans Flex', sans-serif;
+  font-family: 'Figtree', sans-serif;
   /* font-family: 'Outfit', sans-serif; */
   /* font-family: 'Quicksand', sans-serif;  */
-  font-family: 'Liter', sans-serif;
+  /* font-family: 'Liter', sans-serif; */
   /* font-family: "Hanken Grotesk", sans-serif; */
 }
 .custom-home-page {
@@ -175,7 +175,8 @@ button:hover {
   color: var(--primary-color);
 }
 .custom-alert,
-.loading {
+.loading,
+.custom-search-result {
   border-radius: 5px;
   border: black 1px solid;
   padding: 20px;
@@ -190,6 +191,14 @@ button:hover {
   transform: translateX(-50%);
   z-index: 1500;
   /* background-color: var(--background); */
+}
+.custom-search-result {
+  background-color: var(--background);
+  width: 40%;
+  position: fixed;
+  top: 90px;
+  text-align: left;
+  z-index: 1400;
 }
 .custom-alert p {
   font-size: clamp(0.5rem, 2.3vw, 1.1rem);

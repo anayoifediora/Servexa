@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-const Alerts = (props) => {
+const Alerts = ({ message }) => {
   // eslint-disable-next-line react/prop-types
-  const { message } = props;
+  // const { message } = props;
   const [visible, setVisible] = useState(true);
 
   return (
@@ -10,17 +10,17 @@ const Alerts = (props) => {
       {visible && (
         <div
           // eslint-disable-next-line react/prop-types
-          className={`custom-alert alert ${message.includes('Success') ? 'alert-success' : 'alert-danger'}`}
+          className={`custom-alert alert ${message?.includes('Success') ? 'alert-success' : 'alert-danger'}`}
           role="alert"
         >
           <i
-            className={`bi bi-exclamation-circle-fill fs-1 ${message.includes('Success') ? 'text-success' : 'text-danger '}`}
+            className={`bi bi-exclamation-circle-fill fs-1 ${message?.includes('Success') ? 'text-success' : 'text-danger '}`}
           ></i>
           <p className="">{message}</p>
           <button
             onClick={() => setVisible(false)}
             type="button"
-            className={`w-25 mt-4 bg-light ${message.includes('Success') ? 'text-success' : 'text-danger'} border border-dark`}
+            className={`w-25 mt-4 bg-light ${message?.includes('Success') ? 'text-success' : 'text-danger'} border border-dark`}
             aria-label="Close"
           >
             Ok

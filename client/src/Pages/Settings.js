@@ -207,7 +207,7 @@ const Settings = () => {
           </div>
         </div>
         {/* Update Password Modal */}
-        {(error || updateError) && <Alerts message={error?.message} />}
+        {(error || updateError) && <Alerts message={error?.message || updateError?.message} />}
         {mismatchError && <Alerts message={mismatchError} />}
         {data && <Alerts message={successMessage} />}
 

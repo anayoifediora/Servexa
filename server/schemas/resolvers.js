@@ -29,6 +29,7 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       return await Service.find();
     },
+    //Find a single user by Id, including associated orders
     user: async (parent, { _id }, context) => {
       checkAuthorization(context, ['admin']);
       const user = await User.findOne({ _id })
@@ -44,6 +45,7 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       return Order.find().sort({ createdAt: -1 }).populate(['client', 'service']);
     },
+    //List recent orders
     recentOrders: async (parent, args, context) => {
       checkAuthorization(context, ['admin']);
       return Order.find({
@@ -63,6 +65,40 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       const service = await Service.findOne({ _id: serviceId });
       return service;
+    },
+    //GET orders by searching with a keyword which will be orderId
+    orderResults: async (parent, { keyWord }) => {
+      if (!keyWord) {
+        throw new GraphQLError('Please insert search keyword', {
+          extensions: { code: 'BAD_USER_INPUT' },
+        });
+      }
+
+      // 1. find matching users
+      const users = await User.find({
+        lastName: { $regex: keyWord, $options: 'i' },
+      });
+
+      const userIds = users.map((user) => user._id);
+
+      // 2. find matching services
+      const services = await Service.find({
+        title: { $regex: keyWord, $options: 'i' },
+      });
+
+      const serviceIds = services.map((service) => service._id);
+
+      // 3. final order search (combined)
+      return Order.find({
+        $or: [
+          { client: { $in: userIds } },
+          { service: { $in: serviceIds } },
+          { status: { $regex: keyWord, $options: 'i' } },
+          { _id: keyWord.length === 24 ? keyWord : null }, // optional fallback
+        ],
+      })
+        .populate('client')
+        .populate('service');
     },
   },
 
