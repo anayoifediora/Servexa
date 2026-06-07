@@ -9,14 +9,14 @@ const Navbar = () => {
     Auth.logout();
   };
   return (
-    <div className="row align-items-center m-3 p-3">
+    <div className="row align-items-center ms-1 p-3 border-bottom bg-white">
       <Link
         to="/"
         className="d-flex align-items-center text-decoration-none"
         style={{ width: 'fit-content' }}
       >
         <img src="/images/Servexalogo.png" style={{ maxWidth: '150px' }} />
-        <h1 className="fw-bold">Servexa</h1>
+        <h1 className="custom-title fw-bold">Servexa</h1>
       </Link>
       <ul className="nav justify-content-center col-md-7">
         <li className="nav-item">

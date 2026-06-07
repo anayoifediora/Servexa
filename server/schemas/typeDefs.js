@@ -92,6 +92,7 @@ const typeDefs = `
         createOrder(client: ID!, service: ID!, description: String!): Order
         updateUserStatus(clientId: ID!, status: String!): User
         updateOrderStatus(orderId: ID!, status: String!, price: Float!, adminNotes: String!): Order
+        updateUser(clientId: ID!, firstName: String!, lastName: String!, email: String!, phone: String!, address: AddressInput!): User
 
     }
 `;

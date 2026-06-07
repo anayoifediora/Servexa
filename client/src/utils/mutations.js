@@ -156,3 +156,38 @@ export const UPDATE_PASSWORD = gql`
     }
   }
 `;
+//Mutation that enables the user update details
+export const UPDATE_USER = gql`
+  mutation Mutation(
+    $clientId: ID!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phone: String!
+    $address: AddressInput!
+  ) {
+    updateUser(
+      clientId: $clientId
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phone: $phone
+      address: $address
+    ) {
+      address {
+        postCode
+        state
+        street
+        suburb
+      }
+      firstName
+      lastName
+      email
+      createdAt
+      phone
+      role
+      status
+      updatedAt
+    }
+  }
+`;

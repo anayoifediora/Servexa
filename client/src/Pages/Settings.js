@@ -8,6 +8,7 @@ import Auth from '../utils/auth';
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
+import UpdateUserForm from '../Components/UpdateUserForm';
 
 const Settings = () => {
   const profile = Auth.getProfile();
@@ -22,7 +23,12 @@ const Settings = () => {
   });
 
   const singleUser = updateData?.user || {};
-  console.log(singleUser);
+
+  const userStatusStyles = {
+    'Pending Approval': { bg: '#FEF3C7', text: '#92400E' },
+    'De-listed': { bg: '#FEE2E2', text: '#991B1B' },
+    Approved: { bg: '#DCFCE7', text: '#166534' },
+  };
   const [formState, setFormState] = useState({
     email: '',
     oldPassword: '',
@@ -77,79 +83,131 @@ const Settings = () => {
       <SidebarMenu />
       <div className="custom-info-area">
         <div className="custom-profile-info">
-          <h3>My Profile</h3>
+          <h3
+            style={{
+              fontSize: 'clamp(1.2rem, 3vw, 2rem)',
+              marginLeft: '2rem',
+            }}
+          >
+            My Profile
+          </h3>
           <div className="row">
-            <div className="d-flex align-items-center mb-3">
-              <i className="bi bi-person-circle p-2" style={{ fontSize: '3rem', color: "var(--font-color)" }}></i>
-              <div>
-                <p className="fw-bold fs-3" style={{ color: 'var(--font-color)' }}>{singleUser?.fullName}</p>
-                <p></p>
+            {updateLoading ? (
+              <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+            ) : (
+              <div className="d-flex align-items-center mb-3">
+                <i
+                  className="bi bi-person-circle p-2"
+                  style={{ fontSize: '3rem', color: 'var(--font-color)' }}
+                ></i>
+                <div>
+                  <p className="fw-bold fs-4" style={{ color: 'var(--font-color)' }}>
+                    {singleUser?.fullName}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="col-lg-2">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            )}
+            <div className="col-12 col-md-4 col-lg-3">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 First Name
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.firstName}</p>
             </div>
-            <div className="col-lg-2">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            <div className="col-12 col-md-4 col-lg-3">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Last Name
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.lastName}</p>
             </div>
-            <div className="col-lg-3">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            <div className="col-12 col-md-12 col-lg-5 col-xl-3">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Email Address
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.email}</p>
             </div>
-            <div className="col-lg-2">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            <div className="col-12 col-md-12 col-xl-3">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Phone Number
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.phone}</p>
             </div>
-            <p>Address</p>
-            <div className="col">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            <p className="fw-bold">Address</p>
+            <div className="col-6 col-lg-2">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Street
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.address?.street}</p>
             </div>
-            <div className="col">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            <div className="col-6 col-lg-2">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Suburb
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.address?.suburb}</p>
             </div>
-            <div className="col">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            <div className="col-6 col-lg-2">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 State
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.address?.state}</p>
             </div>
-            <div className="col">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+            <div className="col-6">
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Post Code
-              </p>
+              </label>
               <p className="text-dark">{singleUser?.address?.postCode}</p>
             </div>
+            <div>
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                User Status
+              </label>
+              <p
+                className="status text-dark"
+                style={{
+                  color: userStatusStyles[singleUser?.status]?.text,
+                  backgroundColor: userStatusStyles[singleUser?.status]?.bg,
+                }}
+              >
+                {singleUser?.status}
+              </p>
+            </div>
+            <div>
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                Created On:
+              </label>
+              <p className="text-dark">{singleUser?.createdAt}</p>
+            </div>
+            <div>
+              <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                Updated On:
+              </label>
+              <p className="text-dark">{singleUser?.updatedAt}</p>
+            </div>
 
-            <button className="edit-btn">Edit</button>
+            <button
+              type="button"
+              className="custom-edit-btn col-lg-12 col-xl-2"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              Edit
+            </button>
           </div>
           <div className="row">
             <h3>Security</h3>
-            <div className="d-flex justify-content-between">
-              <p>Change Password</p>
-              <button data-bs-toggle="modal" data-bs-target="#updatePassword">
+            <div className="d-flex justify-content-between align-items-center">
+              <p className="col-lg-4 d-none d-lg-block">Change Password</p>
+              <button
+                className="col-11 col-lg-4 col-xl-3"
+                data-bs-toggle="modal"
+                data-bs-target="#updatePassword"
+              >
                 Change Password
               </button>
             </div>
           </div>
         </div>
         {/* Update Password Modal */}
-        {error && <Alerts message={error.message} />}
+        {(error || updateError) && <Alerts message={error?.message} />}
         {mismatchError && <Alerts message={mismatchError} />}
         {data && <Alerts message={successMessage} />}
 
@@ -237,6 +295,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
+      <UpdateUserForm singleUser={singleUser} />
     </div>
   );
 };

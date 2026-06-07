@@ -254,6 +254,21 @@ const resolvers = {
         });
       }
     },
+    //Mutation to update a user's details
+    updateUser: async (parent, args, context) => {
+      // checkAuthorization(context, ['client', 'admin']);
+      try {
+        const { clientId, firstName, lastName, email, phone, address } = args;
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: clientId },
+          { firstName, lastName, email, phone, address },
+          { returnDocument: 'after', runValidators: true }
+        );
+        return updatedUser;
+      } catch (error) {
+        throw new GraphQLError(error.message);
+      }
+    },
   },
   //Field resolver to format date
   User: {
