@@ -30,7 +30,7 @@ const userSchema = new Schema(
       trim: true,
       unique: true,
       lowercase: true,
-      match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/],
+      match: [/^([a-z0-9_.-]+)@([0-9a-z.-]+)\.([a-z]{2,6})$/],
     },
     password: {
       type: String,
@@ -61,7 +61,7 @@ const userSchema = new Schema(
           const regex = /^04\d{8}$/;
           return regex.test(number);
         },
-        message: (props) => `${props.value} is not a valid phone number!`,
+        message: (props) => `"${props.value}" is not a valid phone number!`,
       },
       required: [true, 'User phone number required'],
     },
@@ -120,7 +120,7 @@ userSchema.pre('save', async function () {
     try {
       this.password = await bcrypt.hash(this.password, 10);
     } catch (err) {
-      return next(err);
+      return err;
     }
   }
 });

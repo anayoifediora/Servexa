@@ -15,27 +15,55 @@ const resolvers = {
   Query: {
     //List all users
     users: async (parent, args, context) => {
-      checkAuthorization(context, ["admin"])
-      return User.find().populate("orders").populate({
-        path: "orders",
-        populate: ["service", "client"]
-      });
+      checkAuthorization(context, ['admin']);
+      const users = await User.find({ role: { $ne: 'admin' } })
+        .populate('orders')
+        .populate({
+          path: 'orders',
+          populate: ['service', 'client'],
+        });
+      return users;
     },
     //List all Services
-    services: async () => {
+    services: async (parent, args, context) => {
+      checkAuthorization(context, ['admin']);
       return await Service.find();
     },
     user: async (parent, { _id }, context) => {
-      checkAuthorization(context, ["admin"])
-      const user = await User.findOne({ _id }).populate("orders").populate({
-        path: "orders",
-        populate: ["service", "client"]
-      });
+      checkAuthorization(context, ['admin']);
+      const user = await User.findOne({ _id })
+        .populate('orders')
+        .populate({
+          path: 'orders',
+          populate: ['service', 'client'],
+        });
       return user;
     },
+    //List all orders
     orders: async (parent, args, context) => {
-        return Order.find().populate(["client", "service"])
-    }
+      checkAuthorization(context, ['admin']);
+      return Order.find().sort({ createdAt: -1 }).populate(['client', 'service']);
+    },
+    recentOrders: async (parent, args, context) => {
+      checkAuthorization(context, ['admin']);
+      return Order.find({
+        createdAt: { $gte: new Date('2026-03-25'), $lt: new Date() },
+      })
+        .sort({ createdAt: -1 })
+        .populate(['client', 'service']);
+    },
+    //GET a single order with orderId
+    order: async (parent, { orderId }, context) => {
+      checkAuthorization(context, ['client', 'admin']);
+      const order = await Order.findOne({ _id: orderId }).populate(['client', 'service']);
+      return order;
+    },
+    //GET a single service with serviceId
+    service: async (parent, { serviceId }, context) => {
+      checkAuthorization(context, ['admin']);
+      const service = await Service.findOne({ _id: serviceId });
+      return service;
+    },
   },
 
   //Mutations section
@@ -88,25 +116,24 @@ const resolvers = {
       return { token, user };
     },
     //Updating a user's status
-    updateUserStatus: async (parent, { clientId, status}, context) => {
-        checkAuthorization(context, ["admin"])
-        try {
-            const updatedUser = await User.findOneAndUpdate(
-                { _id: clientId },
-                { status },
-                { returnDocument: 'after', runValidators: true }
-
-            )
-            return updatedUser;
-        } catch (err) {
-            throw new GraphQLError(err.message, {
-                extensions: { code: "BAD_USER_INPUT" }
-            })
-        }
+    updateUserStatus: async (parent, { clientId, status }, context) => {
+      checkAuthorization(context, ['admin']);
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: clientId },
+          { status },
+          { returnDocument: 'after', runValidators: true }
+        );
+        return updatedUser;
+      } catch (err) {
+        throw new GraphQLError(err.message, {
+          extensions: { code: 'BAD_USER_INPUT' },
+        });
+      }
     },
     //Update user password
-    updatePassword: async (parent, { oldPassword, newPassword, email }) => {
-        checkAuthorization(context, ["admin", "client"])
+    updatePassword: async (parent, { oldPassword, newPassword, email }, context) => {
+      checkAuthorization(context, ['admin', 'client']);
       const user = await User.findOne({ email });
       if (!user) {
         throw new GraphQLError('User not found');
@@ -115,12 +142,12 @@ const resolvers = {
       const isCorrectOldPassword = await bcrypt.compare(oldPassword, user.password);
 
       if (!isCorrectOldPassword) {
-        throw new Error('Old password is incorrect!');
+        throw new GraphQLError('Old password is incorrect!');
       }
       //Ensure new password is not same as old one
       const isPasswordSame = await bcrypt.compare(newPassword, user.password);
       if (isPasswordSame) {
-        throw new Error('Please use a different password!');
+        throw new GraphQLError('Please use a different password!');
       }
       user.password = newPassword;
       await user.save();
@@ -128,7 +155,7 @@ const resolvers = {
     },
     //Creating a service
     createService: async (parent, args, context) => {
-      checkAuthorization(context, ["admin"])
+      checkAuthorization(context, ['admin']);
       try {
         const { title, description, defaultPrice, category } = args;
         if (!title || !description || !defaultPrice || !category) {
@@ -153,7 +180,7 @@ const resolvers = {
     },
     //Update a service
     updateService: async (parent, args, context) => {
-        checkAuthorization(context, ["admin"])
+      checkAuthorization(context, ['admin']);
       try {
         const { serviceId, title, description, defaultPrice, category, status } = args;
         const updatedService = await Service.findOneAndUpdate(
@@ -168,7 +195,7 @@ const resolvers = {
     },
     //Mutation to create an order
     createOrder: async (parent, args, context) => {
-      checkAuthorization(context, ["client"])
+      // checkAuthorization(context, ['client']);
       try {
         const { client, service, description } = args;
         const requestedService = await Service.findById({ _id: service });
@@ -180,63 +207,77 @@ const resolvers = {
         if (requestedService.status !== 'Active') {
           throw new GraphQLError('Service no longer offered');
         }
-        
-          const order = await Order.create({
-            client,
-            service,
-            description,
-          });
 
-          await User.findOneAndUpdate(
-            { _id: client },
-            { $addToSet: { orders: order._id } },
-            { returnDocument: 'after' }
-          );
-          return order;
-        
+        const order = await Order.create({
+          client,
+          service,
+          description,
+        });
+
+        await User.findOneAndUpdate(
+          { _id: client },
+          { $addToSet: { orders: order._id } },
+          { returnDocument: 'after' }
+        );
+        return order;
       } catch (error) {
         throw new GraphQLError(error.message);
       }
     },
     //Mutation to update the status of an order
     updateOrderStatus: async (parent, args, context) => {
-        checkAuthorization(context, ["admin"]);
-        try {
-            const { orderId, status, price, adminNotes } = args;
-            const updatedOrder = await Order.findOneAndUpdate(
-                { _id: orderId },
-                { status, price, adminNotes },
-                { returnDocument: 'after', runValidators: true }
-            )
-            if (!updatedOrder) {
-                throw new GraphQLError(`Order with ID ${orderId} not found`, {
-                    extensions: { code: 'NOT_FOUND' }
-                })
-            }
-            if (updatedOrder.status === 'Closed') {
-              throw new GraphQLError("This order has been closed and cannot be updated!", {
-                extensions: { code: 'BAD_REQUEST' }
-              })
-            }
-            return updatedOrder;
-        } catch (error) {
-            throw new GraphQLError(error.message, {
-                extensions: {
-                    code: error.name === 'CastError' ? 'BAD_USER_INPUT' : 'INTERNAL_SERVER_ERROR',
-                    argumentName: 'orderId'
-                }
-            })
+      checkAuthorization(context, ['admin']);
+      try {
+        const { orderId, status, price, adminNotes } = args;
+        const updatedOrder = await Order.findOneAndUpdate(
+          { _id: orderId },
+          { status, price, adminNotes },
+          { returnDocument: 'after', runValidators: true }
+        );
+        if (!updatedOrder) {
+          throw new GraphQLError(`Order with ID ${orderId} not found`, {
+            extensions: { code: 'NOT_FOUND' },
+          });
         }
-    }
+        if (updatedOrder.status === 'Closed') {
+          throw new GraphQLError('This order has been closed and cannot be updated!', {
+            extensions: { code: 'BAD_REQUEST' },
+          });
+        }
+        return updatedOrder;
+      } catch (error) {
+        throw new GraphQLError(error.message, {
+          extensions: {
+            code: error.name === 'CastError' ? 'BAD_USER_INPUT' : 'INTERNAL_SERVER_ERROR',
+            argumentName: 'orderId',
+          },
+        });
+      }
+    },
+    //Mutation to update a user's details
+    updateUser: async (parent, args, context) => {
+      // checkAuthorization(context, ['client', 'admin']);
+      try {
+        const { clientId, firstName, lastName, email, phone, address } = args;
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: clientId },
+          { firstName, lastName, email, phone, address },
+          { returnDocument: 'after', runValidators: true }
+        );
+        return updatedUser;
+      } catch (error) {
+        throw new GraphQLError(error.message);
+      }
+    },
   },
   //Field resolver to format date
-  User: timestampFields,
+  User: {
+    ...timestampFields,
+    //Field resolver to obtain number of orders per user
+    noOfOrders: (document) => document.orders.length,
+  },
   Service: timestampFields,
   Order: timestampFields,
-  //Field resolver to obtain number of orders per user
-  User: {
-    noOfOrders: (document) => document.orders.length
-  }
 };
 
 module.exports = resolvers;
