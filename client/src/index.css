@@ -8,20 +8,25 @@
   --background-color: #f9fafb;
   --sidebar: #111827;
   --font-color: rgb(92, 86, 86);
+  /* color-scheme: light dark;
+  --bg-color: light-dark(white, #111827);
+  --text-color: light-dark(#111827, white); */
+}
+#root {
+  min-height: 100vh;
 }
 body {
   background-image: linear-gradient(to right, var(--background), var(--secondary-color));
-
   margin: 0;
   padding: 0;
 }
 * {
   font-family: 'Google Sans Flex', sans-serif;
-  font-family: 'Figtree', sans-serif;
+  /* font-family: 'Figtree', sans-serif; */
   /* font-family: 'Outfit', sans-serif; */
   /* font-family: 'Quicksand', sans-serif;  */
-  /* font-family: 'Liter', sans-serif; */
-  /* font-family: "Hanken Grotesk", sans-serif; */
+  font-family: 'Liter', sans-serif;
+  font-family: 'Hanken Grotesk', sans-serif;
 }
 .custom-home-page {
   min-height: 100vh;
@@ -31,11 +36,14 @@ body {
   align-items: center;
   justify-content: center;
 }
+.servexa-logo {
+  max-width: 150px;
+}
 .loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--background-color);
+  background-color: var(--background);
 }
 .custom-login-page,
 .custom-signup-page {
@@ -142,7 +150,7 @@ button:hover {
   grid-area: description;
 }
 .custom-footer {
-  background-color: none;
+  background-color: var(--secondary-color);
   border-top: 1px solid rgba(107, 81, 233, 0.3);
   color: var(--primary-color);
   display: flex;
@@ -194,11 +202,26 @@ button:hover {
 }
 .custom-search-result {
   background-color: var(--background);
-  width: 40%;
+  width: 30%;
   position: fixed;
-  top: 90px;
+  top: 75px;
   text-align: left;
   z-index: 1400;
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+.custom-result {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr 1fr;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: black;
+}
+.custom-result:hover {
+  background-color: var(--secondary-color);
+  cursor: pointer;
 }
 .custom-alert p {
   font-size: clamp(0.5rem, 2.3vw, 1.1rem);
@@ -237,13 +260,14 @@ button:hover {
   flex-direction: column;
   grid-area: sidebar-menu;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  /* background-image: linear-gradient(to right, var(--background), var(--secondary-color)); */
+  background-color: rgb(41, 38, 38);
 }
 .custom-info-area {
   background-color: var(--background-color);
   grid-area: custom-info-area;
   display: flex;
   flex-direction: column;
+  justify-items: center;
 }
 .sidebar-menu li {
   list-style: none;
@@ -265,22 +289,22 @@ button:hover {
 }
 .custom-info-card {
   background-color: white;
-  width: 19%;
-  height: fit-content;
+  min-width: 20%;
+  max-height: 250px;
   margin: 20px auto;
   padding: 20px;
   border-radius: 10px;
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   /* border: 2px solid #e4e7ec; */
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 .custom-info-card i {
-  font-size: 2.2rem;
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
   color: var(--primary-color);
-  margin-right: 10px;
   background-color: rgb(107, 81, 233, 0.1);
+  background-size: clamp(1.5rem, 3vw, 2.5rem);
   width: 70px;
   height: 70px;
   display: block;
@@ -289,6 +313,10 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.custom-tile-figures {
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  font-weight: bold;
 }
 .custom-info-area section {
   display: flex;
@@ -344,7 +372,7 @@ th {
 }
 .custom-nav-link {
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--background-color);
 }
 
 /* Orders Page */
@@ -353,7 +381,7 @@ th {
 .custom-order-info,
 .custom-service-info,
 .custom-profile-info {
-  width: 75%;
+  width: 65%;
   margin: 20px auto;
   background-color: var(--background);
   padding: 20px;
@@ -393,20 +421,37 @@ select {
 .custom-services-table,
 .custom-recent-orders,
 .custom-orders-table,
-.custom-users-table {
+.custom-users-table,
+.user-search-results {
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: var(--background);
   align-self: center;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
+
+/* table {
+  border-collapse: collapse;
+  min-width: 600px;
+} */
 .custom-services-table,
 .custom-orders-table,
-.custom-users-table {
-  width: 90%;
+.custom-users-table,
+.user-search-results {
+  width: 80%;
   margin-top: 100px;
+  min-width: 900px;
 }
+
 thead {
   background-color: var(--background-color);
+}
+tfoot td {
+  font-size: clamp(0.6rem, 2.4vw, 1.1rem);
+  font-weight: bold;
+  color: var(--font-color);
+}
+tfoot {
+  width: 100%;
 }
 thead th {
   font-size: clamp(0.7rem, 2.5vw, 1.2rem);
@@ -415,19 +460,22 @@ thead th {
 th,
 td {
   padding: 15px;
+  text-align: left;
+  white-space: nowrap;
 }
 td {
   font-size: clamp(0.6rem, 2.4vw, 1.1rem);
   color: var(--font-color);
 }
+
 .status {
   font-weight: 600;
   padding: 5px 15px;
   border-radius: 20px;
-  margin-top: 15px;
   width: fit-content;
   border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: clamp(0.5rem, 2.4vw, 1rem);
+  margin: 0;
 }
 tr {
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -435,6 +483,7 @@ tr {
 tbody :hover {
   background: var(--background-color);
 }
+
 textarea {
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -448,9 +497,18 @@ textarea {
   transform: translateX(-100%);
 }
 
+.user-search-results {
+  position: fixed;
+  top: 205px;
+  z-index: 1400;
+  width: 30%;
+  max-height: 300px;
+  overflow-y: auto;
+}
 /* Media Queries for responsive design */
 @media screen and (max-width: 1200px) {
-  .custom-profile-info {
+  .custom-profile-info,
+  .custom-order-info {
     width: 90%;
     margin: 20px auto;
   }

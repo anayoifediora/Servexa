@@ -9,8 +9,13 @@ const SidebarMenu = () => {
     window.location.assign('/');
   };
   return (
-    <div className="sidebar-menu">
+    <div className="sidebar-menu d-none d-sm-block">
       <ul>
+        <Link className="custom-nav-link" to="/">
+          <li>
+            <i className="bi bi-house me-3 fs-2"></i>Home
+          </li>
+        </Link>
         <Link className="custom-nav-link" to="/admin">
           <li>
             <i className="bi bi-grid-1x2 me-3 fs-2"></i>Dashboard
@@ -26,9 +31,6 @@ const SidebarMenu = () => {
             <i className="bi bi-boxes me-3 fs-2"></i>Services
           </li>
         </Link>
-        <li>
-          <i className="bi bi-people me-3 fs-2"></i>Clients
-        </li>
         <Link className="custom-nav-link" to="/users">
           <li>
             <i className="bi bi-people me-3 fs-2"></i>Users
@@ -41,8 +43,8 @@ const SidebarMenu = () => {
             <i className="bi bi-gear me-3 fs-2"></i>Settings
           </li>
         </Link>
-        <li onClick={logout}>
-          <i className="bi bi-box-arrow-left me-3 fs-2"></i>Logout
+        <li className="custom-nav-link" onClick={logout}>
+          <i className=" bi bi-box-arrow-left me-3 fs-2"></i>Logout
         </li>
       </ul>
     </div>

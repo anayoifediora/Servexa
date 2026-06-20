@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Alerts = ({ message }) => {
   // eslint-disable-next-line react/prop-types
@@ -17,14 +18,20 @@ const Alerts = ({ message }) => {
             className={`bi bi-exclamation-circle-fill fs-1 ${message?.includes('Success') ? 'text-success' : 'text-danger '}`}
           ></i>
           <p className="">{message}</p>
-          <button
-            onClick={() => setVisible(false)}
-            type="button"
-            className={`w-25 mt-4 bg-light ${message?.includes('Success') ? 'text-success' : 'text-danger'} border border-dark`}
-            aria-label="Close"
-          >
-            Ok
-          </button>
+          {message?.includes('Authentication') ? (
+            <Link to="/login">
+              <button className="text-danger mt-4 bg-light">Log in</button>
+            </Link>
+          ) : (
+            <button
+              onClick={() => setVisible(false)}
+              type="button"
+              className={`w-25 mt-4 bg-light ${message?.includes('Success') ? 'text-success' : 'text-danger'} border border-dark`}
+              aria-label="Close"
+            >
+              Ok
+            </button>
+          )}
         </div>
       )}
     </>

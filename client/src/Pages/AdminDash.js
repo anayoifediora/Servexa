@@ -34,53 +34,47 @@ const AdminDash = () => {
 
       <SidebarMenu />
       <div className="custom-info-area ">
-        <div className="d-flex justify-content-between p-2 mb-3">
-          <h1
-            className="m-2 fw-bold"
-            style={{ position: 'relative', left: '80px', color: 'var(--primary-color)' }}
-          >
-            Dashboard
-          </h1>
-          <p className="m-2 fs-5 p-2" style={{ position: 'relative', right: '80px' }}>
-            May 1 - May 31 2026
-          </p>
+        <div className="d-flex flex-column flex-lg-row justify-content-between p-2 mb-3">
+          <h1 className="m-2 ms-5 fw-bold">Dashboard</h1>
+
+          <p className="m-2 fs-5 p-2">May 1 - May 31 2026</p>
         </div>
-        <div className="d-flex" style={{ padding: '0 2rem 0 2.5rem' }}>
-          <div className="custom-info-card">
+        <div className="d-flex row" style={{ padding: '0 2rem 0 2.5rem' }}>
+          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
             <div>
               <p className="text-secondary fs-4">Total Orders</p>
-              <p className="fs-1 fw-bold">1,248</p>
+              <p className="custom-tile-figures">1,248</p>
               <p>+12.5% from last month</p>
             </div>
             <i className="bi bi-clipboard-check"></i>
           </div>
-          <div className="custom-info-card">
+          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
             <div>
               <p className="text-secondary fs-4">Pending Orders</p>
-              <p className="fs-1 fw-bold">32</p>
+              <p className="custom-tile-figures">32</p>
               <p>+12.5% from last month</p>
             </div>
             <i className="bi bi-clock"></i>
           </div>
-          <div className="custom-info-card">
+          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
             <div>
               <p className="text-secondary fs-4">Revenue</p>
-              <p className="fs-1 fw-bold">$14,248</p>
+              <p className="custom-tile-figures">$1,496</p>
               <p>+12.5% from last month</p>
             </div>
             <i className="bi bi-currency-dollar"></i>
           </div>
-          <div className="custom-info-card">
+          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
             <div>
               <p className="text-secondary fs-4">Active Clients</p>
-              <p className="fs-1 fw-bold">8</p>
+              <p className="custom-tile-figures">8</p>
               <p>+12.5% from last month</p>
             </div>
             <i className="bi bi-people"></i>
           </div>
         </div>
         <section className="row justify-content-around">
-          <table className="custom-recent-orders col-md-7 mt-3">
+          <table className="custom-recent-orders col-12 col-md-7 mt-3">
             {/* <div className="d-flex justify-content-between">
               <h4 className="m-3">Recent Orders</h4>
               <Link className="m-3">View all</Link>
@@ -106,15 +100,17 @@ const AdminDash = () => {
                     <td>{order.client.fullName}</td>
                     <td>{order.service.title}</td>
                     <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
-                    <p
-                      className="status"
-                      style={{
-                        color: statusStyles[order.status].text,
-                        backgroundColor: statusStyles[order.status].bg,
-                      }}
-                    >
-                      {order.status}
-                    </p>
+                    <td>
+                      <p
+                        className="status"
+                        style={{
+                          color: statusStyles[order.status].text,
+                          backgroundColor: statusStyles[order.status].bg,
+                        }}
+                      >
+                        {order.status}
+                      </p>
+                    </td>
                     <td>{order.createdAt.split(',').shift()}</td>
                   </tr>
                 ))
@@ -122,7 +118,7 @@ const AdminDash = () => {
             </tbody>
           </table>
 
-          <div className="activity-feed col-md-3">
+          <div className="activity-feed col-9 col-md-3">
             <div>
               <h5 className="p-2">Activity feed</h5>
               <span className="p-2">

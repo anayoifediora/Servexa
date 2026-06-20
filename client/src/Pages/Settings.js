@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_SINGLE_USER } from '../utils/queries';
 import { UPDATE_PASSWORD } from '../utils/mutations';
+import { useSelector } from 'react-redux';
+
 import Auth from '../utils/auth';
 
 //Components
@@ -9,8 +11,13 @@ import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import UpdateUserForm from '../Components/UpdateUserForm';
+import SearchResults from '../Components/SearchResults';
 
 const Settings = () => {
+  const [mismatchError, setMismatchError] = useState('');
+  const [successMessage, setSuccessMessage] = useState(' ');
+  const searchTerm = useSelector((state) => state.searchTerm);
+
   const profile = Auth.getProfile();
   const { _id } = profile.data;
 
@@ -35,8 +42,6 @@ const Settings = () => {
     newPassword: '',
     confirmNewPassword: '',
   });
-  const [mismatchError, setMismatchError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(' ');
 
   const [updatePassword, { data, error }] = useMutation(UPDATE_PASSWORD);
 
@@ -82,6 +87,8 @@ const Settings = () => {
       <ProfileNavbar />
       <SidebarMenu />
       <div className="custom-info-area">
+        {(error || updateError) && <Alerts message={error?.message || updateError?.message} />}
+
         <div className="custom-profile-info">
           <h3
             style={{
@@ -207,7 +214,6 @@ const Settings = () => {
           </div>
         </div>
         {/* Update Password Modal */}
-        {(error || updateError) && <Alerts message={error?.message || updateError?.message} />}
         {mismatchError && <Alerts message={mismatchError} />}
         {data && <Alerts message={successMessage} />}
 
@@ -296,6 +302,7 @@ const Settings = () => {
         </div>
       </div>
       <UpdateUserForm singleUser={singleUser} />
+      {searchTerm && <SearchResults />}
     </div>
   );
 };
