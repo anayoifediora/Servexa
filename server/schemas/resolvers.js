@@ -122,10 +122,15 @@ const resolvers = {
         return { token, user };
       } catch (error) {
         if (error.code === 11000) {
-          throw new GraphQLError('User already exists', {
-            extensions: { code: 'BAD_USER_INPUT' },
-          });
+          const field = Object.keys(error.keyPattern)[0];
+          throw new GraphQLError(
+            `${field.charAt(0).toUpperCase() + field.slice(1)} is already in use. Please choose another.`,
+            {
+              extensions: { code: 'BAD_USER_INPUT' },
+            }
+          );
         }
+        console.log(error);
         throw new GraphQLError(error.message);
       }
     },

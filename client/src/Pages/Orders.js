@@ -53,81 +53,81 @@ const Orders = () => {
         >
           Orders
         </h1>
-
-        <table className="custom-orders-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Client</th>
-              <th>Service</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Date Created</th>
-              <th>Date Updated</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
-            ) : (
-              paginatedOrders.map((order, index) => (
-                <tr className="" key={index}>
-                  <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
-                  <td>{order.client.fullName}</td>
-                  <td>{order.service.title}</td>
-                  <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
-                  <td>
-                    <p
-                      className="status"
-                      style={{
-                        color: statusStyles[order.status].text,
-                        backgroundColor: statusStyles[order.status].bg,
-                      }}
-                    >
-                      {order.status}
-                    </p>
-                  </td>
-                  <td>{order.createdAt.split(',').shift()}</td>
-                  <td>{order.updatedAt.split(',').shift()}</td>
-                  <td>
-                    <Link className="btn btn-outline-success" to={`/orders/${order._id}`}>
-                      View Order
-                    </Link>
-                  </td>
-                  {/* <button className="btn btn-outline-danger ms-4">Delete</button> */}
+        {loading ? (
+          <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
+        ) : (
+          <div className="table-container">
+            <table className="custom-orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Client</th>
+                  <th>Service</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date Created</th>
+                  <th>Date Updated</th>
+                  <th>Actions</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-          <tfoot>
-            <tr className="custom-pagination-row">
-              <td colSpan={6}>Pages: {totalPages}</td>
+              </thead>
+              <tbody>
+                {paginatedOrders.map((order, index) => (
+                  <tr className="" key={index}>
+                    <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
+                    <td>{order.client.fullName}</td>
+                    <td>{order.service.title}</td>
+                    <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                    <td>
+                      <p
+                        className="status"
+                        style={{
+                          color: statusStyles[order.status].text,
+                          backgroundColor: statusStyles[order.status].bg,
+                        }}
+                      >
+                        {order.status}
+                      </p>
+                    </td>
+                    <td>{order.createdAt.split(',').shift()}</td>
+                    <td>{order.updatedAt.split(',').shift()}</td>
+                    <td>
+                      <Link className="btn btn-outline-success" to={`/orders/${order._id}`}>
+                        View Order
+                      </Link>
+                    </td>
+                    {/* <button className="btn btn-outline-danger ms-4">Delete</button> */}
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="custom-pagination-row">
+                  <td colSpan={6}>Pages: {totalPages}</td>
 
-              <td colSpan={2}>
-                <button
-                  className="me-2 btn btn-outline-secondary"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  Previous
-                </button>
-                <span>
-                  {' '}
-                  Page {currentPage} of {totalPages}{' '}
-                </span>
-                <button
-                  className="ms-2 btn btn-outline-secondary"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                </button>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-
+                  <td colSpan={2}>
+                    <button
+                      className="me-2 btn btn-outline-secondary"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button>
+                    <span>
+                      {' '}
+                      Page {currentPage} of {totalPages}{' '}
+                    </span>
+                    <button
+                      className="ms-2 btn btn-outline-secondary"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        )}
         {error && <Alerts message={error.message} />}
         {searchTerm && <SearchResults />}
       </div>
