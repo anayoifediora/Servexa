@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
+import { useQuery } from '@apollo/client/react';
+
+import { QUERY_SINGLE_USER } from '../utils/queries';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSearchTerm } from '../State/searchTermSlice';
 
@@ -9,8 +12,21 @@ const ProfileNavbar = () => {
   const searchTerm = useSelector((state) => state.searchTerm);
 
   const profile = Auth.getProfile();
+  const { _id } = profile.data;
+
+  const { loading, data, error } = useQuery(QUERY_SINGLE_USER, {
+    variables: { id: _id },
+  });
+
+  const userInfo = data?.user || {};
   const handleSearchInputChange = (e) => {
     dispatch(addSearchTerm(e.target.value));
+  };
+
+  const logout = (e) => {
+    e.preventDefault();
+    Auth.logout();
+    window.location.assign('/');
   };
 
   return (
@@ -40,12 +56,39 @@ const ProfileNavbar = () => {
         </form>
       </div>
       <div className="dropdown me-4">
-        <button className="fs-5 dropdown-toggle" data-bs-toggle="dropdown">
+        <button className="fs-5 d-md-none dropdown-toggle" data-bs-toggle="dropdown">
           {profile.data.username.toUpperCase().slice(0, 2)}
         </button>
+        <p
+          className="fs-5 d-none d-md-block dropdown-toggle"
+          data-bs-toggle="dropdown"
+          style={{ cursor: 'pointer' }}
+        >
+          {userInfo.fullName}
+        </p>
         <div className="dropdown-menu">
-          <p className=" fs-5 dropdown-item"></p>
-          <p className="text-danger fs-6 dropdown-item">Role: {profile.data.role}</p>
+          <p className="text-danger fs-6 dropdown-item m-0">Role: {profile.data.role}</p>
+          <Link to="/" className="fs-6 dropdown-item">
+            Home
+          </Link>
+          <Link to="/admin" className="fs-6 dropdown-item">
+            Dashboard
+          </Link>
+          <Link to="/orders" className="fs-6 dropdown-item">
+            Orders
+          </Link>
+          <Link to="/services" className="fs-6 dropdown-item">
+            Services
+          </Link>
+          <Link to="/users" className="fs-6 dropdown-item">
+            Users
+          </Link>
+          <Link to="/settings" className="fs-6 dropdown-item">
+            Settings
+          </Link>
+          <Link onClick={logout} className="fs-6 dropdown-item">
+            Logout
+          </Link>
         </div>
       </div>
     </div>

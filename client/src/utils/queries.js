@@ -197,3 +197,18 @@ export const QUERY_SEARCH_RESULTS = gql`
     }
   }
 `;
+//Query to get dashboard indices
+export const DASHBOARD_INDICES = gql`
+  query Query {
+    dashboardIndices {
+      activeUsers
+      activeUsersChange
+      pendingOrders
+      pendingOrdersChange
+      revenueChange
+      totalOrders
+      totalOrdersChange
+      totalRevenue
+    }
+  }
+`;

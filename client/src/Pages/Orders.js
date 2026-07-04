@@ -63,7 +63,7 @@ const Orders = () => {
                   <th>Order ID</th>
                   <th>Client</th>
                   <th>Service</th>
-                  <th>Amount</th>
+                  <th>Amount ($)</th>
                   <th>Status</th>
                   <th>Date Created</th>
                   <th>Date Updated</th>
@@ -91,7 +91,10 @@ const Orders = () => {
                     <td>{order.createdAt.split(',').shift()}</td>
                     <td>{order.updatedAt.split(',').shift()}</td>
                     <td>
-                      <Link className="btn btn-outline-success" to={`/orders/${order._id}`}>
+                      <Link
+                        className=" table-btn btn btn-outline-success"
+                        to={`/orders/${order._id}`}
+                      >
                         View Order
                       </Link>
                     </td>

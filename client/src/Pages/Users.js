@@ -66,7 +66,6 @@ const Users = () => {
         user.firstName.toLowerCase().includes(searchString.toLowerCase())
     );
 
-    console.log(userResults);
     setResults(userResults);
     setResultState(true);
     setSearchString('');
@@ -95,7 +94,7 @@ const Users = () => {
         >
           Users
         </h1>
-        <div className="d-flex align-items-center align-self-center border border-tertiary p-2 rounded">
+        <div className="d-md-flex align-items-center align-self-center border border-tertiary p-2 rounded">
           <form onSubmit={handleSearch} className=" d-flex m-2" role="search">
             <input
               className="form-control me-2"
@@ -172,7 +171,7 @@ const Users = () => {
                       <td>{user?.createdAt.split(',').shift()}</td>
                       <td>
                         <Link
-                          className="btn btn-outline-success"
+                          className="table-btn btn btn-outline-success"
                           to={`/users/${user?._id}`}
                           style={{ textWrap: 'nowrap' }}
                         >
@@ -187,7 +186,7 @@ const Users = () => {
                     <td colSpan={6}>Pages: {totalPages}</td>
                     <td colSpan={3}>
                       <button
-                        className="me-2 btn btn-outline-secondary"
+                        className="table-btn me-2 btn btn-outline-secondary"
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
                       >
@@ -198,7 +197,7 @@ const Users = () => {
                         Page {currentPage} of {totalPages}{' '}
                       </span>
                       <button
-                        className="ms-2 btn btn-outline-secondary"
+                        className="table-btn ms-2 btn btn-outline-secondary"
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
                       >
@@ -212,88 +211,91 @@ const Users = () => {
           ))}
         {/* Filtered Results table */}
         {filterResults.length !== 0 && (
-          <table className="custom-users-table">
-            <thead>
-              <tr>
-                <th colSpan={8}>Users filtered by {filterValue} status</th>
-                <th colSpan={1}>
-                  <button onClick={handleCloseFilter} className="btn btn-outline-danger">
-                    Close
-                  </button>
-                </th>
-              </tr>
-              <tr>
-                <th>S/No</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>User Status</th>
-                <th>No. of Orders</th>
-                <th>Date Created</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedFilteredUsers.map((user, index) => (
-                <tr key={user?._id}>
-                  <td>{(currentPage - 1) * ROWS_PER_TABLE_PAGE + index + 1}.</td>
-                  <td>{user?.firstName}</td>
-                  <td>{user?.lastName}</td>
-                  <td>{user?.email}</td>
-                  <td>{user?.phone}</td>
-                  <td>
-                    <p
-                      className="status"
-                      style={{
-                        color: userStatusStyles[user.status]?.text,
-                        backgroundColor: userStatusStyles[user.status]?.bg,
-                      }}
-                    >
-                      {user?.status}
-                    </p>
-                  </td>
+          <div className="table-container">
+            <table className="custom-users-table">
+              <thead>
+                <tr>
+                  <th colSpan={9}>Users filtered by {filterValue} status</th>
+                  <th colSpan={2}>
+                    <i
+                      onClick={handleCloseFilter}
+                      className="custom-close-btn bi bi-x-square fs-3"
+                    ></i>
+                  </th>
+                </tr>
+                <tr>
+                  <th>S/No</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>User Status</th>
+                  <th>No. of Orders</th>
+                  <th>Date Created</th>
+                  <th colSpan={2}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedFilteredUsers.map((user, index) => (
+                  <tr key={user?._id}>
+                    <td>{(currentPage - 1) * ROWS_PER_TABLE_PAGE + index + 1}.</td>
+                    <td>{user?.firstName}</td>
+                    <td>{user?.lastName}</td>
+                    <td>{user?.email}</td>
+                    <td>{user?.phone}</td>
+                    <td>
+                      <p
+                        className="status"
+                        style={{
+                          color: userStatusStyles[user.status]?.text,
+                          backgroundColor: userStatusStyles[user.status]?.bg,
+                        }}
+                      >
+                        {user?.status}
+                      </p>
+                    </td>
 
-                  <td>{user?.noOfOrders}</td>
-                  <td>{user?.createdAt.split(',').shift()}</td>
-                  <td>
-                    <Link
-                      className="btn btn-outline-success"
-                      to={`/users/${user?._id}`}
-                      style={{ textWrap: 'nowrap' }}
+                    <td>{user?.noOfOrders}</td>
+                    <td>{user?.createdAt.split(',').shift()}</td>
+                    <td colSpan={2}>
+                      <Link
+                        className="table-btn btn btn-outline-success"
+                        to={`/users/${user?._id}`}
+                        style={{ textWrap: 'nowrap' }}
+                      >
+                        View User
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="custom-pagination-row ">
+                  <td colSpan={6}>Pages: {totalFilteredPages}</td>
+                  <td colSpan={3}>
+                    <button
+                      className="table-btn me-2 btn btn-outline-secondary"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
                     >
-                      View User
-                    </Link>
+                      Previous
+                    </button>
+                    <span>
+                      {' '}
+                      Page {currentPage} of {totalFilteredPages}{' '}
+                    </span>
+                    <button
+                      className="table-btn ms-2 btn btn-outline-secondary"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalFilteredPages}
+                    >
+                      Next
+                    </button>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr className="custom-pagination-row ">
-                <td colSpan={6}>Pages: {totalFilteredPages}</td>
-                <td colSpan={3}>
-                  <button
-                    className="me-2 btn btn-outline-secondary"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </button>
-                  <span>
-                    {' '}
-                    Page {currentPage} of {totalFilteredPages}{' '}
-                  </span>
-                  <button
-                    className="ms-2 btn btn-outline-secondary"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalFilteredPages}
-                  >
-                    Next
-                  </button>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+              </tfoot>
+            </table>
+          </div>
         )}{' '}
         {filterAttempted && filterResults.length === 0 && (
           <Alerts message={`No user found with status "${filterValue}"`} />
@@ -303,13 +305,11 @@ const Users = () => {
           <table className="user-search-results">
             <thead>
               <tr>
-                <th colSpan={4} className="p-2 fw-bold">
+                <th colSpan={5} className="p-2 fw-bold">
                   Displaying {results.length} {results.length > 1 ? `results` : `result`}
                 </th>
-                <th>
-                  <button onClick={() => setResultState(false)} className="btn btn-outline-danger">
-                    Close
-                  </button>
+                <th colSpan={2}>
+                  <i onClick={() => setResultState(false)} className="bi bi-x-square fs-3"></i>
                 </th>
               </tr>
             </thead>
@@ -337,9 +337,9 @@ const Users = () => {
                       </p>
                     </td>
 
-                    <td>
+                    <td colSpan={2}>
                       <Link
-                        className="btn btn-outline-success"
+                        className="table-btn btn btn-outline-success"
                         to={`/users/${user?._id}`}
                         style={{ textWrap: 'nowrap' }}
                       >

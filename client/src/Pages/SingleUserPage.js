@@ -89,7 +89,7 @@ const SingleUserPage = () => {
                 Client Status
               </p>
               <p
-                className="status"
+                className="status mb-2"
                 style={{
                   color: userStatusStyles[singleUser?.status]?.text,
                   backgroundColor: userStatusStyles[singleUser?.status]?.bg,
@@ -101,8 +101,8 @@ const SingleUserPage = () => {
                 {singleUser?.status}
               </p>
             </div>
-            <div className="row w-75">
-              <p>Address</p>
+            <div className="row container-md">
+              <p className="fw-bold">Address</p>
               <div className="col">
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Street

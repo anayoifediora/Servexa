@@ -103,7 +103,10 @@ const Services = () => {
                     <td>{service.createdAt.split(',').shift()}</td>
                     <td>{service.updatedAt.split(',').shift()}</td>
                     <td>
-                      <Link className="btn btn-outline-success" to={`/services/${service._id}`}>
+                      <Link
+                        className="table-btn btn btn-outline-success"
+                        to={`/services/${service._id}`}
+                      >
                         View Service
                       </Link>
                     </td>

@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import { useQuery } from '@apollo/client/react';
-import { QUERY_RECENT_ORDERS } from '../utils/queries';
+import { QUERY_RECENT_ORDERS, DASHBOARD_INDICES } from '../utils/queries';
 import { useSelector } from 'react-redux';
 
 import { priceFormatter } from '../utils/helpers';
@@ -15,9 +15,26 @@ import SearchResults from '../Components/SearchResults';
 
 const AdminDash = () => {
   const { loading, error, data } = useQuery(QUERY_RECENT_ORDERS);
+  const {
+    loading: updateLoading,
+    data: updateData,
+    error: updateError,
+  } = useQuery(DASHBOARD_INDICES);
+
   const searchTerm = useSelector((state) => state.searchTerm);
 
   const recentOrders = data?.recentOrders || [];
+  const dashboardIndices = updateData?.dashboardIndices || {};
+  const {
+    activeUsers,
+    activeUsersChange,
+    pendingOrders,
+    pendingOrdersChange,
+    revenueChange,
+    totalOrders,
+    totalOrdersChange,
+    totalRevenue,
+  } = dashboardIndices;
 
   const statusStyles = {
     'Pending Review': { bg: '#FEF3C7', text: '#92400E' },
@@ -27,6 +44,9 @@ const AdminDash = () => {
     Completed: { bg: '#DCFCE7', text: '#166534' },
     Closed: { bg: '#F3F4F6', text: '#374151' },
   };
+  const now = new Date();
+  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toDateString();
+  const currentDate = now.toDateString();
 
   return (
     <div className="dashboard-page">
@@ -34,91 +54,128 @@ const AdminDash = () => {
 
       <SidebarMenu />
       <div className="custom-info-area ">
-        <div className="d-flex flex-column flex-lg-row justify-content-between p-2 mb-3">
+        <div className="d-flex flex-lg-row justify-content-between align-items-center p-2 mb-3">
           <h1 className="m-2 ms-5 fw-bold">Dashboard</h1>
 
-          <p className="m-2 fs-5 p-2">May 1 - May 31 2026</p>
+          <p className="dash-period border border-secondary rounded bg-white">{`${firstDayOfMonth.slice(4, 10)} to  ${currentDate.slice(4, 15)}`}</p>
         </div>
-        <div className="d-flex row" style={{ padding: '0 2rem 0 2.5rem' }}>
-          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
-            <div>
-              <p className="text-secondary fs-4">Total Orders</p>
-              <p className="custom-tile-figures">1,248</p>
-              <p>+12.5% from last month</p>
+        {updateLoading ? (
+          <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
+        ) : (
+          <div className="d-flex row" style={{ padding: '0 2rem 0 2.5rem' }}>
+            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+              <div>
+                <p className="text-secondary fs-4">Total Orders</p>
+                <p className="custom-tile-figures">{totalOrders}</p>
+                <p className={`fw-bold ${totalOrdersChange > 0 ? 'text-success' : 'text-danger'}`}>
+                  {totalOrdersChange}% <span className="text-dark fw-light">from last month</span>
+                </p>
+              </div>
+              <i className="bi bi-clipboard-check"></i>
             </div>
-            <i className="bi bi-clipboard-check"></i>
-          </div>
-          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
-            <div>
-              <p className="text-secondary fs-4">Pending Orders</p>
-              <p className="custom-tile-figures">32</p>
-              <p>+12.5% from last month</p>
+            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+              <div>
+                <p className="text-secondary fs-4">Pending Orders</p>
+                <p className="custom-tile-figures">{pendingOrders}</p>
+                <p
+                  className={`fw-bold ${pendingOrdersChange > 0 ? 'text-success' : 'text-danger'}`}
+                >
+                  {pendingOrdersChange}% <span className="text-dark fw-light">from last month</span>
+                </p>
+              </div>
+              <i
+                className="bi bi-clock"
+                style={{
+                  color: statusStyles.Rejected.text,
+                  backgroundColor: statusStyles.Rejected.bg,
+                }}
+              ></i>
             </div>
-            <i className="bi bi-clock"></i>
-          </div>
-          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
-            <div>
-              <p className="text-secondary fs-4">Revenue</p>
-              <p className="custom-tile-figures">$1,496</p>
-              <p>+12.5% from last month</p>
+            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+              <div>
+                <p className="text-secondary fs-4">Total Revenue</p>
+                <p className="custom-tile-figures">${priceFormatter(totalRevenue)}</p>
+                <p className={`fw-bold ${revenueChange > 0 ? 'text-success' : 'text-danger'}`}>
+                  {revenueChange}% <span className="text-dark fw-light">from last month</span>
+                </p>
+              </div>
+              <i
+                className="bi bi-currency-dollar"
+                style={{
+                  color: statusStyles.Completed.text,
+                  backgroundColor: statusStyles.Completed.bg,
+                }}
+              ></i>
             </div>
-            <i className="bi bi-currency-dollar"></i>
-          </div>
-          <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
-            <div>
-              <p className="text-secondary fs-4">Active Clients</p>
-              <p className="custom-tile-figures">8</p>
-              <p>+12.5% from last month</p>
+            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+              <div>
+                <p className="text-secondary fs-4">Active Clients</p>
+                <p className="custom-tile-figures">{activeUsers}</p>
+                <p className={`fw-bold ${activeUsersChange > 0 ? 'text-success' : 'text-danger'}`}>
+                  {activeUsersChange}% <span className="text-dark fw-light">from inception</span>
+                </p>
+              </div>
+              <i
+                className="bi bi-people"
+                style={{
+                  color: statusStyles['Pending Review'].text,
+                  backgroundColor: statusStyles['Pending Review'].bg,
+                }}
+              ></i>
             </div>
-            <i className="bi bi-people"></i>
           </div>
-        </div>
+        )}
         <section className="row justify-content-around">
-          <table className="custom-recent-orders col-12 col-md-7 mt-3">
-            {/* <div className="d-flex justify-content-between">
-              <h4 className="m-3">Recent Orders</h4>
-              <Link className="m-3">View all</Link>
-            </div> */}
+          <div className="recent-table-container col-12 col-lg-10 col-xl-7 mt-3">
+            <table className="custom-recent-orders w-100">
+              <thead>
+                <tr>
+                  <th colSpan={6} className="bg-light">
+                    Recent Orders
+                  </th>
+                  <th colSpan={2} className="bg-light">
+                    <Link to="/orders">View all</Link>
+                  </th>
+                </tr>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Client</th>
+                  <th>Service</th>
+                  <th>Amount (AUD)</th>
+                  <th>Status</th>
+                  <th colSpan={2}>Date Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+                ) : (
+                  recentOrders.map((order, index) => (
+                    <tr key={index}>
+                      <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
+                      <td>{order.client.fullName}</td>
+                      <td>{order.service.title}</td>
+                      <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                      <td>
+                        <p
+                          className="status"
+                          style={{
+                            color: statusStyles[order.status].text,
+                            backgroundColor: statusStyles[order.status].bg,
+                          }}
+                        >
+                          {order.status}
+                        </p>
+                      </td>
+                      <td colSpan={2}>{order.createdAt.split(',').shift()}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
 
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Client</th>
-                <th>Service</th>
-                <th>Amount (AUD)</th>
-                <th>Status</th>
-                <th>Date Created</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
-              ) : (
-                recentOrders.map((order, index) => (
-                  <tr key={index}>
-                    <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
-                    <td>{order.client.fullName}</td>
-                    <td>{order.service.title}</td>
-                    <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
-                    <td>
-                      <p
-                        className="status"
-                        style={{
-                          color: statusStyles[order.status].text,
-                          backgroundColor: statusStyles[order.status].bg,
-                        }}
-                      >
-                        {order.status}
-                      </p>
-                    </td>
-                    <td>{order.createdAt.split(',').shift()}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-
-          <div className="activity-feed col-9 col-md-3">
+          <div className="activity-feed col-9 col-lg-5 col-xl-3">
             <div>
               <h5 className="p-2">Activity feed</h5>
               <span className="p-2">
@@ -138,6 +195,7 @@ const AdminDash = () => {
         </section>
         {error && <Alerts message={error.message} />}
         {searchTerm && <SearchResults />}
+        {updateError && <Alerts message={updateError.message} />}
       </div>
     </div>
   );

@@ -168,7 +168,7 @@ const Settings = () => {
                 User Status
               </label>
               <p
-                className="status text-dark"
+                className="status text-dark mb-2"
                 style={{
                   color: userStatusStyles[singleUser?.status]?.text,
                   backgroundColor: userStatusStyles[singleUser?.status]?.bg,
