@@ -62,7 +62,17 @@ const typeDefs = `
         createdAt: String,
         updatedAt: String,
     }
+    type DashboardIndices {
+        activeUsers: Int!
+        totalRevenue: Float!
+        pendingOrders: Int!
+        totalOrders: Int!
 
+        activeUsersChange: Float!
+        revenueChange: Float!
+        pendingOrdersChange: Float!
+        totalOrdersChange: Float!
+    }
     type Query {
         users: [User]
         services: [Service]
@@ -71,6 +81,9 @@ const typeDefs = `
         recentOrders: [Order]
         order(orderId: ID!): Order
         service(serviceId: ID!): Service
+        orderResults(keyWord: String): [Order]
+        dashboardIndices: DashboardIndices!
+
     }
     
     type Mutation {

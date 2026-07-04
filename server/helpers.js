@@ -15,4 +15,12 @@ const checkAuthorization = (context, allowedRoles = []) => {
 };
 const formatDate = (date) => new Date(date).toLocaleString();
 
-module.exports = { formatDate, checkAuthorization };
+const calculatePercentageChange = (current, previous) => {
+  if (previous === 0) {
+    return current > 0 ? 100 : 0;
+  }
+
+  return Number((((current - previous) / previous) * 100).toFixed(2));
+};
+
+module.exports = { formatDate, checkAuthorization, calculatePercentageChange };

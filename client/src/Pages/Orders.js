@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QUERY_ORDERS } from '../utils/queries';
 import { useQuery } from '@apollo/client/react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentPage } from '../State/currentPageSlice';
 
-import { priceFormatter } from '../utils/helpers';
+import { priceFormatter, ROWS_PER_TABLE_PAGE } from '../utils/helpers';
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
+import SearchResults from '../Components/SearchResults';
 
 const Orders = () => {
+  //Hooks
+  const searchTerm = useSelector((state) => state.searchTerm);
+  const currentPage = useSelector((state) => state.currentPage);
+  const dispatch = useDispatch();
   const { loading, error, data } = useQuery(QUERY_ORDERS);
+
   const orders = data?.orders || [];
 
   const statusStyles = {
@@ -22,6 +30,18 @@ const Orders = () => {
     Closed: { bg: '#F3F4F6', text: '#374151' },
   };
 
+  const totalPages = Math.ceil(orders.length / ROWS_PER_TABLE_PAGE);
+
+  const handlePageChange = (pageNumber) => {
+    dispatch(setCurrentPage(pageNumber));
+  };
+
+  const paginatedOrders = orders.slice(
+    (currentPage - 1) * ROWS_PER_TABLE_PAGE,
+    currentPage * ROWS_PER_TABLE_PAGE
+  );
+
+  console.log('Paginated Orders:', paginatedOrders);
   return (
     <div className="dashboard-page">
       <ProfileNavbar />
@@ -33,49 +53,86 @@ const Orders = () => {
         >
           Orders
         </h1>
-        <table className="custom-orders-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Client</th>
-              <th>Service</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Date Created</th>
-              <th>Date Updated</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
-            ) : (
-              orders.map((order, index) => (
-                <tr className="" key={index}>
-                  <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
-                  <td>{order.client.fullName}</td>
-                  <td>{order.service.title}</td>
-                  <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
-                  <p
-                    className="status"
-                    style={{
-                      color: statusStyles[order.status].text,
-                      backgroundColor: statusStyles[order.status].bg,
-                    }}
-                  >
-                    {order.status}
-                  </p>
-                  <td>{order.createdAt.split(',').shift()}</td>
-                  <td>{order.updatedAt.split(',').shift()}</td>
-                  <Link className="btn btn-outline-success" to={`/orders/${order._id}`}>
-                    View Order
-                  </Link>
+        {loading ? (
+          <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
+        ) : (
+          <div className="table-container">
+            <table className="custom-orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Client</th>
+                  <th>Service</th>
+                  <th>Amount ($)</th>
+                  <th>Status</th>
+                  <th>Date Created</th>
+                  <th>Date Updated</th>
+                  <th>Actions</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {paginatedOrders.map((order, index) => (
+                  <tr className="" key={index}>
+                    <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
+                    <td>{order.client.fullName}</td>
+                    <td>{order.service.title}</td>
+                    <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                    <td>
+                      <p
+                        className="status"
+                        style={{
+                          color: statusStyles[order.status].text,
+                          backgroundColor: statusStyles[order.status].bg,
+                        }}
+                      >
+                        {order.status}
+                      </p>
+                    </td>
+                    <td>{order.createdAt.split(',').shift()}</td>
+                    <td>{order.updatedAt.split(',').shift()}</td>
+                    <td>
+                      <Link
+                        className=" table-btn btn btn-outline-success"
+                        to={`/orders/${order._id}`}
+                      >
+                        View Order
+                      </Link>
+                    </td>
+                    {/* <button className="btn btn-outline-danger ms-4">Delete</button> */}
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="custom-pagination-row">
+                  <td colSpan={6}>Pages: {totalPages}</td>
+
+                  <td colSpan={2}>
+                    <button
+                      className="me-2 btn btn-outline-secondary"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button>
+                    <span>
+                      {' '}
+                      Page {currentPage} of {totalPages}{' '}
+                    </span>
+                    <button
+                      className="ms-2 btn btn-outline-secondary"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        )}
         {error && <Alerts message={error.message} />}
+        {searchTerm && <SearchResults />}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ const { ApolloServer } = require('@apollo/server');
 const { GraphQLError } = require('graphql');
 const { signToken } = require('../utils/auth');
 const { User, Service, Order } = require('../models');
-const { formatDate, checkAuthorization } = require('../helpers');
+const { formatDate, checkAuthorization, calculatePercentageChange } = require('../helpers');
 const bcrypt = require('bcrypt');
 
 const timestampFields = {
@@ -29,8 +29,9 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       return await Service.find();
     },
+    //Find a single user by Id, including associated orders
     user: async (parent, { _id }, context) => {
-      checkAuthorization(context, ['admin']);
+      checkAuthorization(context, ['admin', 'client']);
       const user = await User.findOne({ _id })
         .populate('orders')
         .populate({
@@ -44,6 +45,7 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       return Order.find().sort({ createdAt: -1 }).populate(['client', 'service']);
     },
+    //List recent orders
     recentOrders: async (parent, args, context) => {
       checkAuthorization(context, ['admin']);
       return Order.find({
@@ -63,6 +65,157 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       const service = await Service.findOne({ _id: serviceId });
       return service;
+    },
+    //GET orders by searching with a keyword which will be orderId
+    orderResults: async (parent, { keyWord }) => {
+      if (!keyWord) {
+        throw new GraphQLError('Please insert search keyword', {
+          extensions: { code: 'BAD_USER_INPUT' },
+        });
+      }
+
+      // 1. find matching users
+      const users = await User.find({
+        lastName: { $regex: keyWord, $options: 'i' },
+      });
+
+      const userIds = users.map((user) => user._id);
+
+      // 2. find matching services
+      const services = await Service.find({
+        title: { $regex: keyWord, $options: 'i' },
+      });
+
+      const serviceIds = services.map((service) => service._id);
+
+      // 3. final order search (combined)
+      return Order.find({
+        $or: [
+          { client: { $in: userIds } },
+          { service: { $in: serviceIds } },
+          { status: { $regex: keyWord, $options: 'i' } },
+          { _id: keyWord.length === 24 ? keyWord : null }, // optional fallback
+        ],
+      })
+        .populate('client')
+        .populate('service');
+    },
+    dashboardIndices: async (parent, args, context) => {
+      // checkAuthorization(context, ['admin']);
+
+      const now = new Date();
+
+      // First day of current month
+      const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+      // First and last day of previous month
+      const previousMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+      const previousMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+
+      const [
+        activeUsersCurrent,
+        activeUsersPrevious,
+        pendingOrdersCurrent,
+        pendingOrdersPrevious,
+        totalOrdersCurrent,
+        totalOrdersPrevious,
+        revenueCurrent,
+        revenuePrevious,
+      ] = await Promise.all([
+        //Current approved users
+        User.countDocuments({
+          role: { $ne: 'admin' },
+          status: 'Approved',
+        }),
+        //Approved users as at previous month
+        User.countDocuments({
+          role: { $ne: 'admin' },
+          status: 'Approved',
+          createdAt: {
+            $lte: previousMonthEnd,
+          },
+        }),
+        //Pending Orders - Current month
+        Order.countDocuments({
+          status: 'Pending Review',
+          createdAt: { $gte: currentMonthStart },
+        }),
+        //Pending Orders - previous month
+        Order.countDocuments({
+          status: 'Pending Review',
+          createdAt: {
+            $gte: previousMonthStart,
+            $lte: previousMonthEnd,
+          },
+        }),
+        //Total Orders - current month
+        Order.countDocuments({
+          createdAt: { $gte: currentMonthStart },
+        }),
+        //Total Orders - previous month
+        Order.countDocuments({
+          createdAt: {
+            $gte: previousMonthStart,
+            $lte: previousMonthEnd,
+          },
+        }),
+        //Revenue - Current month
+        Order.aggregate([
+          {
+            $match: {
+              status: 'Payment Pending',
+              createdAt: { $gte: currentMonthStart },
+              price: { $ne: null },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              total: { $sum: '$price' },
+            },
+          },
+        ]),
+        //Revenue - Previous month
+        Order.aggregate([
+          {
+            $match: {
+              status: 'Payment Pending',
+              createdAt: {
+                $gte: previousMonthStart,
+                $lte: previousMonthEnd,
+              },
+              price: { $ne: null },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              total: { $sum: '$price' },
+            },
+          },
+        ]),
+      ]);
+
+      const currentRevenue = revenueCurrent.length > 0 ? revenueCurrent[0].total : 0;
+
+      const previousRevenue = revenuePrevious.length > 0 ? revenuePrevious[0].total : 0;
+
+      return {
+        //Current values shown on dashboard data
+        activeUsers: activeUsersCurrent,
+        totalRevenue: currentRevenue,
+        pendingOrders: pendingOrdersCurrent,
+        totalOrders: totalOrdersCurrent,
+        //Percentage changes
+        activeUsersChange: calculatePercentageChange(activeUsersCurrent, activeUsersPrevious),
+
+        revenueChange: calculatePercentageChange(currentRevenue, previousRevenue),
+
+        pendingOrdersChange: calculatePercentageChange(pendingOrdersCurrent, pendingOrdersPrevious),
+
+        totalOrdersChange: calculatePercentageChange(totalOrdersCurrent, totalOrdersPrevious),
+      };
     },
   },
 
@@ -86,10 +239,15 @@ const resolvers = {
         return { token, user };
       } catch (error) {
         if (error.code === 11000) {
-          throw new GraphQLError('User already exists', {
-            extensions: { code: 'BAD_USER_INPUT' },
-          });
+          const field = Object.keys(error.keyPattern)[0];
+          throw new GraphQLError(
+            `${field.charAt(0).toUpperCase() + field.slice(1)} is already in use. Please choose another.`,
+            {
+              extensions: { code: 'BAD_USER_INPUT' },
+            }
+          );
         }
+        console.log(error);
         throw new GraphQLError(error.message);
       }
     },

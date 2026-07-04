@@ -11,3 +11,5 @@ export const priceFormatter = (number) => {
 
   return string;
 };
+
+export const ROWS_PER_TABLE_PAGE = 10;

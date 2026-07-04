@@ -9,40 +9,52 @@ const SidebarMenu = () => {
     window.location.assign('/');
   };
   return (
-    <div className="sidebar-menu">
+    <div className="sidebar-menu d-none d-md-block">
       <ul>
+        <Link className="custom-nav-link" to="/">
+          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+            <i className="bi bi-house me-3 fs-3"></i>
+            <span>Home</span>
+          </li>
+        </Link>
         <Link className="custom-nav-link" to="/admin">
-          <li>
-            <i className="bi bi-grid-1x2 me-3 fs-2"></i>Dashboard
+          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+            <i className="bi bi-grid-1x2 me-3 fs-3"></i>
+            <span>Dashboard</span>
           </li>
         </Link>
         <Link className="custom-nav-link" to="/orders">
-          <li>
-            <i className="bi bi-clipboard-check me-3 fs-2"></i>Orders
+          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+            <i className="bi bi-clipboard-check me-3 fs-3"></i>
+            <span>Orders</span>
           </li>
         </Link>
         <Link className="custom-nav-link" to="/services">
-          <li>
-            <i className="bi bi-boxes me-3 fs-2"></i>Services
+          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+            <i className="bi bi-boxes me-3 fs-3"></i>
+            <span>Services</span>
           </li>
         </Link>
-        <li>
-          <i className="bi bi-people me-3 fs-2"></i>Clients
-        </li>
         <Link className="custom-nav-link" to="/users">
-          <li>
-            <i className="bi bi-people me-3 fs-2"></i>Users
+          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+            <i className="bi bi-people me-3 fs-3"></i>
+            <span>Users</span>
           </li>
         </Link>
       </ul>
       <ul>
         <Link className="custom-nav-link" to="/settings">
-          <li>
-            <i className="bi bi-gear me-3 fs-2"></i>Settings
+          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+            <i className="bi bi-gear me-3 fs-3"></i>
+            <span>Settings</span>
           </li>
         </Link>
-        <li onClick={logout}>
-          <i className="bi bi-box-arrow-left me-3 fs-2"></i>Logout
+        <li
+          className="custom-nav-link d-flex flex-column flex-xl-row align-items-xl-center"
+          onClick={logout}
+        >
+          <i className=" bi bi-box-arrow-left me-3 fs-3"></i>
+          <span>Logout</span>
         </li>
       </ul>
     </div>
