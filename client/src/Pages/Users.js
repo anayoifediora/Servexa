@@ -94,7 +94,7 @@ const Users = () => {
         >
           Users
         </h1>
-        <div className="d-md-flex align-items-center align-self-center border border-tertiary p-2 rounded">
+        <div className="d-md-flex align-items-center align-self-center border border-secondary p-2 rounded">
           <form onSubmit={handleSearch} className=" d-flex m-2" role="search">
             <input
               className="form-control me-2"

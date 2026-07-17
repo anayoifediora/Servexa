@@ -101,7 +101,7 @@ const resolvers = {
         .populate('service');
     },
     dashboardIndices: async (parent, args, context) => {
-      // checkAuthorization(context, ['admin']);
+      checkAuthorization(context, ['admin']);
 
       const now = new Date();
 

@@ -40,7 +40,9 @@ const ProfileNavbar = () => {
         <h1 className="custom-title d-none d-lg-block">Servexa</h1>
       </Link>
 
-      <div className="custom-search-bar col-lg-3">
+      <div
+        className={`custom-search-bar col-lg-3 ${profile.data.role !== 'admin' ? 'd-none' : ' '}`}
+      >
         <form className="d-flex" role="search">
           <input
             className="form-control me-2"
@@ -69,25 +71,43 @@ const ProfileNavbar = () => {
         <div className="dropdown-menu">
           <p className="text-danger fs-6 dropdown-item m-0">Role: {profile.data.role}</p>
           <Link to="/" className="fs-6 dropdown-item">
-            Home
+            <i className="bi bi-house-fill me-3 fs-5"></i>
+
+            <span>Home</span>
           </Link>
           <Link to="/admin" className="fs-6 dropdown-item">
-            Dashboard
+            <i className="bi bi-grid-1x2-fill me-3 fs-5"></i>
+
+            <span>Dashboard</span>
           </Link>
           <Link to="/orders" className="fs-6 dropdown-item">
-            Orders
+            <i className="bi bi-clipboard-check me-3 fs-5"></i>
+
+            <span>Orders</span>
           </Link>
-          <Link to="/services" className="fs-6 dropdown-item">
-            Services
-          </Link>
-          <Link to="/users" className="fs-6 dropdown-item">
-            Users
-          </Link>
+          {profile?.data?.role === 'admin' && (
+            <>
+              <Link to="/services" className="fs-6 dropdown-item">
+                <i className="bi bi-boxes me-3 fs-5"></i>
+
+                <span>Services</span>
+              </Link>
+              <Link to="/users" className="fs-6 dropdown-item">
+                <i className="bi bi-people-fill me-3 fs-5"></i>
+
+                <span>Users</span>
+              </Link>
+            </>
+          )}
           <Link to="/settings" className="fs-6 dropdown-item">
-            Settings
+            <i className="bi bi-gear-fill me-3 fs-5"></i>
+
+            <span>Settings</span>
           </Link>
           <Link onClick={logout} className="fs-6 dropdown-item">
-            Logout
+            <i className="bi bi-box-arrow-left me-3 fs-5"></i>
+
+            <span>Logout</span>
           </Link>
         </div>
       </div>

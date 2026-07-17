@@ -134,6 +134,16 @@ export const QUERY_SINGLE_USER = gql`
       phone
       status
       role
+      noOfOrders
+      orders {
+        _id
+        status
+        createdAt
+        price
+        service {
+          title
+        }
+      }
       address {
         postCode
         state

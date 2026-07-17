@@ -53,20 +53,28 @@ const ViewOrderPage = () => {
               <h3 className="fw-bold" style={{ color: 'var(--primary-color)' }}>
                 Client Details
               </h3>
-              <div className="col">
-                <p className="mb-0">Name</p>
+              <div className="col-6 col-md-4 col-lg-3">
+                <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                  Name
+                </p>
                 <p className="fw-bold text-dark">{singleOrder?.client?.fullName}</p>
               </div>
-              <div className="col">
-                <p className="mb-0">Phone</p>
+              <div className="col-6 col-md-4 col-lg-3">
+                <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                  Phone
+                </p>
                 <p className="fw-bold text-dark">{singleOrder?.client?.phone}</p>
               </div>
-              <div className="col">
-                <p className="mb-0">Email Address</p>
+              <div className="col-6 col-md-4 col-lg-3">
+                <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                  Email Address
+                </p>
                 <p className="fw-bold text-dark">{singleOrder?.client?.email}</p>
               </div>
-              <div className="col">
-                <p className="mb-1 ms-2">Client Status</p>
+              <div className="col-6 col-md-4 col-lg-3">
+                <p className="mb-1 ms-2" style={{ color: 'var(--primary-color)' }}>
+                  Client Status
+                </p>
                 <p
                   className=""
                   style={{
@@ -82,28 +90,38 @@ const ViewOrderPage = () => {
                   {singleOrder?.client?.status}
                 </p>
               </div>
-              <div className="row w-75">
+              <div className="row w-lg-75">
                 <p>Address</p>
-                <div className="col-lg-4">
-                  <p className="mb-0">Street</p>
+                <div className="col-6 col-lg-4">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    Street
+                  </p>
                   <p className="fw-bold text-dark">{singleOrder?.client?.address?.street}</p>
                 </div>
-                <div className="col-lg-2">
-                  <p className="mb-0">Suburb</p>
+                <div className="col-6 col-lg-2">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    Suburb
+                  </p>
                   <p className="fw-bold text-dark">{singleOrder?.client?.address?.suburb}</p>
                 </div>
-                <div className="col-lg-2">
-                  <p className="mb-0">State</p>
+                <div className="col-6 col-lg-2">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    State
+                  </p>
                   <p className="fw-bold text-dark">{singleOrder?.client?.address?.state}</p>
                 </div>
-                <div className="col-lg-2">
-                  <p className="mb-0">Post Code</p>
+                <div className="col-6 col-lg-2">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    Post Code
+                  </p>
                   <p className="fw-bold text-dark">{singleOrder?.client?.address?.postCode}</p>
                 </div>
               </div>
 
               <div className="">
-                <p className="mb-0">Date registered</p>
+                <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                  Date registered
+                </p>
                 <p className="fw-bold text-dark">{singleOrder?.client?.createdAt}</p>
               </div>
             </div>
@@ -111,19 +129,19 @@ const ViewOrderPage = () => {
               <h3 className="fw-bold" style={{ color: 'var(--primary-color)' }}>
                 Order Details
               </h3>
-              <div className="col">
+              <div className="col-6 col-lg-4">
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Job Title
                 </p>
                 <p className="text-dark">{singleOrder?.service?.title}</p>
               </div>
-              <div className="col">
+              <div className="col-6 col-lg-4">
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Job Category
                 </p>
                 <p className="text-dark">{singleOrder?.service?.category}</p>
               </div>
-              <div className="col">
+              <div className="col col-lg-4">
                 <p className="mb-1 ms-2" style={{ color: 'var(--primary-color)' }}>
                   Order Status
                 </p>
@@ -146,7 +164,7 @@ const ViewOrderPage = () => {
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Job Description
                 </p>
-                <p className="text-dark w-50" style={{ textAlign: 'justify' }}>
+                <p className="text-dark w-75" style={{ textAlign: 'justify' }}>
                   {singleOrder?.description}
                 </p>
               </div>

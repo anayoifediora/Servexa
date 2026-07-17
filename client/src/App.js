@@ -17,6 +17,7 @@ import SingleUserPage from './Pages/SingleUserPage';
 import Services from './Pages/Services';
 import ViewServicePage from './Pages/ViewServicePage';
 import Settings from './Pages/Settings';
+import UserDashboard from './Pages/UserDashboard';
 
 // Create an HTTP link that tells Apollo where the GraphQL server is
 const httpLink = new HttpLink({
@@ -66,6 +67,7 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/services/:serviceId" element={<ViewServicePage />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
         </Routes>
       </Router>
     </ApolloProvider>

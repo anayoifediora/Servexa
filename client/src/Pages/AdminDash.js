@@ -12,6 +12,7 @@ import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
+import { STATUS_STYLES } from '../utils/helpers';
 
 const AdminDash = () => {
   const { loading, error, data } = useQuery(QUERY_RECENT_ORDERS);
@@ -36,14 +37,9 @@ const AdminDash = () => {
     totalRevenue,
   } = dashboardIndices;
 
-  const statusStyles = {
-    'Pending Review': { bg: '#FEF3C7', text: '#92400E' },
-    'Payment Pending': { bg: '#FFEDD5', text: '#9A3412' },
-    Rejected: { bg: '#FEE2E2', text: '#991B1B' },
-    'In Progress': { bg: '#DBEAFE', text: '#1E40AF' },
-    Completed: { bg: '#DCFCE7', text: '#166534' },
-    Closed: { bg: '#F3F4F6', text: '#374151' },
-  };
+  const profile = Auth.getProfile().data || {};
+  console.log(profile.role);
+
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toDateString();
   const currentDate = now.toDateString();
@@ -86,8 +82,8 @@ const AdminDash = () => {
               <i
                 className="bi bi-clock"
                 style={{
-                  color: statusStyles.Rejected.text,
-                  backgroundColor: statusStyles.Rejected.bg,
+                  color: STATUS_STYLES.Rejected.text,
+                  backgroundColor: STATUS_STYLES.Rejected.bg,
                 }}
               ></i>
             </div>
@@ -102,8 +98,8 @@ const AdminDash = () => {
               <i
                 className="bi bi-currency-dollar"
                 style={{
-                  color: statusStyles.Completed.text,
-                  backgroundColor: statusStyles.Completed.bg,
+                  color: STATUS_STYLES.Completed.text,
+                  backgroundColor: STATUS_STYLES.Completed.bg,
                 }}
               ></i>
             </div>
@@ -118,8 +114,8 @@ const AdminDash = () => {
               <i
                 className="bi bi-people"
                 style={{
-                  color: statusStyles['Pending Review'].text,
-                  backgroundColor: statusStyles['Pending Review'].bg,
+                  color: STATUS_STYLES['Pending Review'].text,
+                  backgroundColor: STATUS_STYLES['Pending Review'].bg,
                 }}
               ></i>
             </div>
@@ -160,8 +156,8 @@ const AdminDash = () => {
                         <p
                           className="status"
                           style={{
-                            color: statusStyles[order.status].text,
-                            backgroundColor: statusStyles[order.status].bg,
+                            color: STATUS_STYLES[order.status].text,
+                            backgroundColor: STATUS_STYLES[order.status].bg,
                           }}
                         >
                           {order.status}

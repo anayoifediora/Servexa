@@ -49,7 +49,8 @@ const Navbar = () => {
             <button onClick={logout} className="m-2">
               Log out
             </button>
-            <Link to="/admin">
+
+            <Link to={profile.data.role === 'admin' ? '/admin' : '/dashboard'}>
               <button className="m-2">View dashboard</button>
             </Link>
             <div className="dropdown">
