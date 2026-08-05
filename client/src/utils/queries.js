@@ -139,9 +139,11 @@ export const QUERY_SINGLE_USER = gql`
         _id
         status
         createdAt
+        updatedAt
         price
         service {
           title
+          category
         }
       }
       address {

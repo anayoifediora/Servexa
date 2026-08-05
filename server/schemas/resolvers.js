@@ -26,7 +26,7 @@ const resolvers = {
     },
     //List all Services
     services: async (parent, args, context) => {
-      checkAuthorization(context, ['admin']);
+      checkAuthorization(context, ['admin', 'client']);
       return await Service.find();
     },
     //Find a single user by Id, including associated orders
@@ -164,7 +164,7 @@ const resolvers = {
         Order.aggregate([
           {
             $match: {
-              status: 'Payment Pending',
+              status: 'In Progress',
               createdAt: { $gte: currentMonthStart },
               price: { $ne: null },
             },
@@ -180,7 +180,7 @@ const resolvers = {
         Order.aggregate([
           {
             $match: {
-              status: 'Payment Pending',
+              status: 'In Progress',
               createdAt: {
                 $gte: previousMonthStart,
                 $lte: previousMonthEnd,
@@ -353,7 +353,7 @@ const resolvers = {
     },
     //Mutation to create an order
     createOrder: async (parent, args, context) => {
-      // checkAuthorization(context, ['client']);
+      checkAuthorization(context, ['client']);
       try {
         const { client, service, description } = args;
         const requestedService = await Service.findById({ _id: service });

@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_SINGLE_USER } from '../utils/queries';
 import { UPDATE_USER_STATUS } from '../utils/mutations';
+import { userStatusStyles } from '../utils/helpers';
+import { useDispatch } from 'react-redux';
+import { addToActivityFeed } from '../State/activityFeedSlice';
 
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
@@ -11,6 +14,7 @@ import Alerts from '../Components/Alerts';
 
 const SingleUserPage = () => {
   const [fieldValue, setFieldValue] = useState('Pending Approval');
+  const dispatch = useDispatch();
 
   const { _id } = useParams();
 
@@ -18,11 +22,6 @@ const SingleUserPage = () => {
     variables: { id: _id },
   });
   const singleUser = data?.user || {};
-  const userStatusStyles = {
-    'Pending Approval': { bg: '#FEF3C7', text: '#92400E' },
-    'De-listed': { bg: '#FEE2E2', text: '#991B1B' },
-    Approved: { bg: '#DCFCE7', text: '#166534' },
-  };
 
   //Apollo mutation to update user status
   const [updateUserStatus, { loading: updateLoading, data: updateData, error: updateError }] =
@@ -38,6 +37,11 @@ const SingleUserPage = () => {
           status: fieldValue,
         },
       });
+      const feedItem = {
+        remark: `${singleUser?.fullName}'s status updated to ${fieldValue}!`,
+        time: Date.now(),
+      };
+      dispatch(addToActivityFeed(feedItem));
     } catch (err) {
       console.error(err);
     }

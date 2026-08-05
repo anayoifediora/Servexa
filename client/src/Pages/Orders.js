@@ -63,7 +63,7 @@ const Orders = () => {
                   <th>Order ID</th>
                   <th>Client</th>
                   <th>Service</th>
-                  <th>Amount ($)</th>
+                  <th>Amount</th>
                   <th>Status</th>
                   <th>Date Created</th>
                   <th>Date Updated</th>
@@ -72,11 +72,11 @@ const Orders = () => {
               </thead>
               <tbody>
                 {paginatedOrders.map((order, index) => (
-                  <tr className="" key={index}>
+                  <tr className="" key={order._id}>
                     <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
                     <td>{order.client.fullName}</td>
                     <td>{order.service.title}</td>
-                    <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                    <td>${order.price === null ? 0 : priceFormatter(order.price)}</td>
                     <td>
                       <p
                         className="status"

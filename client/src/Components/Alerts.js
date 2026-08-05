@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Alerts = ({ message }) => {
-  // eslint-disable-next-line react/prop-types
   // const { message } = props;
   const [visible, setVisible] = useState(true);
 

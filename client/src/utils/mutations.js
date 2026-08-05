@@ -191,3 +191,20 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+//Mutation to create an order
+export const CREATE_ORDER = gql`
+  mutation Mutation($client: ID!, $service: ID!, $description: String!) {
+    createOrder(client: $client, service: $service, description: $description) {
+      _id
+      adminNotes
+      client {
+        fullName
+      }
+      createdAt
+      description
+      price
+      status
+      updatedAt
+    }
+  }
+`;

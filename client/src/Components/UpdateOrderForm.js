@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { UPDATE_ORDER_STATUS } from '../utils/mutations';
 import { useMutation } from '@apollo/client/react';
+import { useDispatch } from 'react-redux';
+import { addToActivityFeed } from '../State/activityFeedSlice';
 
 //Components
 import Alerts from '../Components/Alerts';
 const UpdateOrderForm = (props) => {
   const { singleOrder } = props;
+  const dispatch = useDispatch();
 
   const [formState, setFormState] = useState({
     orderStatus: '',
@@ -44,6 +47,15 @@ const UpdateOrderForm = (props) => {
           adminNotes: formState.adminNotes,
         },
       });
+
+      const feedItem = {
+        remark:
+          formState.orderStatus === 'In Progress'
+            ? `Payment received for order #${singleOrder?._id.toString().slice(-6).toUpperCase()}`
+            : `Order #${singleOrder?._id.toString().slice(-6).toUpperCase()} updated to "${formState.orderStatus}"`,
+        time: Date.now(),
+      };
+      dispatch(addToActivityFeed(feedItem));
     } catch (e) {
       console.error(e);
     }

@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client/react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../State/currentPageSlice';
-import { ROWS_PER_TABLE_PAGE } from '../utils/helpers';
+import { ROWS_PER_TABLE_PAGE, userStatusStyles } from '../utils/helpers';
 
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
@@ -75,12 +75,6 @@ const Users = () => {
     setFilterResults([]);
     setFilterAttempted(false);
     setFilterValue('');
-  };
-
-  const userStatusStyles = {
-    'Pending Approval': { bg: '#FEF3C7', text: '#92400E' },
-    'De-listed': { bg: '#FEE2E2', text: '#991B1B' },
-    Approved: { bg: '#DCFCE7', text: '#166534' },
   };
 
   return (
@@ -305,11 +299,11 @@ const Users = () => {
           <table className="user-search-results">
             <thead>
               <tr>
-                <th colSpan={5} className="p-2 fw-bold">
+                <th colSpan={5} className="p-2">
                   Displaying {results.length} {results.length > 1 ? `results` : `result`}
                 </th>
                 <th colSpan={2}>
-                  <i onClick={() => setResultState(false)} className="bi bi-x-square fs-3"></i>
+                  <i onClick={() => setResultState(false)} className="bi bi-x-square fs-4 btn"></i>
                 </th>
               </tr>
             </thead>

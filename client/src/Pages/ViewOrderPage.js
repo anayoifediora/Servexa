@@ -21,7 +21,7 @@ const ViewOrderPage = () => {
   const searchTerm = useSelector((state) => state.searchTerm);
   const dispatch = useDispatch();
   const singleOrder = data?.order || {};
-  console.log(singleOrder);
+  console.log(Date.parse(singleOrder.updatedAt));
 
   const userStatusStyles = {
     'Pending Approval': { bg: '#FEF3C7', text: '#92400E' },

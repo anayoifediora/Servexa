@@ -88,7 +88,7 @@ const Services = () => {
                     <td>{services.indexOf(service) + 1}.</td>
                     <td>{service.title}</td>
                     <td>{service.category}</td>
-                    <td>{priceFormatter(service.defaultPrice)}</td>
+                    <td>${priceFormatter(service.defaultPrice)}</td>
                     <td>
                       <p
                         className="status"

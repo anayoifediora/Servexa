@@ -2,7 +2,10 @@
 import React, { useState } from 'react';
 import { CREATE_USER } from '../utils/mutations';
 import { useMutation } from '@apollo/client/react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { addToActivityFeed } from '../State/activityFeedSlice';
+
 import Auth from '../utils/auth';
 
 //Components
@@ -24,6 +27,8 @@ const SignUp = () => {
       postCode: '',
     },
   });
+
+  const dispatch = useDispatch();
 
   //Apollo mutation hook to create a new user
   const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
@@ -52,6 +57,12 @@ const SignUp = () => {
       });
       //Save the generated token to local storage
       Auth.login(data.createUser.token);
+      const { fullName } = data.createUser.user;
+      const feedItem = {
+        remark: `${fullName} has signed up!`,
+        time: Date.now(),
+      };
+      dispatch(addToActivityFeed(feedItem));
     } catch (error) {
       console.log(error);
     }

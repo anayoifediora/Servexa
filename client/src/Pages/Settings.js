@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_SINGLE_USER } from '../utils/queries';
 import { UPDATE_PASSWORD } from '../utils/mutations';
@@ -88,6 +88,7 @@ const Settings = () => {
       <SidebarMenu />
       <div className="custom-info-area">
         {(error || updateError) && <Alerts message={error?.message || updateError?.message} />}
+        {data && <Alerts message={`Successfully updated password!`} />}
 
         <div className="custom-profile-info">
           <h3
@@ -132,7 +133,7 @@ const Settings = () => {
               </label>
               <p className="text-dark">{singleUser?.email}</p>
             </div>
-            <div className="col-12 col-md-12 col-xl-3">
+            <div className="col-12 col-md-12 col-lg-4 col-xl-3">
               <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Phone Number
               </label>
@@ -168,7 +169,7 @@ const Settings = () => {
                 User Status
               </label>
               <p
-                className="status text-dark mb-2"
+                className="status text-dark mb-3 mt-1"
                 style={{
                   color: userStatusStyles[singleUser?.status]?.text,
                   backgroundColor: userStatusStyles[singleUser?.status]?.bg,

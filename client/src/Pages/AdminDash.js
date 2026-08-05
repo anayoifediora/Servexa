@@ -5,16 +5,20 @@ import Auth from '../utils/auth';
 import { useQuery } from '@apollo/client/react';
 import { QUERY_RECENT_ORDERS, DASHBOARD_INDICES } from '../utils/queries';
 import { useSelector } from 'react-redux';
-
+//Helper Functions
+import { activityTime } from '../utils/helpers';
 import { priceFormatter } from '../utils/helpers';
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
-import { STATUS_STYLES } from '../utils/helpers';
+import { STATUS_STYLES, activityFeedIcon } from '../utils/helpers';
 
 const AdminDash = () => {
+  const activityFeed = useSelector((state) => state.activityFeed);
+  console.log(activityFeed);
+
   const { loading, error, data } = useQuery(QUERY_RECENT_ORDERS);
   const {
     loading: updateLoading,
@@ -53,13 +57,15 @@ const AdminDash = () => {
         <div className="d-flex flex-lg-row justify-content-between align-items-center p-2 mb-3">
           <h1 className="m-2 ms-5 fw-bold">Dashboard</h1>
 
-          <p className="dash-period border border-secondary rounded bg-white">{`${firstDayOfMonth.slice(4, 10)} to  ${currentDate.slice(4, 15)}`}</p>
+          <p className="dash-period border border-secondary rounded bg-white">
+            Period: {`${firstDayOfMonth.slice(4, 10)} -  ${currentDate.slice(4, 15)}`}
+          </p>
         </div>
         {updateLoading ? (
           <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
         ) : (
           <div className="d-flex row" style={{ padding: '0 2rem 0 2.5rem' }}>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Total Orders</p>
                 <p className="custom-tile-figures">{totalOrders}</p>
@@ -69,7 +75,7 @@ const AdminDash = () => {
               </div>
               <i className="bi bi-clipboard-check"></i>
             </div>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Pending Orders</p>
                 <p className="custom-tile-figures">{pendingOrders}</p>
@@ -87,7 +93,7 @@ const AdminDash = () => {
                 }}
               ></i>
             </div>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Total Revenue</p>
                 <p className="custom-tile-figures">${priceFormatter(totalRevenue)}</p>
@@ -103,7 +109,7 @@ const AdminDash = () => {
                 }}
               ></i>
             </div>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Active Clients</p>
                 <p className="custom-tile-figures">{activeUsers}</p>
@@ -123,7 +129,7 @@ const AdminDash = () => {
         )}
         <section className="row justify-content-around">
           <div className="recent-table-container col-12 col-lg-10 col-xl-7 mt-3">
-            <table className="custom-recent-orders w-100">
+            <table className="custom-recent-orders">
               <thead>
                 <tr>
                   <th colSpan={6} className="bg-light">
@@ -151,7 +157,7 @@ const AdminDash = () => {
                       <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
                       <td>{order.client.fullName}</td>
                       <td>{order.service.title}</td>
-                      <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                      <td>${order.price === null ? 0 : priceFormatter(order.price)}</td>
                       <td>
                         <p
                           className="status"
@@ -173,20 +179,24 @@ const AdminDash = () => {
 
           <div className="activity-feed col-9 col-lg-5 col-xl-3">
             <div>
-              <h5 className="p-2">Activity feed</h5>
-              <span className="p-2">
-                <Link>View All</Link>
-              </span>
+              <h5 className="p-2">Activity Feed</h5>
             </div>
+            {activityFeed.slice(0, 5).map((feedItem, index) => (
+              <div className="activity-feed-item" key={index}>
+                <i
+                  className={activityFeedIcon(feedItem.remark).icon}
+                  style={{
+                    color: activityFeedIcon(feedItem.remark).color,
+                    backgroundColor: activityFeedIcon(feedItem.remark).bg,
+                  }}
+                ></i>
 
-            <div className="activity-feed-item">
-              <p className="fw-bold mb-0">New order #1257 received</p>
-              <p className="text-muted">2 minutes ago</p>
-            </div>
-            <div className="activity-feed-item">
-              <p className="fw-bold mb-0">Order #1257 approved</p>
-              <p className="text-muted">1 hour ago</p>
-            </div>
+                <div className="d-flex flex-column">
+                  <p className="fw-bold mb-0">{feedItem.remark}</p>
+                  <p className="text-muted">{activityTime(feedItem.time)}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
         {error && <Alerts message={error.message} />}
