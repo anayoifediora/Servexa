@@ -30,7 +30,7 @@ const SearchResults = () => {
   const results = data?.orderResults || [];
 
   return (
-    <div className="custom-search-result">
+    <div className="custom-search-result w-auto">
       <div className="d-flex align-items-center justify-content-between">
         <p className="fs-5">
           {results.length < 2
@@ -54,7 +54,7 @@ const SearchResults = () => {
                 <p className="col">{`Order #${result?._id.toString().slice(-6).toUpperCase()}`}</p>
                 <p className="col fw-bold">{result?.client?.fullName}</p>
                 <p
-                  className="col"
+                  className="col d-none d-md-block"
                   style={{
                     color: statusStyles[result?.status].text,
                     backgroundColor: statusStyles[result?.status].bg,
@@ -65,7 +65,7 @@ const SearchResults = () => {
                 >
                   {result?.status}
                 </p>
-                <p className="col ms-2">{result?.createdAt.split(',').shift()}</p>
+                <p className="col">{result?.createdAt.split(',').shift()}</p>
               </Link>
             ))
           : !searchTerm && (

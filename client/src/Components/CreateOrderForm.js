@@ -4,6 +4,7 @@ import { CREATE_ORDER } from '../utils/mutations';
 import { QUERY_SERVICES } from '../utils/queries';
 import { addToActivityFeed } from '../State/activityFeedSlice';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Auth from '../utils/auth';
 //Components
@@ -145,5 +146,7 @@ const CreateOrderForm = ({ userId }) => {
     </>
   );
 };
-
+CreateOrderForm.propTypes = {
+  userId: PropTypes.string,
+};
 export default CreateOrderForm;

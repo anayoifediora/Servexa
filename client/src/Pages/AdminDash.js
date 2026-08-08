@@ -54,7 +54,7 @@ const AdminDash = () => {
 
       <SidebarMenu />
       <div className="custom-info-area ">
-        <div className="d-flex flex-lg-row justify-content-between align-items-center p-2 mb-3">
+        <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-2 mb-3">
           <h1 className="m-2 ms-5 fw-bold">Dashboard</h1>
 
           <p className="dash-period border border-secondary rounded bg-white">
@@ -127,8 +127,8 @@ const AdminDash = () => {
             </div>
           </div>
         )}
-        <section className="row justify-content-around">
-          <div className="recent-table-container col-12 col-lg-10 col-xl-7 mt-3">
+        <section className="row justify-content-around p-3">
+          <div className="recent-table-container col-12 col-md-11 col-lg-6 col-xl-7  mt-3">
             <table className="custom-recent-orders">
               <thead>
                 <tr>
@@ -177,7 +177,7 @@ const AdminDash = () => {
             </table>
           </div>
 
-          <div className="activity-feed col-9 col-lg-5 col-xl-3">
+          <div className="activity-feed col-8 col-md-8 col-lg-5 col-xl-4">
             <div>
               <h5 className="p-2">Activity Feed</h5>
             </div>

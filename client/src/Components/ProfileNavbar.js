@@ -53,14 +53,14 @@ const ProfileNavbar = () => {
             value={searchTerm}
             onChange={handleSearchInputChange}
           />
-          <button className="" type="submit">
+          <button className="d-none" type="submit">
             Search
           </button>
         </form>
       </div>
       <div className="d-flex flex-column me-4">
         <div className="dropdown">
-          <button className="fs-5 d-md-none dropdown-toggle" data-bs-toggle="dropdown">
+          <button className="fs-6 d-md-none dropdown-toggle" data-bs-toggle="dropdown">
             {profile.data.username.toUpperCase().slice(0, 2)}
           </button>
           <p
@@ -68,7 +68,7 @@ const ProfileNavbar = () => {
             data-bs-toggle="dropdown"
             style={{ cursor: 'pointer' }}
           >
-            {userInfo.fullName}
+            {loading ? 'Name loading...' : userInfo.fullName}
           </p>
 
           <div className="dropdown-menu">
@@ -118,7 +118,7 @@ const ProfileNavbar = () => {
           </div>
         </div>
         <p
-          className="status mb-0"
+          className="status mb-0 d-none d-md-block"
           style={{
             color: userStatusStyles[userInfo?.status]?.text,
             backgroundColor: userStatusStyles[userInfo?.status]?.bg,
