@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client/react';
 import { QUERY_SINGLE_SERVICE } from '../utils/queries';
 import { priceFormatter } from '../utils/helpers';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
@@ -11,11 +11,12 @@ import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
 import UpdateServiceForm from '../Components/UpdateServiceForm';
+import Loading from '../Components/Loading';
 
 const ViewServicePage = () => {
   const { serviceId } = useParams();
   const searchTerm = useSelector((state) => state.searchTerm);
-  const dispatch = useDispatch();
+
   const { loading, data, error } = useQuery(QUERY_SINGLE_SERVICE, {
     variables: { serviceId: serviceId },
   });
@@ -39,7 +40,7 @@ const ViewServicePage = () => {
       <ProfileNavbar />
       <SidebarMenu />
       {loading ? (
-        <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+        <Loading />
       ) : (
         <div className="custom-info-area">
           <h3 className="m-3 align-self-center fw-bold" style={{ color: 'var(--primary-color)' }}>

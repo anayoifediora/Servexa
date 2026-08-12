@@ -11,6 +11,7 @@ import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
+import Loading from '../Components/Loading';
 
 const Users = () => {
   //Hooks
@@ -124,7 +125,7 @@ const Users = () => {
         </div>
         {!filterResults.length &&
           (loading ? (
-            <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+            <Loading />
           ) : (
             <div className="table-container">
               <table className="custom-users-table">

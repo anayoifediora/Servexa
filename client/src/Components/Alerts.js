@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -36,5 +37,7 @@ const Alerts = ({ message }) => {
     </>
   );
 };
-
+Alerts.propTypes = {
+  message: PropTypes.string,
+};
 export default Alerts;

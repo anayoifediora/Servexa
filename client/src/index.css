@@ -7,7 +7,7 @@
   --background: white;
   --background-color: #f9fafb;
   --sidebar: #111827;
-  --font-color: rgb(57, 54, 54);
+  --font-color: rgb(44, 42, 42);
   /* --table-header: #e2e5e7; */
   --table-header: rgba(198, 189, 243, 0.9)
     /* color-scheme: light dark;
@@ -25,8 +25,8 @@ body {
 }
 * {
   font-family: 'Google Sans Flex', sans-serif;
-  /* font-family: 'Questrial', sans-serif; */
-  /* font-family: 'Quicksand', sans-serif;  */
+  font-family: 'Questrial', sans-serif;
+  font-family: 'Pliant', sans-serif;
   font-family: 'Liter', sans-serif;
   font-family: 'Hanken Grotesk', sans-serif;
   /* font-family: 'Plus Jakarta Sans', sans-serif; */
@@ -114,6 +114,8 @@ button:hover {
   color: var(--primary-color);
   background-color: rgb(107, 81, 233, 0.1);
   width: fit-content;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
 }
 .custom-smp::before,
 .custom-smp::after {
@@ -365,7 +367,7 @@ th {
   margin: 1rem 0 0 1rem;
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); */
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .activity-feed div:nth-child(1) {
@@ -466,6 +468,9 @@ select {
 .recent-table-container {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0;
+  border-radius: 10px;
 }
 .custom-services-table,
 .custom-recent-orders,
@@ -548,6 +553,9 @@ textarea {
   }
   .custom-info-area {
     max-width: 100%;
+  }
+  .custom-alert {
+    width: 70%;
   }
 }
 @media screen and (max-width: 1200px) {

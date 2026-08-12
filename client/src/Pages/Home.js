@@ -12,7 +12,7 @@ const Home = () => {
       </header>
       <div className="row container justify-content-center m-3 p-3">
         <section className="custom-hero-section col-xl-5 col-md-10 p-3">
-          <p className="custom-smp border rounded-pill fw-bold p-2">
+          <p className="custom-smp rounded-pill fw-bold p-2">
             All in-one service management platform
           </p>
           <h1 className="fw-bold">Streamline Your</h1>
@@ -29,7 +29,12 @@ const Home = () => {
           </Link>
         </section>
 
-        <img className="col-xl-6 col-md-10" src="/images/saas.png" alt="Dashboard preview" />
+        <img
+          className="col-xl-6 col-md-10"
+          src="/images/Dashboard.png
+        "
+          alt="Dashboard preview"
+        />
       </div>
       <div className="custom-features-list row col-lg-12">
         <div className="feature-card col-lg-2">

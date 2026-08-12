@@ -12,6 +12,7 @@ import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import UpdateUserForm from '../Components/UpdateUserForm';
 import SearchResults from '../Components/SearchResults';
+import Loading from '../Components/Loading';
 
 const Settings = () => {
   const [mismatchError, setMismatchError] = useState('');
@@ -43,7 +44,7 @@ const Settings = () => {
     confirmNewPassword: '',
   });
 
-  const [updatePassword, { data, error }] = useMutation(UPDATE_PASSWORD);
+  const [updatePassword, { loading, data, error }] = useMutation(UPDATE_PASSWORD);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -101,7 +102,7 @@ const Settings = () => {
           </h3>
           <div className="row">
             {updateLoading ? (
-              <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+              <Loading />
             ) : (
               <div className="d-flex align-items-center mb-3">
                 <i
@@ -296,7 +297,7 @@ const Settings = () => {
               </div>
               <div className="modal-footer">
                 <button data-bs-dismiss="modal">Cancel</button>
-                <button onClick={handleFormSubmit}>Save changes</button>
+                <button onClick={handleFormSubmit}>{loading ? 'Saving' : 'Save changes'}</button>
               </div>
             </div>
           </div>

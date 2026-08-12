@@ -316,7 +316,7 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       try {
         const { title, description, defaultPrice, category } = args;
-        if (!title || !description || !defaultPrice || !category) {
+        if (!title && !description && !defaultPrice && !category) {
           throw new GraphQLError('Please complete all fields', {
             extensions: {
               code: 'BAD_USER_INPUT',

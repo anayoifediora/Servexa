@@ -8,12 +8,14 @@ import { useSelector } from 'react-redux';
 //Helper Functions
 import { activityTime } from '../utils/helpers';
 import { priceFormatter } from '../utils/helpers';
+import { STATUS_STYLES, activityFeedIcon } from '../utils/helpers';
+
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
-import { STATUS_STYLES, activityFeedIcon } from '../utils/helpers';
+import Loading from '../Components/Loading';
 
 const AdminDash = () => {
   const activityFeed = useSelector((state) => state.activityFeed);
@@ -150,7 +152,7 @@ const AdminDash = () => {
               </thead>
               <tbody>
                 {loading ? (
-                  <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+                  <Loading />
                 ) : (
                   recentOrders.map((order, index) => (
                     <tr key={index}>

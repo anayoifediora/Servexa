@@ -225,5 +225,14 @@ const UpdateUserForm = ({ singleUser }) => {
     </>
   );
 };
-
+UpdateUserForm.propTypes = {
+  singleUser: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    address: PropTypes.object,
+    _id: PropTypes.string,
+  }),
+};
 export default UpdateUserForm;

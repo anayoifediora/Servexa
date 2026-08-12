@@ -53,7 +53,7 @@ const ProfileNavbar = () => {
             value={searchTerm}
             onChange={handleSearchInputChange}
           />
-          <button className="d-none" type="submit">
+          <button className="d-none d-md-block" type="submit">
             Search
           </button>
         </form>

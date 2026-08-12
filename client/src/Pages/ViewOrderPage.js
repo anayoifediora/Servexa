@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client/react';
 import { QUERY_SINGLE_ORDER } from '../utils/queries';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { priceFormatter } from '../utils/helpers';
 //Components
@@ -11,6 +11,7 @@ import SidebarMenu from '../Components/SidebarMenu';
 import UpdateOrderForm from '../Components/UpdateOrderForm';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
+import Loading from '../Components/Loading';
 
 const ViewOrderPage = () => {
   //Get the order id from the URL params
@@ -19,7 +20,7 @@ const ViewOrderPage = () => {
     variables: { orderId: orderId },
   });
   const searchTerm = useSelector((state) => state.searchTerm);
-  const dispatch = useDispatch();
+
   const singleOrder = data?.order || {};
   console.log(Date.parse(singleOrder.updatedAt));
 
@@ -41,7 +42,7 @@ const ViewOrderPage = () => {
       <ProfileNavbar />
       <SidebarMenu />
       {loading ? (
-        <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+        <Loading />
       ) : (
         <div className="custom-info-area">
           <h3 className="m-3 align-self-center fw-bold" style={{ color: 'var(--primary-color)' }}>

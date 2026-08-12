@@ -13,13 +13,14 @@ const Navbar = () => {
   return (
     <div className="d-flex align-items-center justify-content-between ms-1 p-3 border-bottom bg-white w-100">
       <button
-        className="col-2 d-md-none"
+        className="col-2 d-md-none fs-6"
         data-bs-toggle="offcanvas"
         href="#offcanvasExample"
         role="button"
         aria-controls="offcanvasExample"
+        style={{ width: 'fit-content' }}
       >
-        ---
+        Menu
       </button>
       <Link
         to="/"
@@ -31,20 +32,16 @@ const Navbar = () => {
       </Link>
       <ul className="nav d-none d-md-flex">
         <li className="nav-item">
-          <a className="nav-link fw-bold active" aria-current="page" href="#">
+          <Link className="nav-link fw-bold active" aria-current="page">
             Features
-          </a>
+          </Link>
         </li>
 
         <li className="nav-item">
-          <a className="nav-link  fw-bold" href="#">
-            How it Works
-          </a>
+          <Link className="nav-link  fw-bold">How it Works</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link fw-bold" href="#">
-            About us
-          </a>
+          <Link className="nav-link fw-bold">About us</Link>
         </li>
       </ul>
 
@@ -104,19 +101,19 @@ const Navbar = () => {
           <div>
             <ul className="nav d-flex flex-column">
               <li className="nav-item">
-                <a className="nav-link fw-bold active" aria-current="page" href="#">
+                <Link className="nav-link fw-bold active" aria-current="page">
                   Features
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link fw-bold active" aria-current="page" href="#">
+                <Link className="nav-link fw-bold active" aria-current="page">
                   Pricing
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link fw-bold active" aria-current="page" href="#">
+                <Link className="nav-link fw-bold active" aria-current="page">
                   How it works
-                </a>
+                </Link>
               </li>
 
               <li className="nav-item">
@@ -129,22 +126,17 @@ const Navbar = () => {
                       View dashboard
                     </Link>
                     <li className="nav-item" onClick={logout}>
-                      <a className="nav-link fw-bold active" aria-current="page" href="#">
+                      <Link className="nav-link fw-bold active" aria-current="page">
                         Log out
-                      </a>
+                      </Link>
                     </li>
                   </>
                 ) : (
                   <>
-                    <a className="nav-link fw-bold active" aria-current="page" href="#">
+                    <Link className="nav-link fw-bold active" aria-current="page">
                       Get Started
-                    </a>
-                    <Link
-                      to="/login"
-                      className="nav-link fw-bold active"
-                      aria-current="page"
-                      href="#"
-                    >
+                    </Link>
+                    <Link to="/login" className="nav-link fw-bold active" aria-current="page">
                       Login
                     </Link>
                   </>

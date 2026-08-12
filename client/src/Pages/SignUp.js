@@ -375,7 +375,7 @@ const SignUp = () => {
                 Close
               </button>
               <button type="button" className="" onClick={handleFormSubmit}>
-                Save
+                {loading ? 'Saving...' : 'Save'}
               </button>
             </div>
           </div>

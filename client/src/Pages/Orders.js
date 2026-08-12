@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { QUERY_ORDERS } from '../utils/queries';
 import { useQuery } from '@apollo/client/react';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,7 @@ import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
+import Loading from '../Components/Loading';
 
 const Orders = () => {
   //Hooks
@@ -54,7 +55,7 @@ const Orders = () => {
           Orders
         </h1>
         {loading ? (
-          <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
+          <Loading />
         ) : (
           <div className="table-container">
             <table className="custom-orders-table">
@@ -71,7 +72,7 @@ const Orders = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedOrders.map((order, index) => (
+                {paginatedOrders.map((order) => (
                   <tr className="" key={order._id}>
                     <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
                     <td>{order.client.fullName}</td>

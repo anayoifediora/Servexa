@@ -12,6 +12,7 @@ import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import CreateOrderForm from '../Components/CreateOrderForm';
+import Loading from '../Components/Loading';
 
 import { STATUS_STYLES } from '../utils/helpers';
 import { setCurrentPage } from '../State/currentPageSlice';
@@ -137,7 +138,7 @@ const UserDashboard = () => {
             )}
           </>
         ) : loading ? (
-          <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
+          <Loading />
         ) : (
           <>
             <div className="m-4 d-flex justify-content-between align-items-center">
