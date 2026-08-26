@@ -173,7 +173,11 @@ const ViewOrderPage = () => {
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Admin Notes
                 </p>
-                <p className="text-dark">{singleOrder?.adminNotes}</p>
+                <div>
+                  {singleOrder?.adminNotes.split('\n').map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
+                </div>
               </div>
               <div>
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>

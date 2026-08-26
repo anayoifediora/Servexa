@@ -154,7 +154,8 @@ const AdminDash = () => {
                 {loading ? (
                   <Loading />
                 ) : (
-                  recentOrders.map((order, index) => (
+                  //Latest 10 orders
+                  recentOrders.slice(0, 10).map((order, index) => (
                     <tr key={index}>
                       <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
                       <td>{order.client.fullName}</td>

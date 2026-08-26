@@ -167,7 +167,7 @@ const UserDashboard = () => {
               className="d-flex row align-self-center"
               style={{ padding: '0 2rem 0 2.5rem', width: '95%' }}
             >
-              <div className="tile-card col-sm-9 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card  col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary fs-6 fs-4">Total Orders</p>
                   <p className="custom-tile-figures">{userInfo?.noOfOrders}</p>
@@ -180,7 +180,7 @@ const UserDashboard = () => {
                   }}
                 ></i>
               </div>
-              <div className="tile-card col-sm-9 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary fs-6 fs-4">Not Completed</p>
                   <p className="custom-tile-figures">
@@ -197,7 +197,7 @@ const UserDashboard = () => {
                   }}
                 ></i>
               </div>
-              <div className="tile-card col-sm-9 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary fs-6 fs-4">Completed</p>
                   <p className="custom-tile-figures">
@@ -214,7 +214,7 @@ const UserDashboard = () => {
                   }}
                 ></i>
               </div>
-              <div className="tile-card col-sm-9 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary fs-6 fs-4">Amount Due</p>
                   <p className="custom-tile-figures">${priceFormatter(ordersPendingPayment)}</p>
@@ -237,15 +237,12 @@ const UserDashboard = () => {
                   <h3 className="col-12 col-lg-10 col-xl-7 mt-3">No recent orders</h3>
                 </div>
               ) : (
-                <div className="recent-table-container col-12 col-lg-10 col-xl-7 mt-3">
+                <div className="recent-table-container col-12 col-xxl-10 mt-3">
                   <table className="custom-recent-orders">
                     <thead>
                       <tr>
                         <th colSpan={5} className="bg-light">
                           Current Orders
-                        </th>
-                        <th colSpan={1} className="bg-light">
-                          <Link>View All orders</Link>
                         </th>
                       </tr>
                       <tr>
@@ -261,7 +258,7 @@ const UserDashboard = () => {
                       {userInfo?.orders?.map((order) => (
                         <tr key={order?._id}>
                           <td>#{order?._id.toString().slice(-6).toUpperCase()}</td>
-                          <td className="fw-bold mb-0">{order?.service?.title}</td>
+                          <td className="mb-0">{order?.service?.title}</td>
                           <td>
                             <p
                               className="status"

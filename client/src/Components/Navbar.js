@@ -1,17 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Auth from '../utils/auth';
 
 const Navbar = () => {
   const profile = Auth.getProfile();
+  const location = useLocation();
 
   const logout = (e) => {
     e.preventDefault();
     Auth.logout();
   };
   return (
-    <div className="d-flex align-items-center justify-content-between ms-1 p-3 border-bottom bg-white w-100">
+    <header className="d-flex align-items-center justify-content-between p-3 border-bottom bg-white w-100">
       <button
         className="col-2 d-md-none fs-6"
         data-bs-toggle="offcanvas"
@@ -31,17 +32,28 @@ const Navbar = () => {
         <h1 className="custom-title fw-bold d-none d-lg-block">Servexa</h1>
       </Link>
       <ul className="nav d-none d-md-flex">
+        <li className="nav-item ">
+          <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''} fw-bold`}>
+            Home
+          </Link>
+        </li>
         <li className="nav-item">
-          <Link className="nav-link fw-bold active" aria-current="page">
-            Features
+          <Link
+            to="/service_offerings"
+            className={`nav-link ${location.pathname === '/service_offerings' ? 'active' : ''} fw-bold`}
+            aria-current="page"
+          >
+            Services
           </Link>
         </li>
 
         <li className="nav-item">
-          <Link className="nav-link  fw-bold">How it Works</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link fw-bold">About us</Link>
+          <Link
+            to="/about_us"
+            className={`nav-link ${location.pathname === '/about_us' ? 'active' : ''} fw-bold`}
+          >
+            About us
+          </Link>
         </li>
       </ul>
 
@@ -59,7 +71,7 @@ const Navbar = () => {
               <button
                 className="dropdown-toggle d-none d-xl-block"
                 data-bs-toggle="dropdown"
-                style={{ marginLeft: '50px' }}
+                style={{ marginLeft: '40px' }}
               >
                 {profile.data.username.toUpperCase().slice(0, 2)}
               </button>
@@ -101,18 +113,18 @@ const Navbar = () => {
           <div>
             <ul className="nav d-flex flex-column">
               <li className="nav-item">
-                <Link className="nav-link fw-bold active" aria-current="page">
-                  Features
+                <Link to="/" className="nav-link fw-bold" aria-current="page">
+                  Home
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fw-bold active" aria-current="page">
-                  Pricing
+                <Link to="/service_offerings" className="nav-link fw-bold" aria-current="page">
+                  Services
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fw-bold active" aria-current="page">
-                  How it works
+                <Link to="/about_us" className="nav-link fw-bold" aria-current="page">
+                  About Us
                 </Link>
               </li>
 
@@ -120,23 +132,23 @@ const Navbar = () => {
                 {Auth.loggedIn() ? (
                   <>
                     <Link
-                      className="nav-link fw-bold active"
+                      className="nav-link fw-bold"
                       to={profile.data.role === 'admin' ? '/admin' : '/dashboard'}
                     >
                       View dashboard
                     </Link>
                     <li className="nav-item" onClick={logout}>
-                      <Link className="nav-link fw-bold active" aria-current="page">
+                      <Link className="nav-link fw-bold " aria-current="page">
                         Log out
                       </Link>
                     </li>
                   </>
                 ) : (
                   <>
-                    <Link className="nav-link fw-bold active" aria-current="page">
+                    <Link className="nav-link fw-bold " aria-current="page">
                       Get Started
                     </Link>
-                    <Link to="/login" className="nav-link fw-bold active" aria-current="page">
+                    <Link to="/login" className="nav-link fw-bold" aria-current="page">
                       Login
                     </Link>
                   </>
@@ -146,7 +158,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

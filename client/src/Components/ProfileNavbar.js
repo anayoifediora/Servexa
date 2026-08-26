@@ -52,6 +52,7 @@ const ProfileNavbar = () => {
             aria-label="Search"
             value={searchTerm}
             onChange={handleSearchInputChange}
+            style={{ border: '1px, solid, var(--primary-color' }}
           />
           <button className="d-none d-md-block" type="submit">
             Search

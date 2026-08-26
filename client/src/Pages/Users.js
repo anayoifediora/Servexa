@@ -24,6 +24,7 @@ const Users = () => {
   const [results, setResults] = useState([]);
   const [filterResults, setFilterResults] = useState([]);
   const [filterAttempted, setFilterAttempted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
 
   //Data
@@ -60,7 +61,10 @@ const Users = () => {
   };
   const handleSearch = (e) => {
     e.preventDefault();
-
+    if (!searchString) {
+      setErrorMessage('Insert User Details');
+      return;
+    }
     const userResults = allUsers.filter(
       (user) =>
         user.lastName.toLowerCase().includes(searchString.toLowerCase()) ||
@@ -293,7 +297,21 @@ const Users = () => {
           </div>
         )}{' '}
         {filterAttempted && filterResults.length === 0 && (
-          <Alerts message={`No user found with status "${filterValue}"`} />
+          <div className="custom-alert alert alert-danger">
+            <i className="bi bi-exclamation-circle-fill fs-1"></i>
+            <p>{`No user found with status "${filterValue}"`}</p>
+            <button
+              className="w-25 mt-4 bg-light text-danger border border-dark"
+              type="button"
+              aria-label="Close"
+              onClick={() => {
+                setFilterValue('');
+                setFilterAttempted(false);
+              }}
+            >
+              Ok
+            </button>
+          </div>
         )}
         {/* Search Results table*/}
         {resultState && (
@@ -347,6 +365,7 @@ const Users = () => {
             </tbody>
           </table>
         )}
+        {errorMessage && <Alerts message={errorMessage} />}
         {error && <Alerts message={error.message} />}
         {searchTerm && <SearchResults />}
       </div>

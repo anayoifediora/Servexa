@@ -51,19 +51,19 @@ const ViewServicePage = () => {
               <h3 className="fw-bold" style={{ color: 'var(--primary-color)' }}>
                 Service Details
               </h3>
-              <div className="col">
+              <div className="col col-6 col-md-4">
                 <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Title
                 </label>
                 <p className="text-dark">{singleService?.title}</p>
               </div>
-              <div className="col">
+              <div className="col col-6 col-md-4">
                 <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Category
                 </label>
                 <p className="text-dark">{singleService?.category}</p>
               </div>
-              <div className="col">
+              <div className="col col-6 col-md-4">
                 <p className="mb-1 ms-2" style={{ color: 'var(--primary-color)' }}>
                   Service Status
                 </p>
@@ -86,7 +86,7 @@ const ViewServicePage = () => {
                 <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                   Description
                 </label>
-                <p className="text-dark w-50">{singleService?.description}</p>
+                <p className="text-dark col-12 col-lg-8">{singleService?.description}</p>
               </div>
               <div>
                 <label className="mb-0" style={{ color: 'var(--primary-color)' }}>

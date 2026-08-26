@@ -30,7 +30,7 @@ const SearchResults = () => {
   const results = data?.orderResults || [];
 
   return (
-    <div className="custom-search-result w-auto">
+    <div className="custom-search-result">
       <div className="d-flex align-items-center justify-content-between">
         <p className="fs-5">
           {results.length < 2
