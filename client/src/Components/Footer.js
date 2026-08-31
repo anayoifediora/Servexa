@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="custom-footer">
       <div className="container row justify-content-center w-50">
         <Link to="/about_us" className=" col-lg-2">
-          About
+          About Us
         </Link>
         <a className=" col-lg-2">Contact</a>
         <a className=" col-lg-2">Privacy</a>

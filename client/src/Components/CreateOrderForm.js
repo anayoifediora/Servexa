@@ -95,7 +95,7 @@ const CreateOrderForm = ({ userId }) => {
                     Choose Service
                   </label>
                   <select
-                    className="w-50"
+                    className="col-10 col-lg-4"
                     value={formState.service}
                     onChange={handleInputChange}
                     name="service"

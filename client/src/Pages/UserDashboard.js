@@ -141,11 +141,11 @@ const UserDashboard = () => {
           <Loading />
         ) : (
           <>
-            <div className="m-4 d-flex justify-content-between align-items-center">
+            <div className="m-4 d-flex flex-column flex-md-row justify-content-between align-items-center">
               <h1 className="fw-bold">Hello {userInfo.firstName}!</h1>
-              <div className="me-4">
+              <div className="">
                 <button
-                  className="fs-6"
+                  
                   data-bs-toggle="modal"
                   data-bs-target="#createOrder"
                   style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
@@ -153,6 +153,7 @@ const UserDashboard = () => {
                   Create Order
                 </button>
                 <button
+              
                   onClick={() => setMyOrders(true)}
                   style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeft: '0px' }}
                 >
@@ -173,7 +174,7 @@ const UserDashboard = () => {
                   <p className="custom-tile-figures">{userInfo?.noOfOrders}</p>
                 </div>
                 <i
-                  className="bi bi-file-earmark-text fs-2"
+                  className="bi bi-file-earmark-text"
                   style={{
                     color: STATUS_STYLES['Payment Pending'].text,
                     backgroundColor: STATUS_STYLES['Payment Pending'].bg,
@@ -190,7 +191,7 @@ const UserDashboard = () => {
                   </p>
                 </div>
                 <i
-                  className="bi bi-clock fs-2"
+                  className="bi bi-clock"
                   style={{
                     color: STATUS_STYLES['In Progress'].text,
                     backgroundColor: STATUS_STYLES['In Progress'].bg,
@@ -207,7 +208,7 @@ const UserDashboard = () => {
                   </p>
                 </div>
                 <i
-                  className="bi bi-check-lg fs-2"
+                  className="bi bi-check-lg"
                   style={{
                     color: STATUS_STYLES.Completed.text,
                     backgroundColor: STATUS_STYLES.Completed.bg,
@@ -220,7 +221,7 @@ const UserDashboard = () => {
                   <p className="custom-tile-figures">${priceFormatter(ordersPendingPayment)}</p>
                 </div>
                 <i
-                  className="bi bi-coin fs-2"
+                  className="bi bi-coin"
                   style={{
                     color: STATUS_STYLES.Rejected.text,
                     backgroundColor: STATUS_STYLES.Rejected.bg,
@@ -241,7 +242,7 @@ const UserDashboard = () => {
                   <table className="custom-recent-orders">
                     <thead>
                       <tr>
-                        <th colSpan={5} className="bg-light">
+                        <th colSpan={6} className="bg-light">
                           Current Orders
                         </th>
                       </tr>

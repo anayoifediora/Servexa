@@ -182,7 +182,12 @@ const AdminDash = () => {
 
           <div className="activity-feed col-8 col-md-8 col-lg-5 col-xl-4">
             <div>
-              <h5 className="p-2">Activity Feed</h5>
+              <h5
+                className="p-2 fw-bold
+              "
+              >
+                Activity Feed
+              </h5>
             </div>
             {activityFeed.slice(0, 5).map((feedItem, index) => (
               <div className="activity-feed-item" key={index}>

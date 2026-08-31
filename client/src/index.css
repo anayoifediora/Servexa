@@ -1,6 +1,6 @@
 :root {
   --primary-color: rgb(99, 102, 241);
-  --secondary-color: rgb(165, 180, 252);
+  --secondary-color: rgb(165, 180, 252, 0.7);
   --status-updates: #22c55e;
   --warning-pendingStatus: #f59e0b;
   --background: white;
@@ -676,7 +676,7 @@ textarea {
   cursor: pointer;
 }
 .value i {
-  color: var(--secondary-color);
+  color: var(--font-color);
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
 /* Media Queries for responsive design */
@@ -693,6 +693,10 @@ textarea {
   }
   .custom-alert {
     width: 70%;
+  }
+  .custom-info-card i, .tile-card i, .service-icon {
+    width: 50px;
+    height: 50px;
   }
 }
 @media screen and (max-width: 992px) {

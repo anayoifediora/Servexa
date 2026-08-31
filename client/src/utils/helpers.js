@@ -12,7 +12,7 @@ export const priceFormatter = (number) => {
   }
 
   if (number > 9999.99 && number <= 999999.99) {
-    return `${(number / 1000).toFixed(0)}k`;
+    return `${(number / 1000).toFixed(1)}k`;
   }
 
   if (number > 999999.99) {

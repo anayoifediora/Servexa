@@ -11,16 +11,16 @@ const AboutUs = () => {
       <Navbar />
       <div className="d-flex flex-column align-items-center">
         <h1 className="m-4 fw-bold">About Servexa</h1>
-        <h3 className="fst-italic">"Technology Support, without the complexity."</h3>
+        <h3 className="fst-italic">&quot;Technology Support, without the complexity.&quot;</h3>
         <div className=" m-4 col-lg-5">
           <p className="fs-5">
             Servexa is a service management platform designed to make it easier for businesses to
             request, manage, and track technical services
           </p>
           <p className="fs-5">
-            We believe getting technical support shouldn't involve complicated processes, endless
-            emails, or uncertainty about what's happening with a request. Servexa brings everything
-            into one simple platform.
+            We believe getting technical support shouldn&apos;t involve complicated processes,
+            endless emails, or uncertainty about what&apos;s happening with a request. Servexa
+            brings everything into one simple platform.
           </p>
         </div>
         <h3 className="fw-bold fs-4">Our Mission</h3>
@@ -50,8 +50,8 @@ const AboutUs = () => {
 
             {description === 'simplicity' && (
               <p className="text-secondary fs-5">
-                Technology shouldn't create more problems than it solves. We keep the experience
-                straightforward and easy to understand.
+                Technology shouldn&apos;t create more problems than it solves. We keep the
+                experience straightforward and easy to understand.
               </p>
             )}
           </div>
@@ -66,8 +66,8 @@ const AboutUs = () => {
             </div>
             {description === 'transparency' && (
               <p className="text-secondary fs-5">
-                Clients should know what's happening with their requests. Servexa provides clear
-                statuses, pricing information, and updates throughout the process.
+                Clients should know what&apos;s happening with their requests. Servexa provides
+                clear statuses, pricing information, and updates throughout the process.
               </p>
             )}
           </div>

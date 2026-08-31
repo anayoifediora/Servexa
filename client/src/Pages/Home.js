@@ -40,7 +40,7 @@ const Home = () => {
           alt="Dashboard preview"
         />
       </div>
-      <div className="custom-features-list row justify-content-around justify-content-xl-between col-10 col-sm-6  col-xl-10 col-xxl-9">
+      <div className="custom-features-list row justify-content-around justify-content-xl-between col-10 col-sm-6  col-xl-10">
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-file-earmark-text" style={{ backgroundColor: '#6f42c1' }}></i>
           <p className=" title fw-bold">Order Management</p>
