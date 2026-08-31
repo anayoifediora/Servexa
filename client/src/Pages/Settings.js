@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_SINGLE_USER } from '../utils/queries';
 import { UPDATE_PASSWORD } from '../utils/mutations';
@@ -12,6 +12,7 @@ import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import UpdateUserForm from '../Components/UpdateUserForm';
 import SearchResults from '../Components/SearchResults';
+import Loading from '../Components/Loading';
 
 const Settings = () => {
   const [mismatchError, setMismatchError] = useState('');
@@ -43,7 +44,7 @@ const Settings = () => {
     confirmNewPassword: '',
   });
 
-  const [updatePassword, { data, error }] = useMutation(UPDATE_PASSWORD);
+  const [updatePassword, { loading, data, error }] = useMutation(UPDATE_PASSWORD);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -88,6 +89,7 @@ const Settings = () => {
       <SidebarMenu />
       <div className="custom-info-area">
         {(error || updateError) && <Alerts message={error?.message || updateError?.message} />}
+        {data && <Alerts message={`Successfully updated password!`} />}
 
         <div className="custom-profile-info">
           <h3
@@ -100,7 +102,7 @@ const Settings = () => {
           </h3>
           <div className="row">
             {updateLoading ? (
-              <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+              <Loading />
             ) : (
               <div className="d-flex align-items-center mb-3">
                 <i
@@ -132,7 +134,7 @@ const Settings = () => {
               </label>
               <p className="text-dark">{singleUser?.email}</p>
             </div>
-            <div className="col-12 col-md-12 col-xl-3">
+            <div className="col-12 col-md-12 col-lg-4 col-xl-3">
               <label className="mb-0" style={{ color: 'var(--primary-color)' }}>
                 Phone Number
               </label>
@@ -168,7 +170,7 @@ const Settings = () => {
                 User Status
               </label>
               <p
-                className="status text-dark mb-2"
+                className="status text-dark mb-3 mt-1"
                 style={{
                   color: userStatusStyles[singleUser?.status]?.text,
                   backgroundColor: userStatusStyles[singleUser?.status]?.bg,
@@ -295,7 +297,7 @@ const Settings = () => {
               </div>
               <div className="modal-footer">
                 <button data-bs-dismiss="modal">Cancel</button>
-                <button onClick={handleFormSubmit}>Save changes</button>
+                <button onClick={handleFormSubmit}>{loading ? 'Saving' : 'Save changes'}</button>
               </div>
             </div>
           </div>

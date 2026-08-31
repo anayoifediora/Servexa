@@ -26,7 +26,7 @@ const resolvers = {
     },
     //List all Services
     services: async (parent, args, context) => {
-      checkAuthorization(context, ['admin']);
+      checkAuthorization(context, ['admin', 'client']);
       return await Service.find();
     },
     //Find a single user by Id, including associated orders
@@ -101,7 +101,7 @@ const resolvers = {
         .populate('service');
     },
     dashboardIndices: async (parent, args, context) => {
-      // checkAuthorization(context, ['admin']);
+      checkAuthorization(context, ['admin']);
 
       const now = new Date();
 
@@ -164,7 +164,7 @@ const resolvers = {
         Order.aggregate([
           {
             $match: {
-              status: 'Payment Pending',
+              status: 'In Progress',
               createdAt: { $gte: currentMonthStart },
               price: { $ne: null },
             },
@@ -180,7 +180,7 @@ const resolvers = {
         Order.aggregate([
           {
             $match: {
-              status: 'Payment Pending',
+              status: 'In Progress',
               createdAt: {
                 $gte: previousMonthStart,
                 $lte: previousMonthEnd,
@@ -316,7 +316,7 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       try {
         const { title, description, defaultPrice, category } = args;
-        if (!title || !description || !defaultPrice || !category) {
+        if (!title && !description && !defaultPrice && !category) {
           throw new GraphQLError('Please complete all fields', {
             extensions: {
               code: 'BAD_USER_INPUT',
@@ -353,7 +353,7 @@ const resolvers = {
     },
     //Mutation to create an order
     createOrder: async (parent, args, context) => {
-      // checkAuthorization(context, ['client']);
+      checkAuthorization(context, ['client']);
       try {
         const { client, service, description } = args;
         const requestedService = await Service.findById({ _id: service });

@@ -176,4 +176,14 @@ const UpdateServiceForm = ({ service }) => {
   );
 };
 
+UpdateServiceForm.propTypes = {
+  service: PropTypes.shape({
+    title: PropTypes.string,
+    category: PropTypes.string,
+    status: PropTypes.string,
+    description: PropTypes.string,
+    defaultPrice: PropTypes.number,
+    _id: PropTypes.string,
+  }),
+};
 export default UpdateServiceForm;

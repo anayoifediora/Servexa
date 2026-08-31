@@ -15,7 +15,7 @@ const CreateServiceForm = () => {
     category: '',
   });
 
-  const [createService, { loading, data, error }] = useMutation(CREATE_SERVICE);
+  const [createService, { data, error }] = useMutation(CREATE_SERVICE);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormState({

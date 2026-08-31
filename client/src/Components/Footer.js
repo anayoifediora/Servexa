@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <footer className="custom-footer">
       <div className="container row justify-content-center w-50">
-        <a className=" col-lg-2">About</a>
+        <Link to="/about_us" className=" col-lg-2">
+          About Us
+        </Link>
         <a className=" col-lg-2">Contact</a>
         <a className=" col-lg-2">Privacy</a>
         <a className=" col-lg-2">Terms</a>

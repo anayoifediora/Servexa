@@ -5,15 +5,22 @@ import Auth from '../utils/auth';
 import { useQuery } from '@apollo/client/react';
 import { QUERY_RECENT_ORDERS, DASHBOARD_INDICES } from '../utils/queries';
 import { useSelector } from 'react-redux';
-
+//Helper Functions
+import { activityTime } from '../utils/helpers';
 import { priceFormatter } from '../utils/helpers';
+import { STATUS_STYLES, activityFeedIcon } from '../utils/helpers';
+
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
+import Loading from '../Components/Loading';
 
 const AdminDash = () => {
+  const activityFeed = useSelector((state) => state.activityFeed);
+  console.log(activityFeed);
+
   const { loading, error, data } = useQuery(QUERY_RECENT_ORDERS);
   const {
     loading: updateLoading,
@@ -36,14 +43,9 @@ const AdminDash = () => {
     totalRevenue,
   } = dashboardIndices;
 
-  const statusStyles = {
-    'Pending Review': { bg: '#FEF3C7', text: '#92400E' },
-    'Payment Pending': { bg: '#FFEDD5', text: '#9A3412' },
-    Rejected: { bg: '#FEE2E2', text: '#991B1B' },
-    'In Progress': { bg: '#DBEAFE', text: '#1E40AF' },
-    Completed: { bg: '#DCFCE7', text: '#166534' },
-    Closed: { bg: '#F3F4F6', text: '#374151' },
-  };
+  const profile = Auth.getProfile().data || {};
+  console.log(profile.role);
+
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toDateString();
   const currentDate = now.toDateString();
@@ -54,16 +56,18 @@ const AdminDash = () => {
 
       <SidebarMenu />
       <div className="custom-info-area ">
-        <div className="d-flex flex-lg-row justify-content-between align-items-center p-2 mb-3">
+        <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-2 mb-3">
           <h1 className="m-2 ms-5 fw-bold">Dashboard</h1>
 
-          <p className="dash-period border border-secondary rounded bg-white">{`${firstDayOfMonth.slice(4, 10)} to  ${currentDate.slice(4, 15)}`}</p>
+          <p className="dash-period border border-secondary rounded bg-white">
+            Period: {`${firstDayOfMonth.slice(4, 10)} -  ${currentDate.slice(4, 15)}`}
+          </p>
         </div>
         {updateLoading ? (
           <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
         ) : (
           <div className="d-flex row" style={{ padding: '0 2rem 0 2.5rem' }}>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Total Orders</p>
                 <p className="custom-tile-figures">{totalOrders}</p>
@@ -73,7 +77,7 @@ const AdminDash = () => {
               </div>
               <i className="bi bi-clipboard-check"></i>
             </div>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Pending Orders</p>
                 <p className="custom-tile-figures">{pendingOrders}</p>
@@ -86,12 +90,12 @@ const AdminDash = () => {
               <i
                 className="bi bi-clock"
                 style={{
-                  color: statusStyles.Rejected.text,
-                  backgroundColor: statusStyles.Rejected.bg,
+                  color: STATUS_STYLES.Rejected.text,
+                  backgroundColor: STATUS_STYLES.Rejected.bg,
                 }}
               ></i>
             </div>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Total Revenue</p>
                 <p className="custom-tile-figures">${priceFormatter(totalRevenue)}</p>
@@ -102,12 +106,12 @@ const AdminDash = () => {
               <i
                 className="bi bi-currency-dollar"
                 style={{
-                  color: statusStyles.Completed.text,
-                  backgroundColor: statusStyles.Completed.bg,
+                  color: STATUS_STYLES.Completed.text,
+                  backgroundColor: STATUS_STYLES.Completed.bg,
                 }}
               ></i>
             </div>
-            <div className="custom-info-card col-9 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-4">Active Clients</p>
                 <p className="custom-tile-figures">{activeUsers}</p>
@@ -118,16 +122,16 @@ const AdminDash = () => {
               <i
                 className="bi bi-people"
                 style={{
-                  color: statusStyles['Pending Review'].text,
-                  backgroundColor: statusStyles['Pending Review'].bg,
+                  color: STATUS_STYLES['Pending Review'].text,
+                  backgroundColor: STATUS_STYLES['Pending Review'].bg,
                 }}
               ></i>
             </div>
           </div>
         )}
-        <section className="row justify-content-around">
-          <div className="recent-table-container col-12 col-lg-10 col-xl-7 mt-3">
-            <table className="custom-recent-orders w-100">
+        <section className="row justify-content-around p-3">
+          <div className="recent-table-container col-12 col-md-11 col-lg-6 col-xl-7  mt-3">
+            <table className="custom-recent-orders">
               <thead>
                 <tr>
                   <th colSpan={6} className="bg-light">
@@ -148,20 +152,21 @@ const AdminDash = () => {
               </thead>
               <tbody>
                 {loading ? (
-                  <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+                  <Loading />
                 ) : (
-                  recentOrders.map((order, index) => (
+                  //Latest 10 orders
+                  recentOrders.slice(0, 10).map((order, index) => (
                     <tr key={index}>
                       <td>#{order._id.toString().slice(-6).toUpperCase()}</td>
                       <td>{order.client.fullName}</td>
                       <td>{order.service.title}</td>
-                      <td>{order.price === null ? 0 : priceFormatter(order.price)}</td>
+                      <td>${order.price === null ? 0 : priceFormatter(order.price)}</td>
                       <td>
                         <p
                           className="status"
                           style={{
-                            color: statusStyles[order.status].text,
-                            backgroundColor: statusStyles[order.status].bg,
+                            color: STATUS_STYLES[order.status].text,
+                            backgroundColor: STATUS_STYLES[order.status].bg,
                           }}
                         >
                           {order.status}
@@ -175,22 +180,31 @@ const AdminDash = () => {
             </table>
           </div>
 
-          <div className="activity-feed col-9 col-lg-5 col-xl-3">
+          <div className="activity-feed col-8 col-md-8 col-lg-5 col-xl-4">
             <div>
-              <h5 className="p-2">Activity feed</h5>
-              <span className="p-2">
-                <Link>View All</Link>
-              </span>
+              <h5
+                className="p-2 fw-bold
+              "
+              >
+                Activity Feed
+              </h5>
             </div>
+            {activityFeed.slice(0, 5).map((feedItem, index) => (
+              <div className="activity-feed-item" key={index}>
+                <i
+                  className={activityFeedIcon(feedItem.remark).icon}
+                  style={{
+                    color: activityFeedIcon(feedItem.remark).color,
+                    backgroundColor: activityFeedIcon(feedItem.remark).bg,
+                  }}
+                ></i>
 
-            <div className="activity-feed-item">
-              <p className="fw-bold mb-0">New order #1257 received</p>
-              <p className="text-muted">2 minutes ago</p>
-            </div>
-            <div className="activity-feed-item">
-              <p className="fw-bold mb-0">Order #1257 approved</p>
-              <p className="text-muted">1 hour ago</p>
-            </div>
+                <div className="d-flex flex-column">
+                  <p className="fw-bold mb-0">{feedItem.remark}</p>
+                  <p className="text-muted">{activityTime(feedItem.time)}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
         {error && <Alerts message={error.message} />}

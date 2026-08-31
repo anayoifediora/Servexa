@@ -8,6 +8,8 @@ const SidebarMenu = () => {
     Auth.logout();
     window.location.assign('/');
   };
+  const profile = Auth.getProfile();
+  console.log(profile);
   return (
     <div className="sidebar-menu d-none d-md-block">
       <ul>
@@ -17,7 +19,10 @@ const SidebarMenu = () => {
             <span>Home</span>
           </li>
         </Link>
-        <Link className="custom-nav-link" to="/admin">
+        <Link
+          className="custom-nav-link"
+          to={profile.data.role === 'admin' ? '/admin' : '/dashboard'}
+        >
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
             <i className="bi bi-grid-1x2 me-3 fs-3"></i>
             <span>Dashboard</span>
@@ -29,18 +34,23 @@ const SidebarMenu = () => {
             <span>Orders</span>
           </li>
         </Link>
-        <Link className="custom-nav-link" to="/services">
-          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-            <i className="bi bi-boxes me-3 fs-3"></i>
-            <span>Services</span>
-          </li>
-        </Link>
-        <Link className="custom-nav-link" to="/users">
-          <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-            <i className="bi bi-people me-3 fs-3"></i>
-            <span>Users</span>
-          </li>
-        </Link>
+        {profile?.data?.role === 'admin' && (
+          <>
+            <Link className="custom-nav-link" to="/services">
+              <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+                <i className="bi bi-boxes me-3 fs-3"></i>
+                <span>Services</span>
+              </li>
+            </Link>
+
+            <Link className="custom-nav-link" to="/users">
+              <li className="d-flex flex-column flex-xl-row align-items-xl-center">
+                <i className="bi bi-people me-3 fs-3"></i>
+                <span>Users</span>
+              </li>
+            </Link>
+          </>
+        )}
       </ul>
       <ul>
         <Link className="custom-nav-link" to="/settings">

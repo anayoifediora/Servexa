@@ -4,13 +4,14 @@ import { useQuery } from '@apollo/client/react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../State/currentPageSlice';
-import { ROWS_PER_TABLE_PAGE } from '../utils/helpers';
+import { ROWS_PER_TABLE_PAGE, userStatusStyles } from '../utils/helpers';
 
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import SearchResults from '../Components/SearchResults';
+import Loading from '../Components/Loading';
 
 const Users = () => {
   //Hooks
@@ -23,6 +24,7 @@ const Users = () => {
   const [results, setResults] = useState([]);
   const [filterResults, setFilterResults] = useState([]);
   const [filterAttempted, setFilterAttempted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
 
   //Data
@@ -59,7 +61,10 @@ const Users = () => {
   };
   const handleSearch = (e) => {
     e.preventDefault();
-
+    if (!searchString) {
+      setErrorMessage('Insert User Details');
+      return;
+    }
     const userResults = allUsers.filter(
       (user) =>
         user.lastName.toLowerCase().includes(searchString.toLowerCase()) ||
@@ -77,12 +82,6 @@ const Users = () => {
     setFilterValue('');
   };
 
-  const userStatusStyles = {
-    'Pending Approval': { bg: '#FEF3C7', text: '#92400E' },
-    'De-listed': { bg: '#FEE2E2', text: '#991B1B' },
-    Approved: { bg: '#DCFCE7', text: '#166534' },
-  };
-
   return (
     <div className="dashboard-page">
       <ProfileNavbar />
@@ -94,7 +93,7 @@ const Users = () => {
         >
           Users
         </h1>
-        <div className="d-md-flex align-items-center align-self-center border border-tertiary p-2 rounded">
+        <div className="d-md-flex align-items-center align-self-center border border-secondary p-2 rounded">
           <form onSubmit={handleSearch} className=" d-flex m-2" role="search">
             <input
               className="form-control me-2"
@@ -130,7 +129,7 @@ const Users = () => {
         </div>
         {!filterResults.length &&
           (loading ? (
-            <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+            <Loading />
           ) : (
             <div className="table-container">
               <table className="custom-users-table">
@@ -298,18 +297,32 @@ const Users = () => {
           </div>
         )}{' '}
         {filterAttempted && filterResults.length === 0 && (
-          <Alerts message={`No user found with status "${filterValue}"`} />
+          <div className="custom-alert alert alert-danger">
+            <i className="bi bi-exclamation-circle-fill fs-1"></i>
+            <p>{`No user found with status "${filterValue}"`}</p>
+            <button
+              className="w-25 mt-4 bg-light text-danger border border-dark"
+              type="button"
+              aria-label="Close"
+              onClick={() => {
+                setFilterValue('');
+                setFilterAttempted(false);
+              }}
+            >
+              Ok
+            </button>
+          </div>
         )}
         {/* Search Results table*/}
         {resultState && (
           <table className="user-search-results">
             <thead>
               <tr>
-                <th colSpan={5} className="p-2 fw-bold">
+                <th colSpan={5} className="p-2">
                   Displaying {results.length} {results.length > 1 ? `results` : `result`}
                 </th>
                 <th colSpan={2}>
-                  <i onClick={() => setResultState(false)} className="bi bi-x-square fs-3"></i>
+                  <i onClick={() => setResultState(false)} className="bi bi-x-square fs-4 btn"></i>
                 </th>
               </tr>
             </thead>
@@ -352,6 +365,7 @@ const Users = () => {
             </tbody>
           </table>
         )}
+        {errorMessage && <Alerts message={errorMessage} />}
         {error && <Alerts message={error.message} />}
         {searchTerm && <SearchResults />}
       </div>

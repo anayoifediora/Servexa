@@ -82,7 +82,7 @@ const Login = () => {
             Your password will never be shared with anyone.
           </div>
           <button type="submit" className="custom-login-btn">
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
           <div className="d-flex">
             <Link to="/">

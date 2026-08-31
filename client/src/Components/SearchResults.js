@@ -44,35 +44,31 @@ const SearchResults = () => {
         ></i>
       </div>
       <div>
-        {results.length
-          ? results.map((result) => (
-              <Link
-                to={`/orders/${result?._id}`}
-                className="custom-result row p-3"
-                key={result?._id}
+        {results.length ? (
+          results.map((result) => (
+            <Link to={`/orders/${result?._id}`} className="custom-result row p-3" key={result?._id}>
+              <p className="col">{`Order #${result?._id.toString().slice(-6).toUpperCase()}`}</p>
+              <p className="col fw-bold">{result?.client?.fullName}</p>
+              <p
+                className="col d-none d-md-block"
+                style={{
+                  color: statusStyles[result?.status].text,
+                  backgroundColor: statusStyles[result?.status].bg,
+                  maxWidth: 'fit-content',
+                  borderRadius: '25px',
+                  border: '1px, solid',
+                }}
               >
-                <p className="col">{`Order #${result?._id.toString().slice(-6).toUpperCase()}`}</p>
-                <p className="col fw-bold">{result?.client?.fullName}</p>
-                <p
-                  className="col"
-                  style={{
-                    color: statusStyles[result?.status].text,
-                    backgroundColor: statusStyles[result?.status].bg,
-                    maxWidth: 'fit-content',
-                    borderRadius: '25px',
-                    border: '1px, solid',
-                  }}
-                >
-                  {result?.status}
-                </p>
-                <p className="col ms-2">{result?.createdAt.split(',').shift()}</p>
-              </Link>
-            ))
-          : !searchTerm && (
-              <div className="no-search-results">
-                <h3 className="text-muted ">No orders found matching your search.</h3>
-              </div>
-            )}
+                {result?.status}
+              </p>
+              <p className="col">{result?.createdAt.split(',').shift()}</p>
+            </Link>
+          ))
+        ) : (
+          <div className="no-search-results">
+            <h4 className="text-muted ">No orders found matching your search.</h4>
+          </div>
+        )}
       </div>
       {error && <Alerts message={error.message} />}
     </div>

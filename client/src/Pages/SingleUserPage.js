@@ -3,14 +3,19 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_SINGLE_USER } from '../utils/queries';
 import { UPDATE_USER_STATUS } from '../utils/mutations';
+import { userStatusStyles } from '../utils/helpers';
+import { useDispatch } from 'react-redux';
+import { addToActivityFeed } from '../State/activityFeedSlice';
 
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
+import Loading from '../Components/Loading';
 
 const SingleUserPage = () => {
   const [fieldValue, setFieldValue] = useState('Pending Approval');
+  const dispatch = useDispatch();
 
   const { _id } = useParams();
 
@@ -18,11 +23,6 @@ const SingleUserPage = () => {
     variables: { id: _id },
   });
   const singleUser = data?.user || {};
-  const userStatusStyles = {
-    'Pending Approval': { bg: '#FEF3C7', text: '#92400E' },
-    'De-listed': { bg: '#FEE2E2', text: '#991B1B' },
-    Approved: { bg: '#DCFCE7', text: '#166534' },
-  };
 
   //Apollo mutation to update user status
   const [updateUserStatus, { loading: updateLoading, data: updateData, error: updateError }] =
@@ -38,6 +38,11 @@ const SingleUserPage = () => {
           status: fieldValue,
         },
       });
+      const feedItem = {
+        remark: `${singleUser?.fullName}'s status updated to ${fieldValue}!`,
+        time: Date.now(),
+      };
+      dispatch(addToActivityFeed(feedItem));
     } catch (err) {
       console.error(err);
     }
@@ -46,109 +51,114 @@ const SingleUserPage = () => {
     <div className="dashboard-page">
       <ProfileNavbar />
       <SidebarMenu />
-      {updateError && <Alerts message={updateError.message} />}
-      {updateData && window.location.reload()}
+      {error || (updateError && <Alerts message={error ? error.message : updateError.message} />)}
+      {updateData && <Alerts message={`Successfully updated user status`} />}
+      {/* {updateData && window.location.reload()} */}
       <div className="custom-info-area">
         <div className="custom-order-info">
           <h3 className="m-3 align-self-center fw-bold" style={{ color: 'var(--primary-color)' }}>
             User Profile
           </h3>
-          <div className="row p-3">
-            <div className="d-flex align-items-center mb-3">
-              <i className="bi bi-person-circle p-2" style={{ fontSize: '3rem' }}></i>
-              <div>
-                <p className="fw-bold text-dark fs-3">{singleUser?.fullName}</p>
+          {loading ? (
+            <Loading />
+          ) : (
+            <div className="row p-3">
+              <div className="d-flex align-items-center mb-3">
+                <i className="bi bi-person-circle p-2" style={{ fontSize: '3rem' }}></i>
+                <div>
+                  <p className="fw-bold text-dark fs-4">{singleUser?.fullName}</p>
+                </div>
               </div>
-            </div>
-            <div className="col-lg-2">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                First Name
-              </p>
-              <p className="text-dark">{singleUser?.firstName}</p>
-            </div>
-            <div className="col-lg-2">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                Last Name
-              </p>
-              <p className="text-dark">{singleUser?.lastName}</p>
-            </div>
-            <div className="col-lg-3">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                Email Address
-              </p>
-              <p className="text-dark">{singleUser?.email}</p>
-            </div>
-            <div className="col-lg-2">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                Phone Number
-              </p>
-              <p className="text-dark">{singleUser?.phone}</p>
-            </div>
-            <div className="">
-              <p className="mb-1" style={{ color: 'var(--primary-color)' }}>
-                Client Status
-              </p>
-              <p
-                className="status mb-2"
-                style={{
-                  color: userStatusStyles[singleUser?.status]?.text,
-                  backgroundColor: userStatusStyles[singleUser?.status]?.bg,
-                  padding: '5px 15px',
-                  borderRadius: '20px',
-                  width: 'fit-content',
-                }}
-              >
-                {singleUser?.status}
-              </p>
-            </div>
-            <div className="row container-md">
-              <p className="fw-bold">Address</p>
-              <div className="col">
+              <div className="col-lg-2">
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                  Street
+                  First Name
                 </p>
-                <p className="text-dark">{singleUser?.address?.street}</p>
+                <p className="text-dark">{singleUser?.firstName}</p>
               </div>
-              <div className="col">
+              <div className="col-lg-2">
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                  Suburb
+                  Last Name
                 </p>
-                <p className="text-dark">{singleUser?.address?.suburb}</p>
+                <p className="text-dark">{singleUser?.lastName}</p>
               </div>
-              <div className="col">
+              <div className="col-lg-3">
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                  State
+                  Email Address
                 </p>
-                <p className="text-dark">{singleUser?.address?.state}</p>
+                <p className="text-dark">{singleUser?.email}</p>
               </div>
-              <div className="col">
+              <div className="col-lg-2">
                 <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                  Post Code
+                  Phone Number
                 </p>
-                <p className="text-dark">{singleUser?.address?.postCode}</p>
+                <p className="text-dark">{singleUser?.phone}</p>
               </div>
-            </div>
+              <div className="">
+                <p className="mb-1" style={{ color: 'var(--primary-color)' }}>
+                  Client Status
+                </p>
+                <p
+                  className="status mb-2"
+                  style={{
+                    color: userStatusStyles[singleUser?.status]?.text,
+                    backgroundColor: userStatusStyles[singleUser?.status]?.bg,
+                    padding: '5px 15px',
+                    borderRadius: '20px',
+                    width: 'fit-content',
+                  }}
+                >
+                  {singleUser?.status}
+                </p>
+              </div>
+              <div className="row container-md">
+                <p className="fw-bold">Address</p>
+                <div className="col">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    Street
+                  </p>
+                  <p className="text-dark">{singleUser?.address?.street}</p>
+                </div>
+                <div className="col">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    Suburb
+                  </p>
+                  <p className="text-dark">{singleUser?.address?.suburb}</p>
+                </div>
+                <div className="col">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    State
+                  </p>
+                  <p className="text-dark">{singleUser?.address?.state}</p>
+                </div>
+                <div className="col">
+                  <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                    Post Code
+                  </p>
+                  <p className="text-dark">{singleUser?.address?.postCode}</p>
+                </div>
+              </div>
 
-            <div className="">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                Created on
-              </p>
-              <p className="text-dark">{singleUser?.createdAt}</p>
+              <div className="">
+                <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                  Created on
+                </p>
+                <p className="text-dark">{singleUser?.createdAt}</p>
+              </div>
+              <div className="">
+                <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
+                  Updated on
+                </p>
+                <p className="text-dark">{singleUser?.updatedAt}</p>
+              </div>
+              <button
+                className="update-user-status-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#updateUserStatus"
+              >
+                Update status
+              </button>
             </div>
-            <div className="">
-              <p className="mb-0" style={{ color: 'var(--primary-color)' }}>
-                Updated on
-              </p>
-              <p className="text-dark">{singleUser?.updatedAt}</p>
-            </div>
-            <button
-              className="update-user-status-btn"
-              data-bs-toggle="modal"
-              data-bs-target="#updateUserStatus"
-            >
-              Update status
-            </button>
-          </div>
+          )}
         </div>
       </div>
       {/* Update User Modal */}
@@ -192,7 +202,7 @@ const SingleUserPage = () => {
                 Cancel
               </button>
               <button type="button" onClick={handleSubmission}>
-                Confirm
+                {updateLoading ? 'Confirming...' : 'Confirm'}
               </button>
             </div>
           </div>

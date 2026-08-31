@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client/react';
 import { QUERY_SERVICES } from '../utils/queries';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ import SidebarMenu from '../Components/SidebarMenu';
 import Alerts from '../Components/Alerts';
 import CreateServiceForm from '../Components/CreateServiceForm';
 import SearchResults from '../Components/SearchResults';
-
+import Loading from '../Components/Loading';
 const Services = () => {
   //Hooks
   const { loading, data, error } = useQuery(QUERY_SERVICES);
@@ -66,7 +66,7 @@ const Services = () => {
           Create Service
         </button>
         {loading ? (
-          <i className="loading bi bi-hourglass-top fs-4 text-success">Loading...</i>
+          <Loading />
         ) : (
           <div className="table-container">
             <table className="custom-services-table">
@@ -83,12 +83,12 @@ const Services = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginationServices.map((service, index) => (
+                {paginationServices.map((service) => (
                   <tr className=" " key={service?._id}>
                     <td>{services.indexOf(service) + 1}.</td>
                     <td>{service.title}</td>
                     <td>{service.category}</td>
-                    <td>{priceFormatter(service.defaultPrice)}</td>
+                    <td>${priceFormatter(service.defaultPrice)}</td>
                     <td>
                       <p
                         className="status"
