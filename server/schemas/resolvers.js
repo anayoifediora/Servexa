@@ -414,7 +414,7 @@ const resolvers = {
     },
     //Mutation to update a user's details
     updateUser: async (parent, args, context) => {
-      // checkAuthorization(context, ['client', 'admin']);
+      checkAuthorization(context, ['client', 'admin']);
       try {
         const { clientId, firstName, lastName, email, phone, address } = args;
         const updatedUser = await User.findOneAndUpdate(

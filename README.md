@@ -1,4 +1,5 @@
 # Servexa
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### IT Service Management Platform
@@ -9,6 +10,7 @@ The platform provides separate experiences for clients and administrators. Clien
 
 ```markdown
 ## Key Technical Highlights
+
 - GraphQL API with Apollo Server
 - MongoDB data persistence using Mongoose
 - JWT-based authentication
@@ -24,8 +26,6 @@ The platform provides separate experiences for clients and administrators. Clien
 ```
 
 > **Servexa is a portfolio project built to demonstrate full-stack web development, authentication, GraphQL APIs, database management, responsive UI design, and state management.**
-
-
 
 ## ✨ Features
 
@@ -74,7 +74,6 @@ The administrator dashboard provides an overview of important platform activity,
 - Recent orders
 - Recent administrative activity
 
-
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -105,7 +104,6 @@ The administrator dashboard provides an overview of important platform activity,
 - GraphQL API testing
 - Component and application testing
 
-
 ## 🏗️ Application Architecture
 
 Servexa follows a client-server architecture.
@@ -134,6 +132,7 @@ Servexa follows a client-server architecture.
 ```
 
 ## 🔐 Authentication & Authorization
+
 Servexa uses JSON Web Tokens (JWT) for authentication.
 
 After successfully logging in, users receive an authentication token that is used to authorize protected requests.
@@ -152,9 +151,11 @@ The application supports role-based authorization:
 Administrators have access to management functionality that is restricted from regular clients.
 
 ## 📊 Order Management
+
 Orders form the core workflow of the Servexa platform.
 
 A typical service request follows a workflow similar to:
+
 ```text
 Service Selection
        │
@@ -179,6 +180,7 @@ Service Request
        ▼
      Closed
 ```
+
 Administrators can update the status and pricing of orders through the administrator dashboard.
 
 Clients can then view the updated information from their own dashboard.
@@ -230,6 +232,7 @@ Current metrics include:
 The dashboard also compares current monthly activity with the previous month to provide percentage changes in key metrics.
 
 For example:
+
 ```
 Active Users
      125
@@ -245,9 +248,11 @@ Revenue
 ```
 
 ## 📝 Activity Feed
+
 The administrator dashboard includes an activity feed that records important administrative actions.
 
 Examples include:
+
 ```
 Order #A31F92 updated to "In Progress"
 5 minutes ago
@@ -258,6 +263,7 @@ Order #92BC41 updated to "Closed"
 User status updated to "Approved"
 1 hour ago
 ```
+
 The activity feed maintains a limited number of recent activities and provides relative timestamps.
 
 ## 📱Responsive Design
@@ -273,6 +279,7 @@ The interface uses responsive layouts for:
 Tables use horizontal scrolling on smaller screens where necessary, allowing large datasets to remain usable without breaking the overall page layout.
 
 ## 📂 Project Structure
+
 ```
 Servexa/
 │
@@ -297,6 +304,7 @@ Servexa/
 ├── package.json
 └── README.md
 ```
+
 The exact structure may vary depending on the current implementation.
 
 ## Getting Started
@@ -311,51 +319,70 @@ Before running Servexa locally, make sure you have:
 - Git
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/anayoifediora/Servexa
 ```
+
 Navigate into the project:
+
 ```bash
 cd Servexa
 ```
+
 ### 2. Install Dependencies
+
 Install the server dependencies
+
 ```bash
 npm install
 ```
+
 Then install the client dependencies
+
 ```bash
 cd client
 npm install
 ```
+
 ### 3. Configure Environment Variables
-Create a ```.env``` file for the server and provide the required configuration.
+
+Create a `.env` file for the server and provide the required configuration.
 
 Example:
+
 ```env
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 PORT=3001
 ```
-Do not commit your ```.env``` file to GitHub.
+
+Do not commit your `.env` file to GitHub.
 
 ### 4. Start the Application.
+
 Start the backend:
+
 ```bash
 npm run server
 ```
+
 Start the React development server:
+
 ```Bash
 npm start
 ```
+
 The application should then be available through the local development URL configured by the project.
 
 ## 🔌 GraphQL API
+
 Servexa uses GraphQL for communication between the frontend and backend.
 
 Examples of available operations include:
 
 ### Queries
+
 ```
 users
 user
@@ -366,7 +393,9 @@ recentOrders
 orderResults
 dashboardIndices
 ```
+
 ### Mutations
+
 ```
 createUser
 login
@@ -378,16 +407,20 @@ createOrder
 updateOrderStatus
 updateUser
 ```
+
 The GraphQL API handles data retrieval, mutations, authentication, authorization, and interaction with MongoDB.
 
 ## 🔮 Future Improvements
+
 Potential future improvements include:
+
 - Payment gateway integration
 - Email notifications
 - Client notifications
 - Automated email communication.
 
 ## Project Goals
+
 Servexa was developed as a practical full-stack project to explore and demonstrate:
 
 - Building a REST/GraphQL-backed web application
@@ -408,31 +441,40 @@ Servexa was developed as a practical full-stack project to explore and demonstra
 ## 📸 Screenshots
 
 ### Landing Page
+
 ![Landing_Page](./client/public/images/Landing%20Page.png)
 
 ### Client Dashboard
+
 ![Client_Dashboard](./client/public/images/Client%20Dashboard.png)
 
 ### Admin Dashboard
+
 ![Admin_Dashboard](./client/public/images/Admin%20Dashboard.png)
 
 ### Order Details
+
 ![Order_Details](./client/public/images/Order%20Details.png)
 
 ## 📌 Project Status
+
 Status: Active Development
 
 Servexa is a portfoli project and is continually being improved as new functionality, testing and UI refinements are added.
 
 ## ✍️ Author
+
 Kanayochi Ifediora
+
 - [Email](anayoifediora@live.com)
 - [GitHub Profile](https://github.com/anayoifediora)
 
 ## 📝 License
+
 This project is licensed under the MIT License.
 
 ## 🙌 Acknowledgments
+
 - Open-source libraries and tools used across the MERN ecosystem
 
 - React, MongoDB, Apollo GraphQL & Redux communities

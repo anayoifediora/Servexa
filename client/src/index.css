@@ -694,7 +694,9 @@ textarea {
   .custom-alert {
     width: 70%;
   }
-  .custom-info-card i, .tile-card i, .service-icon {
+  .custom-info-card i,
+  .tile-card i,
+  .service-icon {
     width: 50px;
     height: 50px;
   }
