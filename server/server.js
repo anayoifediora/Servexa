@@ -59,9 +59,9 @@ const startApolloServer = async () => {
   if (process.env.NODE_ENV === 'production') {
     //Serve static files from the React app's build directory
     app.use(express.static(path.join(__dirname, '../client/build')));
-    // For any routes that aren’t caught by the server (e.g. /dashboard),
+    // For any routes that aren’t caught by the server,
     // serve the React app's index.html file.
-    app.get('*', (req, res) => {
+    app.get('/*splat', (req, res) => {
       res.sendFile(path.join(__dirname, '../client/build/index.html'));
     });
   }
