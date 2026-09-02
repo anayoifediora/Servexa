@@ -9,7 +9,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "seed": "cd server && npm run seed",
-    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "build": "cd client && npm run build",
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
