@@ -24,10 +24,12 @@ body {
 }
 * {
   font-family: 'Hanken Grotesk', sans-serif;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-family: 'Livvic', sans-serif;
+  /* font-family: 'Plus Jakarta Sans', sans-serif; */
+  /* font-family: 'Livvic', sans-serif; */
 }
-
+.form-control {
+  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+}
 .custom-close-btn:hover {
   cursor: pointer;
   color: var(--primary-color);
@@ -82,7 +84,7 @@ button {
   padding: 10px;
   font-weight: 500;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
 }
 button:hover {
   /* background-color: white;
@@ -105,7 +107,7 @@ button:hover {
   border: 1px solid var(--primary-color);
 }
 .nav-link {
-  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
   text-decoration: none;
   color: var(--primary-color);
 }
@@ -132,7 +134,7 @@ button:hover {
   margin: 0 5px;
 }
 .custom-hero-section > h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
 }
 .custom-hero-section {
   margin: 20px;
@@ -148,7 +150,7 @@ button:hover {
 .custom-features-list {
   background-color: var(--background);
   align-items: center;
-  padding: 1.2rem;
+  padding: 1rem;
   margin: 1rem;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -158,14 +160,14 @@ button:hover {
   grid-template-areas:
     'icon title'
     'icon description';
-  row-gap: 5px;
-  column-gap: 17px;
+  row-gap: 3px;
+  column-gap: 10px;
   max-height: 150px;
-  min-width: 325px;
+  min-width: 290px;
   align-self: center;
 }
 .feature-card > .icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: white;
   width: fit-content;
   height: fit-content;
@@ -177,9 +179,12 @@ button:hover {
 .feature-card > .title {
   grid-area: title;
   margin-bottom: 0px;
+  font-size: clamp(0.8rem, 2.4vw, 1rem);
 }
 .feature-card > .description {
   grid-area: description;
+  font-size: clamp(0.6rem, 2.4vw, 0.9rem);
+
 }
 
 .flowchart {
@@ -228,11 +233,11 @@ button:hover {
   border-left: 8px solid #414851;
 }
 .node > .steps {
-  font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
   text-wrap: wrap;
 }
 .step-number {
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
   background-color: orange;
   color: white;
   border-radius: 50%;
@@ -249,12 +254,9 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 350px;
+  height: 300px;
   width: 100%;
   margin-top: 20vh;
-}
-.custom-footer > div > a {
-  text-decoration: none;
 }
 .custom-footer-icons {
   color: var(--primary-color);
@@ -264,7 +266,7 @@ button:hover {
 }
 .custom-footer > div {
   margin: 10px;
-  font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
 }
 .custom-footer > div > i:hover {
   cursor: pointer;
@@ -273,6 +275,7 @@ button:hover {
 .custom-footer > div > a {
   text-decoration: underline;
   color: var(--primary-color);
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
 }
 .custom-alert,
 .loading,
@@ -290,7 +293,7 @@ button:hover {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1500;
-  /* background-color: var(--background); */
+ 
 }
 .custom-search-result {
   background-color: var(--background);
@@ -329,7 +332,7 @@ button:hover {
   grid-template-areas:
     'profile-navbar profile-navbar'
     'sidebar-menu custom-info-area';
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 1fr 8fr;
   grid-template-rows: auto 1fr;
   overflow-x: hidden;
 }
@@ -337,7 +340,7 @@ button:hover {
   padding: 10px;
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: clamp(0.6rem, 2.4vw, 1.1rem);
+  font-size: clamp(0.6rem, 2.3vw, 1rem);
 }
 .custom-title {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
@@ -351,9 +354,9 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 10px;
   background-color: white;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   grid-area: profile-navbar;
 }
 .sidebar-menu {
@@ -361,9 +364,9 @@ button:hover {
   flex-direction: column;
   grid-area: sidebar-menu;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  /* background-color: rgb(35, 33, 33);
-  background-color: var(--sidebar); */
+  
 }
+
 .custom-info-area {
   background-color: var(--background-color);
   grid-area: custom-info-area;
@@ -386,6 +389,9 @@ button:hover {
   border-radius: 10px;
   width: 85%;
 }
+.sidebar-menu ul {
+  padding-left: 0;
+}
 .sidebar-menu ul:nth-child(2) {
   position: relative;
   top: 200px;
@@ -393,9 +399,9 @@ button:hover {
 .custom-info-card,
 .tile-card {
   background-color: white;
-  min-width: 20%;
-  max-height: 250px;
-  margin: 20px auto;
+  min-width: 22%;
+  max-height: 200px;
+  margin: 10px auto;
   padding: 20px;
   border-radius: 10px;
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
@@ -407,12 +413,12 @@ button:hover {
 .custom-info-card i,
 .tile-card i,
 .service-icon {
-  font-size: clamp(1.2rem, 3vw, 2.2rem);
+  font-size: clamp(1.2rem, 3vw, 2rem);
   color: var(--primary-color);
   background-color: rgb(107, 81, 233, 0.1);
-  background-size: clamp(1.5rem, 3vw, 2.5rem);
-  width: 70px;
-  height: 70px;
+  background-size: clamp(1.5rem, 3vw, 2.2rem);
+  width: 60px;
+  height: 60px;
   padding: 10px;
   border-radius: 50%;
   display: flex;
@@ -421,7 +427,7 @@ button:hover {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 .custom-tile-figures {
-  font-size: clamp(1.8rem, 3vw, 2.9rem);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
   font-weight: bold;
 }
 .custom-info-area section {
@@ -447,7 +453,7 @@ th {
   flex-direction: column;
   background-color: var(--background);
   padding: 0;
-  margin: 1rem 0 0 1rem;
+  margin: 1rem 0 0 0;
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); */
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.5);
@@ -468,11 +474,11 @@ th {
 }
 
 .activity-feed-item i {
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(1rem, 3vw, 1.2rem);
   /* background-color: rgb(107, 81, 233, 0.1); */
   background-size: clamp(1.3rem, 3vw, 2.3rem);
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   padding: 10px;
   border-radius: 50%;
   display: flex;
@@ -481,12 +487,16 @@ th {
   border: 1px solid rgba(0, 0, 0, 0.1);
   margin-right: 15px;
 }
+.activity-feed-item p {
+  font-size: clamp(0.6rem, 2.3vw, 0.8rem);
+}
 .custom-nav-link {
   text-decoration: none;
-  color: var(--background-color);
   color: var(--font-color);
 }
-
+.custom-nav-link span {
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+}
 /* Orders Page */
 
 /* View Order Page */
@@ -503,7 +513,7 @@ th {
 .custom-order-info p,
 .custom-service-info p,
 .custom-profile-info p {
-  font-size: clamp(0.4rem, 2.4vw, 1.1rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.9rem);
   color: var(--font-color);
 }
 .custom-profile-info .row {
@@ -526,6 +536,7 @@ select {
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
+  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
 }
 
 /* Services */
@@ -566,7 +577,7 @@ select {
 }
 
 tfoot td {
-  font-size: clamp(0.6rem, 2.4vw, 1.1rem);
+  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
   font-weight: bold;
   color: var(--font-color);
 }
@@ -574,19 +585,20 @@ tfoot {
   width: 100%;
 }
 thead th {
-  font-size: clamp(0.6rem, 2.5vw, 1.1rem);
+  font-size: clamp(0.6rem, 2.5vw, 0.9rem);
   font-weight: bold;
   background-color: var(--table-header);
 }
 th,
 td {
-  padding: 15px;
+  padding: 12px 8px;
   text-align: left;
   white-space: nowrap;
 }
 td {
-  font-size: clamp(0.7rem, 2.4vw, 1rem);
+  font-size: clamp(0.6rem, 2.3vw, 0.8rem);
   color: var(--font-color);
+
 }
 
 .status {
@@ -595,7 +607,7 @@ td {
   border-radius: 20px;
   width: fit-content;
   border: 2px solid rgba(0, 0, 0, 0.1);
-  font-size: clamp(0.5rem, 2.4vw, 0.9rem);
+  font-size: clamp(0.5rem, 2.4vw, 0.7rem);
   margin: 0;
 }
 tr {
@@ -605,12 +617,15 @@ tbody :hover {
   background: var(--background-color);
 }
 .table-btn {
-  font-size: clamp(0.6rem, 2.4vw, 1rem);
+  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
 }
 textarea {
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
+}
+.custom-pagination-row button {
+  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
 }
 /* Settings Page */
 .custom-edit-btn {
@@ -653,7 +668,7 @@ textarea {
   background-color: var(--table-header);
 }
 .mission p {
-  font-size: clamp(0.7rem, 2.5vw, 1.3rem);
+  font-size: clamp(0.7rem, 2.5vw, 1.1rem);
   /* color: var(--background-color); */
 }
 .our-values {

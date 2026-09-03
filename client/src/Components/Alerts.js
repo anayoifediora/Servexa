@@ -15,9 +15,9 @@ const Alerts = ({ message }) => {
           role="alert"
         >
           <i
-            className={`bi bi-exclamation-circle-fill fs-1 ${message?.includes('Success') ? 'text-success' : 'text-danger '}`}
+            className={`bi bi-exclamation-circle-fill fs-2 ${message?.includes('Success') ? 'text-success' : 'text-danger '}`}
           ></i>
-          <p className="">{message}</p>
+          <p className="fs-6">{message}</p>
           {message?.includes('Authentication') ? (
             <Link to="/login">
               <button className="text-danger mt-4 bg-light">Log in</button>

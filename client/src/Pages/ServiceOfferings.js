@@ -20,7 +20,7 @@ const ServiceOfferings = () => {
             your systems smooth, secure and up-to-date
           </p>
         </div>
-        <div className="row  mt-5 justify-content-center col-12 col-lg-8">
+        <div className="row  mt-5 justify-content-center col-12 col-lg-10">
           <div className="service-card">
             <i className="bi bi-laptop fs-2"></i>
             <p className="fs-4 fw-bold" style={{ color: 'var(--primary-color)' }}>

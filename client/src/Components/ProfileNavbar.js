@@ -65,7 +65,7 @@ const ProfileNavbar = () => {
             {profile.data.username.toUpperCase().slice(0, 2)}
           </button>
           <p
-            className="mb-0 fs-5 d-none d-md-block dropdown-toggle"
+            className="mb-0 fs-6 d-none d-md-block dropdown-toggle"
             data-bs-toggle="dropdown"
             style={{ cursor: 'pointer' }}
           >

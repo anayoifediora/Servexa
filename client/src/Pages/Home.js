@@ -11,7 +11,7 @@ const Home = () => {
     <div className="custom-home-page row justify-content-center">
       <Navbar />
 
-      <div className="d-flex flex-column flex-xl-row m-3 p-3">
+      <div className="d-flex flex-column flex-xl-row justify-content-xl-center m-3 p-3">
         <section className="custom-hero-section col-xl-4 p-3">
           <p className="custom-smp rounded-pill fw-bold p-2">
             All in-one service management platform
@@ -40,31 +40,31 @@ const Home = () => {
           alt="Dashboard preview"
         />
       </div>
-      <div className="custom-features-list row justify-content-around justify-content-xl-between col-10 col-sm-6  col-xl-10">
+      <div className="custom-features-list row justify-content-around justify-content-xl-between col-10 col-sm-6  col-xl-11">
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-file-earmark-text" style={{ backgroundColor: '#6f42c1' }}></i>
           <p className=" title fw-bold">Order Management</p>
-          <p className="text-secondary w-75">Track and manage all your service requests</p>
+          <p className="description text-secondary w-75">Track and manage all your service requests</p>
         </div>
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-bounding-box" style={{ backgroundColor: '#198754' }}></i>
           <p className=" title fw-bold">Client Portal</p>
-          <p className="text-secondary w-75">A seamless experience for your clients</p>
+          <p className="description text-secondary w-75">A seamless experience for your clients</p>
         </div>
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-shield-check " style={{ backgroundColor: '#0d6efd' }}></i>
           <p className=" title fw-bold">Role-Based Access</p>
-          <p className="text-secondary w-75">Secure workflows for admins and clients</p>
+          <p className="description text-secondary w-75">Secure workflows for admins and clients</p>
         </div>
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-lightning-charge" style={{ backgroundColor: '#fd7e14' }}></i>
           <p className="title fw-bold">Real-Time Updates</p>
-          <p className="text-secondary w-75">Stay informed with instant notifications</p>
+          <p className="description text-secondary w-75">Stay informed with instant notifications</p>
         </div>
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-graph-up-arrow" style={{ backgroundColor: '#d63384' }}></i>
           <p className="title fw-bold">Analytics & Reports</p>
-          <p className="text-secondary w-75">Make data driven decisions with ease</p>
+          <p className="description text-secondary w-75">Make data driven decisions with ease</p>
         </div>
       </div>
       <div className="d-flex flex-column align-items-center mt-3">

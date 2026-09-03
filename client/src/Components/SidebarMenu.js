@@ -15,8 +15,8 @@ const SidebarMenu = () => {
       <ul>
         <Link className="custom-nav-link" to="/">
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-            <i className="bi bi-house me-3 fs-3"></i>
-            <span>Home</span>
+            <i className="bi bi-house me-3 fs-5"></i>
+            <span className=''>Home</span>
           </li>
         </Link>
         <Link
@@ -24,29 +24,29 @@ const SidebarMenu = () => {
           to={profile.data.role === 'admin' ? '/admin' : '/dashboard'}
         >
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-            <i className="bi bi-grid-1x2 me-3 fs-3"></i>
-            <span>Dashboard</span>
+            <i className="bi bi-grid-1x2 me-3 fs-5"></i>
+            <span className=''>Dashboard</span>
           </li>
         </Link>
         <Link className="custom-nav-link" to="/orders">
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-            <i className="bi bi-clipboard-check me-3 fs-3"></i>
-            <span>Orders</span>
+            <i className="bi bi-clipboard-check me-3 fs-5"></i>
+            <span className=''>Orders</span>
           </li>
         </Link>
         {profile?.data?.role === 'admin' && (
           <>
             <Link className="custom-nav-link" to="/services">
               <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-                <i className="bi bi-boxes me-3 fs-3"></i>
-                <span>Services</span>
+                <i className="bi bi-boxes me-3 fs-5"></i>
+                <span className=''>Services</span>
               </li>
             </Link>
 
             <Link className="custom-nav-link" to="/users">
               <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-                <i className="bi bi-people me-3 fs-3"></i>
-                <span>Users</span>
+                <i className="bi bi-people me-3 fs-5"></i>
+                <span className=''>Users</span>
               </li>
             </Link>
           </>
@@ -55,16 +55,16 @@ const SidebarMenu = () => {
       <ul>
         <Link className="custom-nav-link" to="/settings">
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
-            <i className="bi bi-gear me-3 fs-3"></i>
-            <span>Settings</span>
+            <i className="bi bi-gear me-3 fs-5"></i>
+            <span className=''>Settings</span>
           </li>
         </Link>
         <li
           className="custom-nav-link d-flex flex-column flex-xl-row align-items-xl-center"
           onClick={logout}
         >
-          <i className=" bi bi-box-arrow-left me-3 fs-3"></i>
-          <span>Logout</span>
+          <i className=" bi bi-box-arrow-left me-3 fs-5"></i>
+          <span className=''>Logout</span>
         </li>
       </ul>
     </div>

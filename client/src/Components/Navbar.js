@@ -12,7 +12,7 @@ const Navbar = () => {
     Auth.logout();
   };
   return (
-    <header className="d-flex align-items-center justify-content-between p-3 border-bottom bg-white w-100">
+    <header className="d-flex align-items-center justify-content-between p-1 border-bottom bg-white w-100">
       <button
         className="col-2 d-md-none fs-6"
         data-bs-toggle="offcanvas"
@@ -59,7 +59,7 @@ const Navbar = () => {
 
       <div className="justify-content-center d-none d-md-block">
         {Auth.loggedIn() ? (
-          <div className=" d-flex align-items-center">
+          <div className=" d-flex align-items-center me-3">
             <button onClick={logout} className="m-2">
               Log out
             </button>
@@ -69,7 +69,7 @@ const Navbar = () => {
             </Link>
             <div className="dropdown">
               <button
-                className="dropdown-toggle d-none d-xl-block"
+                className="dropdown-toggle d-none d-md-block m-2"
                 data-bs-toggle="dropdown"
                 style={{ marginLeft: '40px' }}
               >

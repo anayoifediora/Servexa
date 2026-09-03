@@ -13,7 +13,7 @@ const checkAuthorization = (context, allowedRoles = []) => {
     });
   }
 };
-const formatDate = (date) => new Date(date).toLocaleString();
+const formatDate = (date) => new Date(date).toLocaleString('en-AU');
 
 const calculatePercentageChange = (current, previous) => {
   if (previous === 0) {

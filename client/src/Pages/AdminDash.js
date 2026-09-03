@@ -57,7 +57,7 @@ const AdminDash = () => {
       <SidebarMenu />
       <div className="custom-info-area ">
         <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-2 mb-3">
-          <h1 className="m-2 ms-5 fw-bold">Dashboard</h1>
+          <h2 className="m-2 ms-5 fw-bold">Dashboard</h2>
 
           <p className="dash-period border border-secondary rounded bg-white">
             Period: {`${firstDayOfMonth.slice(4, 10)} -  ${currentDate.slice(4, 15)}`}
@@ -66,10 +66,10 @@ const AdminDash = () => {
         {updateLoading ? (
           <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
         ) : (
-          <div className="d-flex row" style={{ padding: '0 2rem 0 2.5rem' }}>
+          <div className="d-flex row" style={{ padding: '0 2rem 0 2rem' }}>
             <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
-                <p className="text-secondary fs-4">Total Orders</p>
+                <p className="text-secondary fs-5">Total Orders</p>
                 <p className="custom-tile-figures">{totalOrders}</p>
                 <p className={`fw-bold ${totalOrdersChange > 0 ? 'text-success' : 'text-danger'}`}>
                   {totalOrdersChange}% <span className="text-dark fw-light">from last month</span>
@@ -79,7 +79,7 @@ const AdminDash = () => {
             </div>
             <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
-                <p className="text-secondary fs-4">Pending Orders</p>
+                <p className="text-secondary fs-5">Pending Orders</p>
                 <p className="custom-tile-figures">{pendingOrders}</p>
                 <p
                   className={`fw-bold ${pendingOrdersChange > 0 ? 'text-success' : 'text-danger'}`}
@@ -97,7 +97,7 @@ const AdminDash = () => {
             </div>
             <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
-                <p className="text-secondary fs-4">Total Revenue</p>
+                <p className="text-secondary fs-5">Total Revenue</p>
                 <p className="custom-tile-figures">${priceFormatter(totalRevenue)}</p>
                 <p className={`fw-bold ${revenueChange > 0 ? 'text-success' : 'text-danger'}`}>
                   {revenueChange}% <span className="text-dark fw-light">from last month</span>
@@ -113,7 +113,7 @@ const AdminDash = () => {
             </div>
             <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
-                <p className="text-secondary fs-4">Active Clients</p>
+                <p className="text-secondary fs-5">Active Clients</p>
                 <p className="custom-tile-figures">{activeUsers}</p>
                 <p className={`fw-bold ${activeUsersChange > 0 ? 'text-success' : 'text-danger'}`}>
                   {activeUsersChange}% <span className="text-dark fw-light">from inception</span>
@@ -130,11 +130,11 @@ const AdminDash = () => {
           </div>
         )}
         <section className="row justify-content-around p-3">
-          <div className="recent-table-container col-12 col-md-11 col-lg-6 col-xl-7  mt-3">
+          <div className="recent-table-container col-12 col-md-11  col-xl-7  mt-3">
             <table className="custom-recent-orders">
               <thead>
                 <tr>
-                  <th colSpan={6} className="bg-light">
+                  <th colSpan={5} className="bg-light">
                     Recent Orders
                   </th>
                   <th colSpan={2} className="bg-light">
@@ -180,14 +180,14 @@ const AdminDash = () => {
             </table>
           </div>
 
-          <div className="activity-feed col-8 col-md-8 col-lg-5 col-xl-4">
+          <div className="activity-feed col-12 col-md-8  col-xl-4">
             <div>
-              <h5
+              <h6
                 className="p-2 fw-bold
               "
               >
                 Activity Feed
-              </h5>
+              </h6>
             </div>
             {activityFeed.slice(0, 5).map((feedItem, index) => (
               <div className="activity-feed-item" key={index}>
