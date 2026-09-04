@@ -28,7 +28,7 @@ body {
   /* font-family: 'Livvic', sans-serif; */
 }
 .form-control {
-  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.8rem);
 }
 .custom-close-btn:hover {
   cursor: pointer;
@@ -84,7 +84,7 @@ button {
   padding: 10px;
   font-weight: 500;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.8rem);
 }
 button:hover {
   /* background-color: white;
@@ -183,7 +183,7 @@ button:hover {
 }
 .feature-card > .description {
   grid-area: description;
-  font-size: clamp(0.6rem, 2.4vw, 0.9rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.9rem);
 
 }
 
@@ -284,8 +284,8 @@ button:hover {
   border: black 1px solid;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  width: 25%;
-  height: 250px;
+  /* width: 25%; */
+  height: 200px;
   margin: 20px auto;
   text-align: center;
   position: fixed;
@@ -326,7 +326,7 @@ button:hover {
 }
 /* Dashboard page */
 .dashboard-page {
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: white;
   display: grid;
   grid-template-areas:
@@ -340,7 +340,7 @@ button:hover {
   padding: 10px;
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: clamp(0.6rem, 2.3vw, 1rem);
+  font-size: clamp(0.7rem, 2.3vw, 1rem);
 }
 .custom-title {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
@@ -424,7 +424,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 .custom-tile-figures {
   font-size: clamp(1.8rem, 3vw, 2.5rem);
@@ -488,7 +488,7 @@ th {
   margin-right: 15px;
 }
 .activity-feed-item p {
-  font-size: clamp(0.6rem, 2.3vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.3vw, 0.8rem);
 }
 .custom-nav-link {
   text-decoration: none;
@@ -536,7 +536,7 @@ select {
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.8rem);
 }
 
 /* Services */
@@ -577,7 +577,7 @@ select {
 }
 
 tfoot td {
-  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.8rem);
   font-weight: bold;
   color: var(--font-color);
 }
@@ -585,7 +585,7 @@ tfoot {
   width: 100%;
 }
 thead th {
-  font-size: clamp(0.6rem, 2.5vw, 0.9rem);
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
   font-weight: bold;
   background-color: var(--table-header);
 }
@@ -596,7 +596,7 @@ td {
   white-space: nowrap;
 }
 td {
-  font-size: clamp(0.6rem, 2.3vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.3vw, 0.8rem);
   color: var(--font-color);
 
 }
@@ -617,7 +617,7 @@ tbody :hover {
   background: var(--background-color);
 }
 .table-btn {
-  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.8rem);
 }
 textarea {
   padding: 10px;
@@ -625,7 +625,7 @@ textarea {
   border-radius: 5px;
 }
 .custom-pagination-row button {
-  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.4vw, 0.8rem);
 }
 /* Settings Page */
 .custom-edit-btn {
@@ -702,6 +702,7 @@ textarea {
       'profile-navbar'
       'custom-info-area';
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
   }
   .custom-info-area {
     max-width: 100%;

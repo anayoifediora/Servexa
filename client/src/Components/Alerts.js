@@ -11,7 +11,7 @@ const Alerts = ({ message }) => {
       {visible && (
         <div
           // eslint-disable-next-line react/prop-types
-          className={`custom-alert alert ${message?.includes('Success') ? 'alert-success' : 'alert-danger'}`}
+          className={`custom-alert alert col-7 col-md-3 ${message?.includes('Success') ? 'alert-success' : 'alert-danger'}`}
           role="alert"
         >
           <i
