@@ -7,6 +7,8 @@ import { QUERY_SINGLE_USER } from '../utils/queries';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSearchTerm } from '../State/searchTermSlice';
 import { userStatusStyles } from '../utils/helpers';
+//Components
+import Alerts from '../Components/Alerts';
 
 const ProfileNavbar = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,7 @@ const ProfileNavbar = () => {
         <img
           className="d-none d-sm-block"
           src="/images/Servexalogo.png"
+          alt="logo"
           style={{ maxWidth: '150px' }}
         />
         <h1 className="custom-title d-none d-lg-block">Servexa</h1>
@@ -129,6 +132,7 @@ const ProfileNavbar = () => {
           {userInfo?.status}
         </p>
       </div>
+      {error && <Alerts message={error.message} />}
     </div>
   );
 };

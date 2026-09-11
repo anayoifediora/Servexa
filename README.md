@@ -27,6 +27,10 @@ The platform provides separate experiences for clients and administrators. Clien
 
 > **Servexa is a portfolio project built to demonstrate full-stack web development, authentication, GraphQL APIs, database management, responsive UI design, and state management.**
 
+## Link to Webpage
+
+Click [here](https://agile-citadel-78208-01d98a19faad.herokuapp.com/) to view the web app.
+
 ## ✨ Features
 
 ### Client Features

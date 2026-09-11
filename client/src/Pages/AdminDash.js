@@ -64,7 +64,7 @@ const AdminDash = () => {
           </p>
         </div>
         {updateLoading ? (
-          <i className="loading bi bi-hourglass-top fs-5">Loading...</i>
+          <Loading />
         ) : (
           <div className="d-flex row" style={{ padding: '0 2rem 0 2rem' }}>
             <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { priceFormatter } from '../utils/helpers';
+import Auth from '../utils/auth';
 //Components
 import ProfileNavbar from '../Components/ProfileNavbar';
 import SidebarMenu from '../Components/SidebarMenu';
@@ -14,6 +15,7 @@ import SearchResults from '../Components/SearchResults';
 import Loading from '../Components/Loading';
 
 const ViewOrderPage = () => {
+  const profile = Auth.getProfile();
   //Get the order id from the URL params
   const { orderId } = useParams();
   const { loading, data, error } = useQuery(QUERY_SINGLE_ORDER, {
@@ -41,7 +43,7 @@ const ViewOrderPage = () => {
     <div className="dashboard-page">
       <ProfileNavbar />
       <SidebarMenu />
-      
+
       {loading ? (
         <Loading />
       ) : (
@@ -167,7 +169,9 @@ const ViewOrderPage = () => {
                   Job Description
                 </p>
                 <p className="text-dark w-75" style={{ textAlign: 'justify' }}>
-                  {singleOrder?.description}
+                  {singleOrder?.description?.split('\n').map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
                 </p>
               </div>
               <div>
@@ -175,7 +179,7 @@ const ViewOrderPage = () => {
                   Admin Notes
                 </p>
                 <div>
-                  {singleOrder?.adminNotes.split('\n').map((item, index) => (
+                  {singleOrder?.adminNotes?.split('\n').map((item, index) => (
                     <p key={index}>{item}</p>
                   ))}
                 </div>
@@ -201,9 +205,11 @@ const ViewOrderPage = () => {
                 <p className="text-dark">{singleOrder?.updatedAt}</p>
               </div>
             </div>
-            <button className="m-2" data-bs-toggle="modal" data-bs-target="#updateOrderModal">
-              Update order
-            </button>
+            {profile.data.role === 'admin' && (
+              <button className="m-2" data-bs-toggle="modal" data-bs-target="#updateOrderModal">
+                Update order
+              </button>
+            )}
           </div>
         </div>
       )}

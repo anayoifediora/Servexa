@@ -16,7 +16,7 @@ const SidebarMenu = () => {
         <Link className="custom-nav-link" to="/">
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
             <i className="bi bi-house me-3 fs-5"></i>
-            <span className=''>Home</span>
+            <span className="">Home</span>
           </li>
         </Link>
         <Link
@@ -25,13 +25,13 @@ const SidebarMenu = () => {
         >
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
             <i className="bi bi-grid-1x2 me-3 fs-5"></i>
-            <span className=''>Dashboard</span>
+            <span className="">Dashboard</span>
           </li>
         </Link>
         <Link className="custom-nav-link" to="/orders">
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
             <i className="bi bi-clipboard-check me-3 fs-5"></i>
-            <span className=''>Orders</span>
+            <span className="">Orders</span>
           </li>
         </Link>
         {profile?.data?.role === 'admin' && (
@@ -39,14 +39,14 @@ const SidebarMenu = () => {
             <Link className="custom-nav-link" to="/services">
               <li className="d-flex flex-column flex-xl-row align-items-xl-center">
                 <i className="bi bi-boxes me-3 fs-5"></i>
-                <span className=''>Services</span>
+                <span className="">Services</span>
               </li>
             </Link>
 
             <Link className="custom-nav-link" to="/users">
               <li className="d-flex flex-column flex-xl-row align-items-xl-center">
                 <i className="bi bi-people me-3 fs-5"></i>
-                <span className=''>Users</span>
+                <span className="">Users</span>
               </li>
             </Link>
           </>
@@ -56,7 +56,7 @@ const SidebarMenu = () => {
         <Link className="custom-nav-link" to="/settings">
           <li className="d-flex flex-column flex-xl-row align-items-xl-center">
             <i className="bi bi-gear me-3 fs-5"></i>
-            <span className=''>Settings</span>
+            <span className="">Settings</span>
           </li>
         </Link>
         <li
@@ -64,7 +64,7 @@ const SidebarMenu = () => {
           onClick={logout}
         >
           <i className=" bi bi-box-arrow-left me-3 fs-5"></i>
-          <span className=''>Logout</span>
+          <span className="">Logout</span>
         </li>
       </ul>
     </div>

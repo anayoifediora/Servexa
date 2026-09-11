@@ -8,9 +8,6 @@
   --sidebar: #111827;
   --font-color: rgb(17, 16, 16);
   --table-header: rgba(165, 180, 252, 0.8);
-  /* color-scheme: light dark;
-  --bg-color: light-dark(white, #111827);
-  --text-color: light-dark(#111827, white); */
 }
 #root {
   min-height: 100vh;
@@ -24,8 +21,8 @@ body {
 }
 * {
   font-family: 'Hanken Grotesk', sans-serif;
-  /* font-family: 'Plus Jakarta Sans', sans-serif; */
-  /* font-family: 'Livvic', sans-serif; */
+  font-family: 'Livvic', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
 }
 .form-control {
   font-size: clamp(0.7rem, 2.4vw, 0.8rem);
@@ -163,7 +160,7 @@ button:hover {
   row-gap: 3px;
   column-gap: 10px;
   max-height: 150px;
-  min-width: 290px;
+  min-width: 310px;
   align-self: center;
 }
 .feature-card > .icon {
@@ -184,13 +181,12 @@ button:hover {
 .feature-card > .description {
   grid-area: description;
   font-size: clamp(0.7rem, 2.4vw, 0.9rem);
-
 }
 
 .flowchart {
   display: flex;
   flex-direction: row;
-  align-items: center; /* Keeps everything centered along a straight axis */
+  align-items: center;
   font-family:
     system-ui,
     -apple-system,
@@ -284,8 +280,7 @@ button:hover {
   border: black 1px solid;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  /* width: 25%; */
-  height: 200px;
+  height: 250px;
   margin: 20px auto;
   text-align: center;
   position: fixed;
@@ -293,7 +288,6 @@ button:hover {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1500;
- 
 }
 .custom-search-result {
   background-color: var(--background);
@@ -315,14 +309,14 @@ button:hover {
   color: black;
 }
 .custom-result p {
-  font-size: clamp(0.7rem, 2.3vw, 1rem);
+  font-size: clamp(0.7rem, 2.3vw, 0.9rem);
 }
 .custom-result:hover {
   background-color: var(--secondary-color);
   cursor: pointer;
 }
 .custom-alert p {
-  font-size: clamp(0.5rem, 2.3vw, 1.1rem);
+  font-size: clamp(0.5rem, 2.3vw, 1rem);
 }
 /* Dashboard page */
 .dashboard-page {
@@ -364,7 +358,6 @@ button:hover {
   flex-direction: column;
   grid-area: sidebar-menu;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  
 }
 
 .custom-info-area {
@@ -404,21 +397,18 @@ button:hover {
   margin: 10px auto;
   padding: 20px;
   border-radius: 10px;
-  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
   display: flex;
   justify-content: space-between;
-  /* border: 2px solid #e4e7ec; */
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
 .custom-info-card i,
 .tile-card i,
 .service-icon {
-  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
   color: var(--primary-color);
   background-color: rgb(107, 81, 233, 0.1);
-  background-size: clamp(1.5rem, 3vw, 2.2rem);
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   padding: 10px;
   border-radius: 50%;
   display: flex;
@@ -454,7 +444,6 @@ th {
   background-color: var(--background);
   padding: 0;
   margin: 1rem 0 0 0;
-  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); */
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
@@ -475,7 +464,6 @@ th {
 
 .activity-feed-item i {
   font-size: clamp(1rem, 3vw, 1.2rem);
-  /* background-color: rgb(107, 81, 233, 0.1); */
   background-size: clamp(1.3rem, 3vw, 2.3rem);
   width: 45px;
   height: 45px;
@@ -596,9 +584,8 @@ td {
   white-space: nowrap;
 }
 td {
-  font-size: clamp(0.7rem, 2.3vw, 0.8rem);
+  font-size: clamp(0.7rem, 2.3vw, 0.9rem);
   color: var(--font-color);
-
 }
 
 .status {
@@ -669,7 +656,8 @@ textarea {
 }
 .mission p {
   font-size: clamp(0.7rem, 2.5vw, 1.1rem);
-  /* color: var(--background-color); */
+  color: white;
+  -webkit-text-stroke: 0.5px white;
 }
 .our-values {
   border: 1px solid rgba(0, 0, 0, 0.2);

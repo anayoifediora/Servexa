@@ -30,7 +30,6 @@ const UserDashboard = () => {
   });
 
   const userInfo = data?.user || {};
-  console.log(userInfo);
   const ordersPendingPayment = userInfo?.orders
     ?.map((order) => (order?.status === 'Payment Pending' ? order?.price : 0))
     .reduce((acc, val) => acc + val, 0);
@@ -168,7 +167,7 @@ const UserDashboard = () => {
             >
               <div className="tile-card  col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
-                  <p className="text-secondary fs-6 fs-4">Total Orders</p>
+                  <p className="text-secondary fs-4">Total Orders</p>
                   <p className="custom-tile-figures">{userInfo?.noOfOrders}</p>
                 </div>
                 <i
@@ -181,7 +180,7 @@ const UserDashboard = () => {
               </div>
               <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
-                  <p className="text-secondary fs-6 fs-4">Not Completed</p>
+                  <p className="text-secondary  fs-4">Not Completed</p>
                   <p className="custom-tile-figures">
                     {!userInfo?.orders
                       ? 0
@@ -198,7 +197,7 @@ const UserDashboard = () => {
               </div>
               <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
-                  <p className="text-secondary fs-6 fs-4">Completed</p>
+                  <p className="text-secondary fs-4">Completed</p>
                   <p className="custom-tile-figures">
                     {!userInfo?.orders
                       ? 0
@@ -215,7 +214,7 @@ const UserDashboard = () => {
               </div>
               <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
-                  <p className="text-secondary fs-6 fs-4">Amount Due</p>
+                  <p className="text-secondary fs-4">Amount Due</p>
                   <p className="custom-tile-figures">${priceFormatter(ordersPendingPayment)}</p>
                 </div>
                 <i

@@ -44,7 +44,9 @@ const Home = () => {
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-file-earmark-text" style={{ backgroundColor: '#6f42c1' }}></i>
           <p className=" title fw-bold">Order Management</p>
-          <p className="description text-secondary w-75">Track and manage all your service requests</p>
+          <p className="description text-secondary w-75">
+            Track and manage all your service requests
+          </p>
         </div>
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-bounding-box" style={{ backgroundColor: '#198754' }}></i>
@@ -59,7 +61,9 @@ const Home = () => {
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-lightning-charge" style={{ backgroundColor: '#fd7e14' }}></i>
           <p className="title fw-bold">Real-Time Updates</p>
-          <p className="description text-secondary w-75">Stay informed with instant notifications</p>
+          <p className="description text-secondary w-75">
+            Stay informed with instant notifications
+          </p>
         </div>
         <div className="feature-card col-3 col-lg-2">
           <i className=" icon bi bi-graph-up-arrow" style={{ backgroundColor: '#d63384' }}></i>

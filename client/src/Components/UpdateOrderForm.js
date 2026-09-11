@@ -131,7 +131,9 @@ const UpdateOrderForm = (props) => {
                       Job Description
                     </p>
                     <p className="text-dark w-50" style={{ textAlign: 'justify' }}>
-                      {singleOrder?.description}
+                      {singleOrder?.description?.split('\n').map((item, index) => (
+                        <p key={index}>{item}</p>
+                      ))}
                     </p>
                   </div>
                   <div className="d-flex flex-column w-50">
@@ -177,7 +179,7 @@ const UpdateOrderForm = (props) => {
               </div>
               <div className="modal-footer">
                 <button data-bs-dismiss="modal">Cancel</button>
-                <button onClick={handleFormSubmit}>Update</button>
+                <button onClick={handleFormSubmit}>{loading ? 'Updating...' : 'Update'}</button>
               </div>
             </div>
           </div>

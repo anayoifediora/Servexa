@@ -17,7 +17,6 @@ const Navbar = () => {
         className="col-2 d-md-none fs-6"
         data-bs-toggle="offcanvas"
         href="#offcanvasExample"
-        role="button"
         aria-controls="offcanvasExample"
         style={{ width: 'fit-content' }}
       >
@@ -28,7 +27,7 @@ const Navbar = () => {
         className="d-flex align-items-center text-decoration-none col-9"
         style={{ width: 'fit-content' }}
       >
-        <img src="/images/Servexalogo.png" style={{ maxWidth: '150px' }} />
+        <img src="/images/Servexalogo.png" style={{ maxWidth: '150px' }} alt="logo" />
         <h1 className="custom-title fw-bold d-none d-lg-block">Servexa</h1>
       </Link>
       <ul className="nav d-none d-md-flex">
@@ -145,7 +144,7 @@ const Navbar = () => {
                   </>
                 ) : (
                   <>
-                    <Link className="nav-link fw-bold " aria-current="page">
+                    <Link to="/signup" className="nav-link fw-bold " aria-current="page">
                       Get Started
                     </Link>
                     <Link to="/login" className="nav-link fw-bold" aria-current="page">
