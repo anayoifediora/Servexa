@@ -64,7 +64,11 @@ const ProfileNavbar = () => {
       </div>
       <div className="d-flex flex-column me-4">
         <div className="dropdown">
-          <button className="fs-6 d-md-none dropdown-toggle" data-bs-toggle="dropdown">
+          <button
+            className="d-md-none dropdown-toggle"
+            data-bs-toggle="dropdown"
+            style={{ fontSize: '0.8rem' }}
+          >
             {profile.data.username.toUpperCase().slice(0, 2)}
           </button>
           <p

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Auth from '../utils/auth';
@@ -6,6 +6,7 @@ import Auth from '../utils/auth';
 const Navbar = () => {
   const profile = Auth.getProfile();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const logout = (e) => {
     e.preventDefault();
@@ -14,10 +15,8 @@ const Navbar = () => {
   return (
     <header className="d-flex align-items-center justify-content-between p-1 border-bottom bg-white w-100">
       <button
-        className="col-2 d-md-none fs-6"
-        data-bs-toggle="offcanvas"
-        href="#offcanvasExample"
-        aria-controls="offcanvasExample"
+        className="col-2 d-md-none fs-6 ms-3"
+        onClick={() => setMenuOpen(true)}
         style={{ width: 'fit-content' }}
       >
         Menu
@@ -56,7 +55,7 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <div className="justify-content-center d-none d-md-block">
+      <div className="justify-content-center d-none d-md-block me-2">
         {Auth.loggedIn() ? (
           <div className=" d-flex align-items-center me-3">
             <button onClick={logout} className="m-2">
@@ -91,72 +90,82 @@ const Navbar = () => {
           </>
         )}
       </div>
-      <div
-        className="offcanvas offcanvas-start"
-        tabIndex="-1"
-        id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel"
-      >
-        <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-            Menu
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div className="offcanvas-body">
+      {menuOpen && (
+        <div className="mobile-menu d-md-none">
+          <div className="d-flex align-items-center justify-content-between">
+            <h5 className="m-3">Menu</h5>
+            <i
+              className="m-3 bi bi-x-square fs-4"
+              type="button"
+              onClick={() => setMenuOpen(false)}
+            ></i>
+          </div>
           <div>
-            <ul className="nav d-flex flex-column">
-              <li className="nav-item">
-                <Link to="/" className="nav-link fw-bold" aria-current="page">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/service_offerings" className="nav-link fw-bold" aria-current="page">
-                  Services
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/about_us" className="nav-link fw-bold" aria-current="page">
-                  About Us
-                </Link>
-              </li>
+            <div>
+              <ul className="nav d-flex flex-column">
+                <li className="nav-item">
+                  <Link
+                    to="/"
+                    className="nav-link fw-bold"
+                    aria-current="page"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    to="/service_offerings"
+                    className="nav-link fw-bold"
+                    aria-current="page"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Services
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    to="/about_us"
+                    className="nav-link fw-bold"
+                    aria-current="page"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    About Us
+                  </Link>
+                </li>
 
-              <li className="nav-item">
-                {Auth.loggedIn() ? (
-                  <>
-                    <Link
-                      className="nav-link fw-bold"
-                      to={profile.data.role === 'admin' ? '/admin' : '/dashboard'}
-                    >
-                      View dashboard
-                    </Link>
-                    <li className="nav-item" onClick={logout}>
-                      <Link className="nav-link fw-bold " aria-current="page">
-                        Log out
+                <li className="nav-item">
+                  {Auth.loggedIn() ? (
+                    <>
+                      <Link
+                        className="nav-link fw-bold"
+                        to={profile.data.role === 'admin' ? '/admin' : '/dashboard'}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        View dashboard
                       </Link>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/signup" className="nav-link fw-bold " aria-current="page">
-                      Get Started
-                    </Link>
-                    <Link to="/login" className="nav-link fw-bold" aria-current="page">
-                      Login
-                    </Link>
-                  </>
-                )}
-              </li>
-            </ul>
+                      <li className="nav-item" onClick={logout}>
+                        <Link className="nav-link fw-bold " aria-current="page">
+                          Log out
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/signup" className="nav-link fw-bold " aria-current="page">
+                        Get Started
+                      </Link>
+                      <Link to="/login" className="nav-link fw-bold" aria-current="page">
+                        Login
+                      </Link>
+                    </>
+                  )}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };

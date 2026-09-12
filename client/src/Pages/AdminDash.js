@@ -67,7 +67,7 @@ const AdminDash = () => {
           <Loading />
         ) : (
           <div className="d-flex row" style={{ padding: '0 2rem 0 2rem' }}>
-            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card  col-11 col-sm-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-5">Total Orders</p>
                 <p className="custom-tile-figures">{totalOrders}</p>
@@ -77,7 +77,7 @@ const AdminDash = () => {
               </div>
               <i className="bi bi-clipboard-check"></i>
             </div>
-            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-11 col-sm-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-5">Pending Orders</p>
                 <p className="custom-tile-figures">{pendingOrders}</p>
@@ -95,7 +95,7 @@ const AdminDash = () => {
                 }}
               ></i>
             </div>
-            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-11 col-sm-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-5">Total Revenue</p>
                 <p className="custom-tile-figures">${priceFormatter(totalRevenue)}</p>
@@ -111,7 +111,7 @@ const AdminDash = () => {
                 }}
               ></i>
             </div>
-            <div className="custom-info-card col-8 col-md-5 col-xl-5 col-xxl-2">
+            <div className="custom-info-card col-11 col-sm-8 col-md-5 col-xl-5 col-xxl-2">
               <div>
                 <p className="text-secondary fs-5">Active Clients</p>
                 <p className="custom-tile-figures">{activeUsers}</p>

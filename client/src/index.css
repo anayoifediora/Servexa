@@ -682,6 +682,15 @@ textarea {
   color: var(--font-color);
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
+.mobile-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 40%;
+  background-color: var(--background);
+  z-index: 2000;
+}
 /* Media Queries for responsive design */
 
 @media screen and (max-width: 768px) {

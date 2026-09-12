@@ -8,9 +8,15 @@ const Footer = () => {
         <Link to="/about_us" className=" col-lg-2">
           About Us
         </Link>
-        <a className=" col-lg-2">Contact</a>
-        <a className=" col-lg-2">Privacy</a>
-        <a className=" col-lg-2">Terms</a>
+        {/* <a className=" col-lg-2" href="">
+          Contact
+        </a> */}
+        <Link to="/service_offerings" className=" col-lg-2">
+          Services
+        </Link>
+        {/* <a className=" col-lg-2" href="">
+          Terms
+        </a> */}
       </div>
       <div className="mt-3">
         <a href="https://www.instagram.com/kifediora/" target="_blank" rel="noreferrer">
