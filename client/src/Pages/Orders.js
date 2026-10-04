@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QUERY_ORDERS } from '../utils/queries';
 import { useQuery } from '@apollo/client/react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '../State/currentPageSlice';
 
 import { priceFormatter, ROWS_PER_TABLE_PAGE } from '../utils/helpers';
 //Components
@@ -16,8 +15,8 @@ import Loading from '../Components/Loading';
 const Orders = () => {
   //Hooks
   const searchTerm = useSelector((state) => state.searchTerm);
-  const currentPage = useSelector((state) => state.currentPage);
-  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { loading, error, data } = useQuery(QUERY_ORDERS);
 
   const orders = data?.orders || [];
@@ -34,7 +33,7 @@ const Orders = () => {
   const totalPages = Math.ceil(orders.length / ROWS_PER_TABLE_PAGE);
 
   const handlePageChange = (pageNumber) => {
-    dispatch(setCurrentPage(pageNumber));
+    setCurrentPage(pageNumber);
   };
 
   const paginatedOrders = orders.slice(

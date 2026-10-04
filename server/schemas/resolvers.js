@@ -4,6 +4,8 @@ const { signToken } = require('../utils/auth');
 const { User, Service, Order } = require('../models');
 const { formatDate, checkAuthorization, calculatePercentageChange } = require('../helpers');
 const bcrypt = require('bcrypt');
+const { sendEmail } = require('../utils/mailer');
+const { orderCreatedEmail } = require('../utils/emails');
 
 const timestampFields = {
   createdAt: (document) => formatDate(document.createdAt),
@@ -372,10 +374,24 @@ const resolvers = {
           description,
         });
 
+        //Update the users array of orders
         await User.findOneAndUpdate(
           { _id: client },
           { $addToSet: { orders: order._id } },
           { returnDocument: 'after' }
+        );
+
+        //Find the user
+        const user = await User.findById(client);
+
+        await sendEmail(
+          orderCreatedEmail({
+            email: user.email,
+            firstName: user.firstName,
+            serviceTitle: requestedService.title,
+            orderId: order._id,
+            orderStatus: order.status,
+          })
         );
         return order;
       } catch (error) {
@@ -387,21 +403,23 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       try {
         const { orderId, status, price, adminNotes } = args;
+        const order = await Order.findById(orderId);
+        if (!order) {
+          throw new GraphQLError(`Order with ID ${orderId} not found`, {
+            extensions: { code: 'NOT_FOUND' },
+          });
+        }
+        if (order.status === 'Closed') {
+          throw new GraphQLError('This order has been closed and cannot be updated!', {
+            extensions: { code: 'BAD_REQUEST' },
+          });
+        }
         const updatedOrder = await Order.findOneAndUpdate(
           { _id: orderId },
           { status, price, adminNotes },
           { returnDocument: 'after', runValidators: true }
         );
-        if (!updatedOrder) {
-          throw new GraphQLError(`Order with ID ${orderId} not found`, {
-            extensions: { code: 'NOT_FOUND' },
-          });
-        }
-        if (updatedOrder.status === 'Closed') {
-          throw new GraphQLError('This order has been closed and cannot be updated!', {
-            extensions: { code: 'BAD_REQUEST' },
-          });
-        }
+
         return updatedOrder;
       } catch (error) {
         throw new GraphQLError(error.message, {

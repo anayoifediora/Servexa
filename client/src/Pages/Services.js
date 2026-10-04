@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client/react';
 import { QUERY_SERVICES } from '../utils/queries';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '../State/currentPageSlice';
 
 import { priceFormatter, ROWS_PER_TABLE_PAGE } from '../utils/helpers';
 
@@ -19,8 +18,7 @@ const Services = () => {
   const { loading, data, error } = useQuery(QUERY_SERVICES);
   const searchTerm = useSelector((state) => state.searchTerm);
 
-  const currentPage = useSelector((state) => state.currentPage);
-  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const services = data?.services || [];
 
@@ -30,7 +28,7 @@ const Services = () => {
     currentPage * ROWS_PER_TABLE_PAGE
   );
   const handlePageChange = (pageNumber) => {
-    dispatch(setCurrentPage(pageNumber));
+    setCurrentPage(pageNumber);
   };
 
   const statusStyles = {
