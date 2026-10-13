@@ -5,7 +5,8 @@ const { User, Service, Order } = require('../models');
 const { formatDate, checkAuthorization, calculatePercentageChange } = require('../helpers');
 const bcrypt = require('bcrypt');
 const { sendEmail } = require('../utils/mailer');
-const { orderCreatedEmail } = require('../utils/emails');
+const { orderCreatedEmail } = require('../utils/emails/orderCreatedEmail');
+const { orderStatusUpdatedEmail } = require('../utils/emails/orderUpdateEmail');
 
 const timestampFields = {
   createdAt: (document) => formatDate(document.createdAt),
@@ -45,7 +46,7 @@ const resolvers = {
     //List all orders
     orders: async (parent, args, context) => {
       checkAuthorization(context, ['admin']);
-      return Order.find().sort({ createdAt: -1 }).populate(['client', 'service']);
+      return Order.find().sort({ updatedAt: -1 }).populate(['client', 'service']);
     },
     //List recent orders
     recentOrders: async (parent, args, context) => {
@@ -167,7 +168,7 @@ const resolvers = {
           {
             $match: {
               status: 'In Progress',
-              createdAt: { $gte: currentMonthStart },
+              updatedAt: { $gte: currentMonthStart },
               price: { $ne: null },
             },
           },
@@ -183,7 +184,7 @@ const resolvers = {
           {
             $match: {
               status: 'In Progress',
-              createdAt: {
+              updatedAt: {
                 $gte: previousMonthStart,
                 $lte: previousMonthEnd,
               },
@@ -418,6 +419,21 @@ const resolvers = {
           { _id: orderId },
           { status, price, adminNotes },
           { returnDocument: 'after', runValidators: true }
+        );
+
+        const user = await User.findById(updatedOrder.client);
+        const service = await Service.findById(updatedOrder.service);
+
+        await sendEmail(
+          orderStatusUpdatedEmail({
+            email: user.email,
+            firstName: user.firstName,
+            serviceTitle: service.title,
+            orderId: updatedOrder._id,
+            orderStatus: updatedOrder.status,
+            price: updatedOrder.price,
+            adminNotes: updatedOrder.adminNotes,
+          })
         );
 
         return updatedOrder;

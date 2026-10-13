@@ -19,11 +19,14 @@ body {
   background-color: rgb(240, 240, 249);
   background-image: linear-gradient(to right, rgb(240, 240, 249), var(--secondary-color));
 }
+
+
 * {
-  font-family: 'Hanken Grotesk', sans-serif;
-  font-family: 'Livvic', sans-serif;
-  font-family: 'Rethink Sans', sans-serif;
+  font-family: 'Hanken Grotesk', -apple-system, Helvetica, sans-serif;
+  /* font-family: 'Livvic', sans-serif; */
+  /* font-family: 'Rethink Sans', sans-serif; */
 }
+
 .form-control {
   font-size: clamp(0.7rem, 2.4vw, 0.8rem);
 }
@@ -593,7 +596,7 @@ td {
   padding: 5px 15px;
   border-radius: 20px;
   width: fit-content;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.4);
   font-size: clamp(0.5rem, 2.4vw, 0.7rem);
   margin: 0;
 }
