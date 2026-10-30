@@ -43,7 +43,7 @@ const Login = () => {
   };
   return (
     <div className="custom-login-page d-flex flex-column justify-content-center align-items-center">
-      {error && <Alerts message={error.message} />}
+      {error && <Alerts message={error.message} type="error" />}
       {data ? (
         window.location.assign('/')
       ) : (
@@ -86,10 +86,13 @@ const Login = () => {
           </button>
           <div className="d-flex">
             <Link to="/">
-              <p className="mt-3">Back to homepage</p>
+              <p className="mt-3">Back to home</p>
             </Link>
             <Link to="/signup">
               <p className="mt-3 ms-3">Sign Up</p>
+            </Link>
+            <Link to="/forgot_password">
+              <p className="mt-3 ms-3">Forgot Password?</p>
             </Link>
           </div>
         </form>

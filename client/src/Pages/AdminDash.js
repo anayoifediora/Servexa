@@ -207,9 +207,9 @@ const AdminDash = () => {
             ))}
           </div>
         </section>
-        {error && <Alerts message={error.message} />}
+        {error && <Alerts message={error.message} type="error" />}
         {searchTerm && <SearchResults />}
-        {updateError && <Alerts message={updateError.message} />}
+        {updateError && <Alerts message={updateError.message} type="error" />}
       </div>
     </div>
   );

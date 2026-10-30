@@ -215,7 +215,7 @@ const ViewOrderPage = () => {
       )}
       {/* Update Order modal */}
       <UpdateOrderForm singleOrder={singleOrder} />
-      {error && <Alerts message={error.message} />}
+      {error && <Alerts message={error.message} type="error" />}
       {searchTerm && <SearchResults />}
     </div>
   );

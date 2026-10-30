@@ -119,7 +119,7 @@ const ViewServicePage = () => {
         </div>
       )}
       <UpdateServiceForm service={singleService} />
-      {error && <Alerts message={error.message} />}
+      {error && <Alerts message={error.message} type="error" />}
       {searchTerm && <SearchResults />}
     </div>
   );

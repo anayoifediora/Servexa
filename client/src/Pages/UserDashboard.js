@@ -165,7 +165,7 @@ const UserDashboard = () => {
               className="d-flex row align-self-center"
               style={{ padding: '0 2rem 0 2.5rem', width: '95%' }}
             >
-              <div className="tile-card  col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card  col-11 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary fs-4">Total Orders</p>
                   <p className="custom-tile-figures">{userInfo?.noOfOrders}</p>
@@ -178,13 +178,15 @@ const UserDashboard = () => {
                   }}
                 ></i>
               </div>
-              <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card col-11 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary  fs-4">Not Completed</p>
                   <p className="custom-tile-figures">
                     {!userInfo?.orders
                       ? 0
-                      : userInfo?.orders?.filter((order) => order.status !== 'Completed').length}
+                      : userInfo?.orders?.filter(
+                          (order) => order.status !== 'Completed' && order.status !== 'Closed'
+                        ).length}
                   </p>
                 </div>
                 <i
@@ -195,13 +197,15 @@ const UserDashboard = () => {
                   }}
                 ></i>
               </div>
-              <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card col-11 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary fs-4">Completed</p>
                   <p className="custom-tile-figures">
                     {!userInfo?.orders
                       ? 0
-                      : userInfo?.orders?.filter((order) => order.status === 'Completed').length}
+                      : userInfo?.orders?.filter(
+                          (order) => order.status === 'Completed' || order.status === 'Closed'
+                        ).length}
                   </p>
                 </div>
                 <i
@@ -212,7 +216,7 @@ const UserDashboard = () => {
                   }}
                 ></i>
               </div>
-              <div className="tile-card col-10 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
+              <div className="tile-card col-11 col-sm-7 col-md-5 col-xl-5 col-xxl-2">
                 <div className="ms-3">
                   <p className="text-secondary fs-4">Amount Due</p>
                   <p className="custom-tile-figures">${priceFormatter(ordersPendingPayment)}</p>
@@ -289,7 +293,7 @@ const UserDashboard = () => {
                 </div>
               )}
             </section>
-            {error && <Alerts message={error.message} />}
+            {error && <Alerts message={error.message} type="error" />}
           </>
         )}
       </div>

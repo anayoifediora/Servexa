@@ -167,8 +167,8 @@ const SignUp = () => {
       >
         <div className="modal-dialog">
           <div className="modal-content">
-            {error && <Alerts message={error.message} />}
-            {/* {data && <Alerts message="Success: You have now signed up!" />} */}
+            {error && <Alerts message={error.message} type="error" />}
+            {data && <Alerts message="Success: You have now signed up!" type="success" />}
 
             <div className="modal-header">
               <h5 className="modal-title" id="signUpModalLabel">

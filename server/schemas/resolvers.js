@@ -4,9 +4,17 @@ const { signToken } = require('../utils/auth');
 const { User, Service, Order } = require('../models');
 const { formatDate, checkAuthorization, calculatePercentageChange } = require('../helpers');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 const { sendEmail } = require('../utils/mailer');
 const { orderCreatedEmail } = require('../utils/emails/orderCreatedEmail');
 const { orderStatusUpdatedEmail } = require('../utils/emails/orderUpdateEmail');
+const { passwordResetEmail } = require('../utils/emails/passwordResetEmail');
+
+const secret = process.env.TOKEN_SECRET;
+const CLIENT_URL = process.env.CLIENT_URL;
+const RESET_TOKEN_EXPIRY = '15m';
 
 const timestampFields = {
   createdAt: (document) => formatDate(document.createdAt),
@@ -459,6 +467,64 @@ const resolvers = {
         return updatedUser;
       } catch (error) {
         throw new GraphQLError(error.message);
+      }
+    },
+    //Mutation to request a Password reset
+    //Send password reset email
+    requestPasswordReset: async (parent, args) => {
+      try {
+        const { email } = args;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+          return {
+            success: false,
+            message: 'If this email exists, a reset link has been sent successfully.',
+          };
+        }
+        //Create a token with short expiry
+        const token = jwt.sign({ userId: user._id }, secret, { expiresIn: RESET_TOKEN_EXPIRY });
+        //Send token via email
+        const resetLink = `${CLIENT_URL}/reset_password?token=${token}`;
+        await sendEmail(
+          passwordResetEmail({
+            email: user.email,
+            resetLink,
+          })
+        );
+
+        return {
+          success: true,
+          message: 'If this email exists, a reset link has been sent successfully.',
+        };
+      } catch (error) {
+        throw new GraphQLError(error.message);
+      }
+    },
+    //Mutation to reset password
+    resetPassword: async (parent, args) => {
+      try {
+        const { token, newPassword } = args;
+        const payload = jwt.verify(token, secret);
+        console.log(payload);
+        const user = await User.findById(payload.userId);
+        if (!user) {
+          return {
+            success: false,
+            message: 'Invalid token or user does not exist',
+          };
+        }
+        user.password = newPassword;
+        await user.save();
+        return {
+          success: true,
+          message: 'Password has been reset successfully',
+        };
+      } catch (err) {
+        return {
+          success: false,
+          message: 'Invalid or expired reset token.',
+        };
       }
     },
   },

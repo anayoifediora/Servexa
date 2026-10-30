@@ -24,7 +24,6 @@ const Users = () => {
   const [filterResults, setFilterResults] = useState([]);
   const [filterAttempted, setFilterAttempted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const dispatch = useDispatch();
 
   //Data
   const allUsers = data?.users || [];
@@ -364,8 +363,8 @@ const Users = () => {
             </tbody>
           </table>
         )}
-        {errorMessage && <Alerts message={errorMessage} />}
-        {error && <Alerts message={error.message} />}
+        {errorMessage && <Alerts message={errorMessage} type="error" />}
+        {error && <Alerts message={error.message} type="error" />}
         {searchTerm && <SearchResults />}
       </div>
     </div>

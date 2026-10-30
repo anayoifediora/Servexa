@@ -88,8 +88,10 @@ const Settings = () => {
       <ProfileNavbar />
       <SidebarMenu />
       <div className="custom-info-area">
-        {(error || updateError) && <Alerts message={error?.message || updateError?.message} />}
-        {data && <Alerts message={`Successfully updated password!`} />}
+        {(error || updateError) && (
+          <Alerts message={error?.message || updateError?.message} type="error" />
+        )}
+        {data && <Alerts message={`Successfully updated password!`} type="success" />}
 
         <div className="custom-profile-info">
           <h3
@@ -216,8 +218,8 @@ const Settings = () => {
           </div>
         </div>
         {/* Update Password Modal */}
-        {mismatchError && <Alerts message={mismatchError} />}
-        {data && <Alerts message={successMessage} />}
+        {mismatchError && <Alerts message={mismatchError} type="error" />}
+        {data && <Alerts message={successMessage} type="success" />}
 
         <div
           className="modal fade"

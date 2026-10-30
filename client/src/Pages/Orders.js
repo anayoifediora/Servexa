@@ -41,7 +41,6 @@ const Orders = () => {
     currentPage * ROWS_PER_TABLE_PAGE
   );
 
-  console.log('Paginated Orders:', paginatedOrders);
   return (
     <div className="dashboard-page">
       <ProfileNavbar />
@@ -131,7 +130,7 @@ const Orders = () => {
             </table>
           </div>
         )}
-        {error && <Alerts message={error.message} />}
+        {error && <Alerts message={error.message} type="error" />}
         {searchTerm && <SearchResults />}
       </div>
     </div>

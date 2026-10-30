@@ -92,8 +92,8 @@ const UpdateUserForm = ({ singleUser }) => {
   };
   return (
     <>
-      {error && <Alerts message={error?.message} />}
-      {data && <Alerts message={successMessage} />}
+      {error && <Alerts message={error?.message} type="error" />}
+      {data && <Alerts message={successMessage} type="success" />}
       <div
         className="modal fade"
         id="staticBackdrop"

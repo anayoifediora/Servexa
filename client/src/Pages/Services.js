@@ -139,7 +139,7 @@ const Services = () => {
             </table>
           </div>
         )}
-        {error && <Alerts message={error.message} />}
+        {error && <Alerts message={error.message} type="error" />}
         {searchTerm && <SearchResults />}
       </div>
       <CreateServiceForm />

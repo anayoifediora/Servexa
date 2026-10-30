@@ -208,3 +208,21 @@ export const CREATE_ORDER = gql`
     }
   }
 `;
+//Mutation to request password reset
+export const REQUEST_PASSWORD_RESET = gql`
+  mutation Mutation($email: String!) {
+    requestPasswordReset(email: $email) {
+      message
+      success
+    }
+  }
+`;
+//Mutation to reset password
+export const RESET_PASSWORD = gql`
+  mutation Mutation($token: String!, $newPassword: String!) {
+    resetPassword(token: $token, newPassword: $newPassword) {
+      message
+      success
+    }
+  }
+`;
