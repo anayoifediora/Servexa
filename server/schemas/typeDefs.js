@@ -73,6 +73,10 @@ const typeDefs = `
         pendingOrdersChange: Float!
         totalOrdersChange: Float!
     }
+    type MessageResponse {
+        success: Boolean!
+        message: String!
+    }
     type Query {
         users: [User]
         services: [Service]
@@ -106,7 +110,8 @@ const typeDefs = `
         updateUserStatus(clientId: ID!, status: String!): User
         updateOrderStatus(orderId: ID!, status: String!, price: Float!, adminNotes: String!): Order
         updateUser(clientId: ID!, firstName: String!, lastName: String!, email: String!, phone: String!, address: AddressInput!): User
-
+        requestPasswordReset(email: String!): MessageResponse
+        resetPassword(token: String!, newPassword: String!): MessageResponse
     }
 `;
 

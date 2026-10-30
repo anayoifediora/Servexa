@@ -51,8 +51,11 @@ const SingleUserPage = () => {
     <div className="dashboard-page">
       <ProfileNavbar />
       <SidebarMenu />
-      {error || (updateError && <Alerts message={error ? error.message : updateError.message} />)}
-      {updateData && <Alerts message={`Successfully updated user status`} />}
+      {error ||
+        (updateError && (
+          <Alerts message={error ? error.message : updateError.message} type="error" />
+        ))}
+      {updateData && <Alerts message={`Successfully updated user status`} type="success" />}
       {/* {updateData && window.location.reload()} */}
       <div className="custom-info-area">
         <div className="custom-order-info">

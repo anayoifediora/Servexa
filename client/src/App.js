@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SetContextLink } from '@apollo/client/link/context';
 
 import './App.css';
+
 //Pages
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
@@ -21,6 +22,8 @@ import Settings from './Pages/Settings';
 import UserDashboard from './Pages/UserDashboard';
 import ServiceOfferings from './Pages/ServiceOfferings';
 import AboutUs from './Pages/AboutUs';
+import ForgotPassword from './Pages/ForgotPassword';
+import ResetPassword from './Pages/ResetPassword';
 
 // Create an HTTP link that tells Apollo where the GraphQL server is
 const httpLink = new HttpLink({
@@ -73,6 +76,8 @@ function App() {
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/service_offerings" element={<ServiceOfferings />} />
           <Route path="/about_us" element={<AboutUs />}></Route>
+          <Route path="/forgot_password" element={<ForgotPassword />}></Route>
+          <Route path="/reset_password" element={<ResetPassword />}></Route>
         </Routes>
       </Router>
     </ApolloProvider>

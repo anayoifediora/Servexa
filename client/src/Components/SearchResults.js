@@ -70,7 +70,7 @@ const SearchResults = () => {
           </div>
         )}
       </div>
-      {error && <Alerts message={error.message} />}
+      {error && <Alerts message={error.message} type="error" />}
     </div>
   );
 };

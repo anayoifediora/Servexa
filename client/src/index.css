@@ -1,6 +1,6 @@
 :root {
   --primary-color: rgb(99, 102, 241);
-  --secondary-color: rgb(165, 180, 252, 0.7);
+  --secondary-color: rgb(165, 180, 252, 0.4);
   --status-updates: #22c55e;
   --warning-pendingStatus: #f59e0b;
   --background: white;
@@ -19,11 +19,18 @@ body {
   background-color: rgb(240, 240, 249);
   background-image: linear-gradient(to right, rgb(240, 240, 249), var(--secondary-color));
 }
+
 * {
-  font-family: 'Hanken Grotesk', sans-serif;
-  font-family: 'Livvic', sans-serif;
-  font-family: 'Rethink Sans', sans-serif;
+  font-family:
+    'Hanken Grotesk',
+    -apple-system,
+    Helvetica,
+    sans-serif;
+  /* font-family: 'Livvic', sans-serif; */
+  /* font-family: 'Rethink Sans', sans-serif; */
+  font-family: 'Urbanist', sans-serif;
 }
+
 .form-control {
   font-size: clamp(0.7rem, 2.4vw, 0.8rem);
 }
@@ -49,12 +56,16 @@ body {
   background-color: var(--background);
 }
 .custom-login-page,
-.custom-signup-page {
+.custom-signup-page,
+.custom-forgot-password,
+.custom-reset-password {
   height: 100vh;
 }
 
 .custom-login-form,
-.custom-signup-form {
+.custom-signup-form,
+.forgot-password-form,
+.reset-password-form {
   min-width: 400px;
   width: 20%;
   margin: 10px;
@@ -62,7 +73,7 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   background-color: var(--background);
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
 }
 .custom-form-input {
   width: 100%;
@@ -593,7 +604,7 @@ td {
   padding: 5px 15px;
   border-radius: 20px;
   width: fit-content;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.4);
   font-size: clamp(0.5rem, 2.4vw, 0.7rem);
   margin: 0;
 }
@@ -656,14 +667,12 @@ textarea {
 }
 .mission p {
   font-size: clamp(0.7rem, 2.5vw, 1.1rem);
-  color: white;
-  -webkit-text-stroke: 0.5px white;
 }
 .our-values {
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 20px;
   border-radius: 10px;
-  background-color: var(--background);
+  background-color: var(--table-header);
   margin: 30px 0;
 }
 .our-values h3 {
@@ -674,12 +683,13 @@ textarea {
   border-radius: 5px;
   padding: 15px;
   margin: 15px 0;
+  background-color: var(--background);
 }
 .value i:hover {
   cursor: pointer;
 }
 .value i {
-  color: var(--font-color);
+  color: var(--primary-color);
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
 .mobile-menu {
@@ -690,6 +700,55 @@ textarea {
   height: 40%;
   background-color: var(--background);
   z-index: 2000;
+}
+.password-criteria {
+  font-size: clamp(0.7rem, 2.4vw, 0.8rem);
+  margin: 5px 0;
+  color: gray;
+  padding: 5px;
+}
+.password-criteria li {
+  list-style: none;
+  padding: 1px 0;
+}
+.reset-password-form {
+  min-width: 450px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.reset-password-form p {
+  text-align: justify;
+  font-size: clamp(0.7rem, 2.4vw, 0.9rem);
+  color: var(--font-color);
+}
+
+.reset-password-form .padlock-icon {
+  color: var(--primary-color);
+  background-color: rgb(107, 81, 233, 0.1);
+  width: 60px;
+  height: 60px;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  margin: 10px auto;
+  border: 1px solid var(--primary-color);
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+.visibility-btn {
+  position: relative;
+  right: 10%;
+}
+.visibility-btn:hover {
+  cursor: pointer;
+  color: var(--primary-color);
 }
 /* Media Queries for responsive design */
 

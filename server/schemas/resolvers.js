@@ -4,6 +4,17 @@ const { signToken } = require('../utils/auth');
 const { User, Service, Order } = require('../models');
 const { formatDate, checkAuthorization, calculatePercentageChange } = require('../helpers');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const { sendEmail } = require('../utils/mailer');
+const { orderCreatedEmail } = require('../utils/emails/orderCreatedEmail');
+const { orderStatusUpdatedEmail } = require('../utils/emails/orderUpdateEmail');
+const { passwordResetEmail } = require('../utils/emails/passwordResetEmail');
+
+const secret = process.env.TOKEN_SECRET;
+const CLIENT_URL = process.env.CLIENT_URL;
+const RESET_TOKEN_EXPIRY = '15m';
 
 const timestampFields = {
   createdAt: (document) => formatDate(document.createdAt),
@@ -43,7 +54,7 @@ const resolvers = {
     //List all orders
     orders: async (parent, args, context) => {
       checkAuthorization(context, ['admin']);
-      return Order.find().sort({ createdAt: -1 }).populate(['client', 'service']);
+      return Order.find().sort({ updatedAt: -1 }).populate(['client', 'service']);
     },
     //List recent orders
     recentOrders: async (parent, args, context) => {
@@ -165,7 +176,7 @@ const resolvers = {
           {
             $match: {
               status: 'In Progress',
-              createdAt: { $gte: currentMonthStart },
+              updatedAt: { $gte: currentMonthStart },
               price: { $ne: null },
             },
           },
@@ -181,7 +192,7 @@ const resolvers = {
           {
             $match: {
               status: 'In Progress',
-              createdAt: {
+              updatedAt: {
                 $gte: previousMonthStart,
                 $lte: previousMonthEnd,
               },
@@ -372,10 +383,24 @@ const resolvers = {
           description,
         });
 
+        //Update the users array of orders
         await User.findOneAndUpdate(
           { _id: client },
           { $addToSet: { orders: order._id } },
           { returnDocument: 'after' }
+        );
+
+        //Find the user
+        const user = await User.findById(client);
+
+        await sendEmail(
+          orderCreatedEmail({
+            email: user.email,
+            firstName: user.firstName,
+            serviceTitle: requestedService.title,
+            orderId: order._id,
+            orderStatus: order.status,
+          })
         );
         return order;
       } catch (error) {
@@ -387,21 +412,38 @@ const resolvers = {
       checkAuthorization(context, ['admin']);
       try {
         const { orderId, status, price, adminNotes } = args;
+        const order = await Order.findById(orderId);
+        if (!order) {
+          throw new GraphQLError(`Order with ID ${orderId} not found`, {
+            extensions: { code: 'NOT_FOUND' },
+          });
+        }
+        if (order.status === 'Closed') {
+          throw new GraphQLError('This order has been closed and cannot be updated!', {
+            extensions: { code: 'BAD_REQUEST' },
+          });
+        }
         const updatedOrder = await Order.findOneAndUpdate(
           { _id: orderId },
           { status, price, adminNotes },
           { returnDocument: 'after', runValidators: true }
         );
-        if (!updatedOrder) {
-          throw new GraphQLError(`Order with ID ${orderId} not found`, {
-            extensions: { code: 'NOT_FOUND' },
-          });
-        }
-        if (updatedOrder.status === 'Closed') {
-          throw new GraphQLError('This order has been closed and cannot be updated!', {
-            extensions: { code: 'BAD_REQUEST' },
-          });
-        }
+
+        const user = await User.findById(updatedOrder.client);
+        const service = await Service.findById(updatedOrder.service);
+
+        await sendEmail(
+          orderStatusUpdatedEmail({
+            email: user.email,
+            firstName: user.firstName,
+            serviceTitle: service.title,
+            orderId: updatedOrder._id,
+            orderStatus: updatedOrder.status,
+            price: updatedOrder.price,
+            adminNotes: updatedOrder.adminNotes,
+          })
+        );
+
         return updatedOrder;
       } catch (error) {
         throw new GraphQLError(error.message, {
@@ -425,6 +467,64 @@ const resolvers = {
         return updatedUser;
       } catch (error) {
         throw new GraphQLError(error.message);
+      }
+    },
+    //Mutation to request a Password reset
+    //Send password reset email
+    requestPasswordReset: async (parent, args) => {
+      try {
+        const { email } = args;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+          return {
+            success: false,
+            message: 'If this email exists, a reset link has been sent successfully.',
+          };
+        }
+        //Create a token with short expiry
+        const token = jwt.sign({ userId: user._id }, secret, { expiresIn: RESET_TOKEN_EXPIRY });
+        //Send token via email
+        const resetLink = `${CLIENT_URL}/reset_password?token=${token}`;
+        await sendEmail(
+          passwordResetEmail({
+            email: user.email,
+            resetLink,
+          })
+        );
+
+        return {
+          success: true,
+          message: 'If this email exists, a reset link has been sent successfully.',
+        };
+      } catch (error) {
+        throw new GraphQLError(error.message);
+      }
+    },
+    //Mutation to reset password
+    resetPassword: async (parent, args) => {
+      try {
+        const { token, newPassword } = args;
+        const payload = jwt.verify(token, secret);
+        console.log(payload);
+        const user = await User.findById(payload.userId);
+        if (!user) {
+          return {
+            success: false,
+            message: 'Invalid token or user does not exist',
+          };
+        }
+        user.password = newPassword;
+        await user.save();
+        return {
+          success: true,
+          message: 'Password has been reset successfully',
+        };
+      } catch (err) {
+        return {
+          success: false,
+          message: 'Invalid or expired reset token.',
+        };
       }
     },
   },

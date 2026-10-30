@@ -49,7 +49,7 @@ const AboutUs = () => {
             </div>
 
             {description === 'simplicity' && (
-              <p className="text-secondary fs-5">
+              <p className="text-secondary fs-6">
                 Technology shouldn&apos;t create more problems than it solves. We keep the
                 experience straightforward and easy to understand.
               </p>
@@ -65,7 +65,7 @@ const AboutUs = () => {
               )}
             </div>
             {description === 'transparency' && (
-              <p className="text-secondary fs-5">
+              <p className="text-secondary fs-6">
                 Clients should know what&apos;s happening with their requests. Servexa provides
                 clear statuses, pricing information, and updates throughout the process.
               </p>
@@ -81,7 +81,7 @@ const AboutUs = () => {
               )}
             </div>
             {description === 'reliability' && (
-              <p className="text-secondary fs-5">
+              <p className="text-secondary fs-6">
                 Whether you are requesting technical support or managing multiple service requests,
                 Servexa is designed to keep everything organized and accessible.
               </p>

@@ -379,6 +379,15 @@ npm start
 
 The application should then be available through the local development URL configured by the project.
 
+### Admin Demo Credentials
+Users can also explore the administrative functionalities of the application by using the following demo credentials:
+- **Email:** jbond@mail.com
+- **Password:** Theonly007
+
+Alternatively, you can sign up to explore the application as a regular user.
+
+Please note that this is a shared demo account. Avoid making changes that could affect other users or the application's data.
+
 ## 🔌 GraphQL API
 
 Servexa uses GraphQL for communication between the frontend and backend.
@@ -464,7 +473,7 @@ Servexa was developed as a practical full-stack project to explore and demonstra
 
 Status: Active Development
 
-Servexa is a portfoli project and is continually being improved as new functionality, testing and UI refinements are added.
+Servexa is a portfolio project and is continually being improved as new functionality, testing and UI refinements are added.
 
 ## ✍️ Author
 

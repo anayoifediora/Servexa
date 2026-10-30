@@ -41,7 +41,7 @@ const CreateServiceForm = () => {
   };
   return (
     <>
-      {error && <Alerts message={error.message} />}
+      {error && <Alerts message={error.message} type="error" />}
       {data ? (
         window.location.reload()
       ) : (

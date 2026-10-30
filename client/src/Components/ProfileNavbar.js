@@ -136,7 +136,7 @@ const ProfileNavbar = () => {
           {userInfo?.status}
         </p>
       </div>
-      {error && <Alerts message={error.message} />}
+      {error && <Alerts message={error.message} type="error" />}
     </div>
   );
 };

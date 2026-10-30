@@ -3,7 +3,6 @@ import { QUERY_ALL_USERS } from '../utils/queries';
 import { useQuery } from '@apollo/client/react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '../State/currentPageSlice';
 import { ROWS_PER_TABLE_PAGE, userStatusStyles } from '../utils/helpers';
 
 //Components
@@ -17,7 +16,7 @@ const Users = () => {
   //Hooks
   const { loading, error, data } = useQuery(QUERY_ALL_USERS);
   const searchTerm = useSelector((state) => state.searchTerm);
-  const currentPage = useSelector((state) => state.currentPage);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filterValue, setFilterValue] = useState('');
   const [searchString, setSearchString] = useState('');
   const [resultState, setResultState] = useState(false);
@@ -25,7 +24,6 @@ const Users = () => {
   const [filterResults, setFilterResults] = useState([]);
   const [filterAttempted, setFilterAttempted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const dispatch = useDispatch();
 
   //Data
   const allUsers = data?.users || [];
@@ -44,7 +42,7 @@ const Users = () => {
   );
   //Handler that determines which page to show based on the page number clicked in the pagination component
   const handlePageChange = (pageNumber) => {
-    dispatch(setCurrentPage(pageNumber));
+    setCurrentPage(pageNumber);
   };
   //Handler responsible for result filter
   const handleFilterSubmission = (e) => {
@@ -57,7 +55,7 @@ const Users = () => {
 
     setFilterResults(filteredUsers);
     setFilterAttempted(true);
-    dispatch(setCurrentPage(1));
+    setCurrentPage(1);
   };
   const handleSearch = (e) => {
     e.preventDefault();
@@ -365,8 +363,8 @@ const Users = () => {
             </tbody>
           </table>
         )}
-        {errorMessage && <Alerts message={errorMessage} />}
-        {error && <Alerts message={error.message} />}
+        {errorMessage && <Alerts message={errorMessage} type="error" />}
+        {error && <Alerts message={error.message} type="error" />}
         {searchTerm && <SearchResults />}
       </div>
     </div>
